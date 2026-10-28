@@ -40,6 +40,10 @@ customers, room editor (details, hours, prices and rules, photos), offices and t
 Tenant area, invoices and saved cards in the account, landing pages and their marketing stats, realtime updates, payment and email providers, Google sign-in.
 The booking flow ends in a request that staff confirm by hand (`confirm_unpaid` / `record_payment`).
 
+## Design reference
+
+`design/` holds the original Claude Design prototype (reference only, see its README). It is not part of the build.
+
 ## Rules the code relies on
 
 - Browser code never writes business data directly; it calls RPCs and reads what RLS allows.

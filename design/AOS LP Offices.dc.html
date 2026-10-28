@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>משרד פרטי להשכרה בתל אביב · AOS</title>
+<meta name="description" content="משרדים פרטיים מרוהטים להשכרה בדרך מנחם בגין 150, תל אביב. מטבחון משותף, חדר ישיבות במתחם ותיאום סיור מהיר.">
+<meta property="og:title" content="משרד פרטי בתל אביב · AOS">
+<meta property="og:image" content="uploads/corridor-2026.jpg">
+<meta name="theme-color" content="#0B0B0C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&amp;family=Frank+Ruhl+Libre:wght@400&amp;display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth;overflow-x:clip;-webkit-text-size-adjust:100%}body{margin:0;background:#0B0B0C;overflow-x:clip;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}a:hover{color:#C3A46A}button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:2px solid #C3A46A;outline-offset:2px}
+@keyframes lpZoom{from{transform:scale(1.08)}to{transform:scale(1)}}@keyframes lpRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style>
+</helmet>
+<div dir="{{ dir }}" lang="{{ lang }}" style="font-family:'IBM Plex Sans Hebrew',system-ui,sans-serif;color:#fff;background:#0B0B0C;min-height:100vh">
+<a href="#tour" style="position:absolute;inset-inline-start:12px;top:-60px;z-index:50;background:#C3A46A;color:#111214;padding:10px 14px;border-radius:8px;font-weight:600" style-focus="top:12px">{{ t.skip }}</a>
+<header style="position:absolute;top:0;inset-inline:0;z-index:5">
+  <div style="width:100%;box-sizing:border-box;margin:0;padding:18px clamp(16px,5vw,96px);display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="AOS%20Site%20v7.dc.html" aria-label="AOS" style="font-family:'Frank Ruhl Libre',serif;font-size:26px;letter-spacing:.34em;direction:ltr;color:#fff">AOS</a>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onClick="{{ toggleLang }}" aria-label="{{ t.langAria }}" style="height:44px;min-width:44px;padding:0 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:transparent;color:#fff;font-size:14px;font-weight:600;cursor:pointer" style-hover="border-color:#fff">{{ t.langBtn }}</button>
+      <a href="#tour" onClick="{{ goTour }}" style="height:44px;display:flex;align-items:center;padding:0 18px;border-radius:999px;background:#C3A46A;color:#111214;font-size:15px;font-weight:700" style-hover="background:#D4B87F;color:#111214">{{ t.ctaTop }}</a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<section aria-labelledby="lp-h1" style="position:relative;overflow:hidden;min-height:min(92svh,860px);display:flex;align-items:flex-end;padding:clamp(120px,14vw,170px) 0 clamp(48px,7vw,96px);box-sizing:border-box">
+  <div aria-hidden="true" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;container-type:size"><img src="uploads/corridor-2026.jpg" alt="" aria-hidden="true" fetchpriority="high" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:lpZoom 1.8s cubic-bezier(.2,.7,.2,1) both"><sc-if value="{{ heroVid }}" hint-placeholder-val="{{ false }}"><iframe src="{{ heroVid }}" title="AOS" tabindex="-1" allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:50%;left:50%;width:max(100cqw,177.78cqh);height:max(100cqh,56.25cqw);transform:translate(-50%,-50%);border:0;pointer-events:none"></iframe></sc-if></div>
+  <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,12,.7) 0%,rgba(11,11,12,.35) 40%,rgba(11,11,12,.92) 85%,#0B0B0C 100%)"></div>
+  <div style="position:relative;width:100%;width:100%;box-sizing:border-box;margin:0;padding:0 clamp(16px,5vw,96px);box-sizing:border-box;display:flex;flex-direction:column;gap:22px;animation:lpRise .9s .15s both">
+    <p style="margin:0;display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600;color:#C3A46A;letter-spacing:.04em"><i aria-hidden="true" style="width:32px;height:2px;background:#C3A46A;display:block"></i>{{ t.kicker }}</p>
+    <h1 id="lp-h1" style="margin:0;font-size:clamp(34px,6.4vw,96px);font-weight:700;line-height:1.02;letter-spacing:-.025em;max-width:980px;text-wrap:balance">{{ t.h1 }}</h1>
+    <p style="margin:0;font-size:clamp(17px,1.5vw,21px);line-height:1.6;color:#E6E7E9;max-width:640px;text-wrap:pretty">{{ t.sub }}</p>
+    <div style="display:flex;flex-direction:column;align-items:flex-start;gap:26px;margin-top:6px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="#tour" onClick="{{ goTour }}" style="height:58px;display:flex;align-items:center;gap:10px;padding:0 28px;border-radius:14px;background:#C3A46A;color:#111214;font-size:17px;font-weight:700" style-hover="background:#D4B87F;color:#111214">{{ t.ctaHero }}<span aria-hidden="true">{{ arrow }}</span></a></div>
+      <dl style="margin:0;display:flex;flex-wrap:wrap;gap:0">
+        <sc-for list="{{ facts }}" as="x" hint-placeholder-count="3"><div style="padding-inline-end:clamp(12px,3vw,22px);margin-inline-end:clamp(12px,3vw,22px);margin-bottom:10px;border-inline-end:1px solid rgba(255,255,255,.22);display:flex;flex-direction:column;gap:2px"><dt style="font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1">{{ x.v }}</dt><dd style="margin:0;font-size:14px;color:#C9CBCF">{{ x.k }}</dd></div></sc-for>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="offices" aria-labelledby="of-h" style="padding:clamp(56px,7vw,100px) 0;background:#F6F4EF;color:#111214;scroll-margin-top:0">
+  <div style="width:100%;box-sizing:border-box;margin:0;padding:0 clamp(16px,5vw,96px);display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><div style="max-width:720px"><p style="margin:0 0 10px;display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600;color:#6E5320"><i aria-hidden="true" style="width:32px;height:2px;background:#C3A46A;display:block"></i>{{ t.ofK }}</p><h2 id="of-h" style="margin:0;font-size:clamp(30px,3.6vw,50px);font-weight:700;line-height:1.1;text-wrap:balance">{{ ofTitle }}</h2></div><p style="margin:0;font-size:16px;color:#3F4246;max-width:420px">{{ t.ofSub }}</p></div>
+    <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}"><p style="margin:0;color:#5E6268">{{ t.loading }}</p></sc-if>
+    <sc-if value="{{ noneFree }}" hint-placeholder-val="{{ false }}"><div style="background:#fff;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:12px;align-items:flex-start"><b style="font-size:20px">{{ t.noneT }}</b><p style="margin:0;font-size:16px;color:#3F4246">{{ t.noneP }}</p><a href="#tour" onClick="{{ goTour }}" style="height:50px;display:flex;align-items:center;padding:0 20px;border-radius:12px;background:#111214;color:#fff;font-weight:600" style-hover="background:#2B2D31;color:#fff">{{ t.noneCta }}</a></div></sc-if>
+    <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:clamp(12px,1.6vw,20px)">
+      <sc-for list="{{ offices }}" as="o" hint-placeholder-count="3"><li style="background:#fff;border-radius:22px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(17,18,20,.06)">
+        <div style="position:relative;aspect-ratio:4 / 3;background:repeating-linear-gradient(135deg,#F1EEE7 0 6px,#E8E3D8 6px 12px)">
+          <sc-if value="{{ o.hasImg }}" hint-placeholder-val="{{ false }}"><img src="{{ o.img }}" alt="{{ o.alt }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></sc-if>
+          <sc-if value="{{ o.noImg }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6E5320;font-weight:600">{{ t.photoSoon }}</span></sc-if>
+          <span style="position:absolute;top:12px;inset-inline-start:12px;background:#111214;color:#fff;font-size:12px;font-weight:700;letter-spacing:.06em;padding:4px 10px;border-radius:999px;unicode-bidi:isolate;">{{ o.code }}</span>
+          <span style="position:absolute;top:12px;inset-inline-end:12px;background:#E6F2EA;color:#1B6340;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px">{{ t.freeTag }}</span>
+        </div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:12px;flex:1">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><b style="font-size:21px">{{ o.name }}</b><span style="font-size:15px;font-weight:700">{{ o.price }}</span></div>
+          <sc-if value="{{ o.desc }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:15px;color:#3F4246;line-height:1.55">{{ o.desc }}</p></sc-if>
+          <span style="font-size:13px;color:#5E6268">{{ o.priceSub }}</span>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ o.chips }}" as="c" hint-placeholder-count="3"><li style="font-size:13px;padding:5px 10px;border-radius:999px;background:#F3F3F2;color:#3F4246">{{ c }}</li></sc-for></ul>
+          <button type="button" onClick="{{ o.pick }}" style="margin-top:auto;height:50px;border:0;border-radius:12px;background:#111214;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="background:#2B2D31">{{ t.tourThis }}<span aria-hidden="true">{{ arrow }}</span></button>
+        </div>
+      </li></sc-for>
+    </ul>
+  </div>
+</section>
+
+<section aria-labelledby="cx-h" style="padding:clamp(56px,7vw,100px) 0;background:#0B0B0C">
+  <div style="width:100%;box-sizing:border-box;margin:0;padding:0 clamp(16px,5vw,96px);display:flex;flex-direction:column;gap:28px">
+    <h2 id="cx-h" style="margin:0;font-size:clamp(30px,3.6vw,50px);font-weight:700;line-height:1.1;max-width:760px;text-wrap:balance">{{ t.cxT }}</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px">
+      <figure style="margin:0;position:relative;border-radius:24px;overflow:hidden;min-height:clamp(300px,36vw,480px);display:flex;align-items:flex-end"><img src="uploads/room-meeting.png" alt="{{ t.altRoom }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><figcaption style="position:relative;width:100%;padding:24px;background:linear-gradient(180deg,transparent,rgba(11,11,12,.92) 45%);display:flex;flex-direction:column;gap:6px"><b style="font-size:22px">{{ t.cx1T }}</b><span style="font-size:15px;color:#D7D8DA;line-height:1.55">{{ t.cx1P }}</span></figcaption></figure>
+      <figure style="margin:0;position:relative;border-radius:24px;overflow:hidden;min-height:clamp(300px,36vw,480px);display:flex;align-items:flex-end"><img src="uploads/kitchenette-bar.jpg" alt="{{ t.altKit }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%"><figcaption style="position:relative;width:100%;padding:24px;background:linear-gradient(180deg,transparent,rgba(11,11,12,.92) 45%);display:flex;flex-direction:column;gap:6px"><b style="font-size:22px">{{ t.cx2T }}</b><span style="font-size:15px;color:#D7D8DA;line-height:1.55">{{ t.cx2P }}</span></figcaption></figure>
+      <figure style="margin:0;position:relative;border-radius:24px;overflow:hidden;min-height:clamp(300px,36vw,480px);display:flex;align-items:flex-end"><img src="uploads/assets-1792344398884-f06p.png" alt="{{ t.altDoor }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><figcaption style="position:relative;width:100%;padding:24px;background:linear-gradient(180deg,transparent,rgba(11,11,12,.92) 45%);display:flex;flex-direction:column;gap:6px"><b style="font-size:22px">{{ t.cx3T }}</b><span style="font-size:15px;color:#D7D8DA;line-height:1.55">{{ t.cx3P }}</span></figcaption></figure>
+    </div>
+    <div style="border:1px solid rgba(195,164,106,.5);border-radius:20px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;background:radial-gradient(120% 160% at 100% 0%,rgba(195,164,106,.14),transparent 60%)"><span style="font-size:17px;line-height:1.5;max-width:760px"><b style="color:#C3A46A">{{ t.memK }}</b> {{ memLine }}</span><a href="AOS%20LP%20Meeting%20Room.dc.html" style="height:48px;display:flex;align-items:center;gap:8px;padding:0 18px;border-radius:12px;border:1px solid #C3A46A;color:#C3A46A;font-weight:600" style-hover="background:#C3A46A;color:#111214">{{ t.memCta }}<span aria-hidden="true">{{ arrow }}</span></a></div>
+  </div>
+</section>
+
+<section id="tour" aria-labelledby="tour-h" style="padding:clamp(56px,7vw,100px) 0;background:#111214;scroll-margin-top:0">
+  <div style="width:100%;box-sizing:border-box;margin:0;padding:0 clamp(16px,5vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(28px,5vw,72px);align-items:start">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <p style="margin:0;display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600;color:#C3A46A"><i aria-hidden="true" style="width:32px;height:2px;background:#C3A46A;display:block"></i>{{ t.tourK }}</p>
+      <h2 id="tour-h" style="margin:0;font-size:clamp(32px,4vw,56px);font-weight:700;line-height:1.06;text-wrap:balance">{{ t.tourT }}</h2>
+      <p style="margin:0;font-size:18px;color:#D7D8DA;line-height:1.6;max-width:520px">{{ t.tourP }}</p>
+      <dl style="margin:8px 0 0;display:grid;gap:14px;font-size:16px">
+        <div><dt style="font-size:13px;color:#B9BCC1">{{ t.addrL }}</dt><dd style="margin:2px 0 0;font-weight:600">{{ addr }}</dd></div>
+        <div><dt style="font-size:13px;color:#B9BCC1">{{ t.hoursL }}</dt><dd style="margin:2px 0 0;font-weight:600">{{ hours }}</dd></div>
+      </dl>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="{{ waze }}" target="_blank" rel="noopener" style="height:46px;display:flex;align-items:center;padding:0 18px;border-radius:12px;border:1px solid #3A3C40;font-weight:600" style-hover="border-color:#fff;color:#fff">Waze</a><a href="{{ gmaps }}" target="_blank" rel="noopener" style="height:46px;display:flex;align-items:center;padding:0 18px;border-radius:12px;border:1px solid #3A3C40;font-weight:600" style-hover="border-color:#fff;color:#fff">Google Maps</a><sc-if value="{{ hasWa }}" hint-placeholder-val="{{ false }}"><a href="{{ wa }}" target="_blank" rel="noopener" style="height:46px;display:flex;align-items:center;padding:0 18px;border-radius:12px;background:#1F7A4D;color:#fff;font-weight:600" style-hover="background:#196640;color:#fff">WhatsApp</a></sc-if></div>
+    </div>
+    <div style="background:#fff;color:#111214;border-radius:clamp(18px,2vw,24px);padding:clamp(16px,2.6vw,32px);box-shadow:0 40px 90px -40px rgba(0,0,0,.8)">
+      <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+        <div role="status" style="display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+          <span aria-hidden="true" style="width:52px;height:52px;border-radius:50%;background:#E6F2EA;color:#1B6340;display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+          <h3 style="margin:0;font-size:24px;font-weight:700">{{ t.sentT }}</h3>
+          <p style="margin:0;font-size:16px;color:#3F4246;line-height:1.6">{{ t.sentP }}</p>
+          <button type="button" onClick="{{ again }}" style="min-height:44px;border:0;background:none;padding:0;font-size:15px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;color:#111214">{{ t.again }}</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ submit }}" novalidate style="display:flex;flex-direction:column;gap:14px">
+        <h3 style="margin:0;font-size:22px;font-weight:700">{{ t.formT }}</h3>
+        <div><label for="t-n" style="display:block;font-size:14px;font-weight:600;margin-bottom:5px">{{ t.fName }}</label><input id="t-n" autocomplete="name" value="{{ f.name }}" onChange="{{ onF.name }}" style="width:100%;box-sizing:border-box;height:50px;padding:0 14px;border:1px solid #C9CCD1;border-radius:10px;font-size:16px;color:#111214" style-focus="border-color:#111214;outline:2px solid #C3A46A;outline-offset:1px"></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px">
+          <div><label for="t-p" style="display:block;font-size:14px;font-weight:600;margin-bottom:5px">{{ t.fPhone }}</label><input id="t-p" type="tel" dir="ltr" autocomplete="tel" value="{{ f.phone }}" onChange="{{ onF.phone }}" style="width:100%;box-sizing:border-box;height:50px;padding:0 14px;border:1px solid #C9CCD1;border-radius:10px;font-size:16px;color:#111214;text-align:start" style-focus="border-color:#111214;outline:2px solid #C3A46A;outline-offset:1px"></div>
+          <div><label for="t-e" style="display:block;font-size:14px;font-weight:600;margin-bottom:5px">{{ t.fEmail }}</label><input id="t-e" type="email" dir="ltr" autocomplete="email" value="{{ f.email }}" onChange="{{ onF.email }}" style="width:100%;box-sizing:border-box;height:50px;padding:0 14px;border:1px solid #C9CCD1;border-radius:10px;font-size:16px;color:#111214;text-align:start" style-focus="border-color:#111214;outline:2px solid #C3A46A;outline-offset:1px"></div>
+        </div>
+        <div><label for="t-o" style="display:block;font-size:14px;font-weight:600;margin-bottom:5px">{{ t.fOffice }}</label><select id="t-o" value="{{ f.office }}" onChange="{{ onF.office }}" style="width:100%;box-sizing:border-box;height:50px;padding:0 12px;border:1px solid #C9CCD1;border-radius:10px;font-size:16px;color:#111214;background:#fff"><sc-for list="{{ officeOpts }}" as="x" hint-placeholder-count="2"><option value="{{ x.v }}">{{ x.l }}</option></sc-for></select></div>
+        <fieldset style="border:0;margin:0;padding:0"><legend style="font-size:14px;font-weight:600;margin-bottom:6px;padding:0">{{ t.fWhen }}</legend><div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ whenOpts }}" as="w" hint-placeholder-count="3"><button type="button" onClick="{{ w.pick }}" aria-pressed="{{ w.pressed }}" style="min-height:44px;padding:0 16px;border-radius:999px;border:1px solid {{ w.bd }};background:{{ w.bg }};color:{{ w.fg }};font-size:15px;font-weight:600;cursor:pointer">{{ w.l }}</button></sc-for></div></fieldset>
+        <div><label for="t-m" style="display:block;font-size:14px;font-weight:600;margin-bottom:5px">{{ t.fMsg }}</label><textarea id="t-m" rows="3" value="{{ f.msg }}" onChange="{{ onF.msg }}" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid #C9CCD1;border-radius:10px;font-size:16px;color:#111214;resize:vertical" style-focus="border-color:#111214;outline:2px solid #C3A46A;outline-offset:1px"></textarea></div>
+        <sc-if value="{{ err }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin:0;font-size:14px;color:#8C1D13;background:#FBEAE7;border-radius:10px;padding:10px 12px">{{ err }}</p></sc-if>
+        <button type="submit" disabled="{{ busy }}" style="height:56px;border:0;border-radius:14px;background:#C3A46A;color:#111214;font-size:17px;font-weight:700;cursor:pointer" style-hover="background:#D4B87F">{{ t.submit }}</button>
+        <p style="margin:0;font-size:13px;color:#5E6268">{{ t.privNote }} <a href="AOS%20Site%20v7.dc.html#/privacy" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;color:#111214">{{ t.privacy }}</a></p>
+      </form>
+      </sc-if>
+    </div>
+  </div>
+</section>
+</main>
+<footer style="background:#0B0B0C;border-top:1px solid #1F2023;padding:28px 0">
+  <div style="width:100%;box-sizing:border-box;margin:0;padding:0 clamp(16px,5vw,96px) {{ barPad }};display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:14px;color:#B9BCC1">
+    <span style="font-family:'Frank Ruhl Libre',serif;font-size:20px;letter-spacing:.3em;direction:ltr;color:#fff">AOS</span>
+    <nav aria-label="{{ t.footAria }}" style="display:flex;gap:6px 20px;flex-wrap:wrap"><a href="AOS%20Site%20v7.dc.html" style="min-height:32px;display:flex;align-items:center">{{ t.toSite }}</a><a href="AOS%20Site%20v7.dc.html#/privacy" style="min-height:32px;display:flex;align-items:center">{{ t.privacy }}</a><a href="AOS%20Site%20v7.dc.html#/accessibility" style="min-height:32px;display:flex;align-items:center">{{ t.a11y }}</a></nav>
+  </div>
+</footer>
+<sc-if value="{{ showBar }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset-inline:0;bottom:0;z-index:20;background:rgba(11,11,12,.96);border-top:1px solid #2B2D31;padding:10px clamp(16px,5vw,96px) calc(10px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <span style="font-size:15px;font-weight:600">{{ barLine }}</span>
+    <a href="#tour" onClick="{{ goTour }}" style="height:50px;display:flex;align-items:center;padding:0 22px;border-radius:12px;background:#C3A46A;color:#111214;font-size:16px;font-weight:700" style-hover="color:#111214">{{ t.ctaTop }}</a>
+  </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const D={skip:['דילוג לתיאום סיור','Skip to tour form'],langBtn:['EN','עב'],langAria:['Switch to English','מעבר לעברית'],ctaTop:['תיאום סיור','Book a tour'],
+kicker:['משרדים פרטיים · דרך מנחם בגין 150','Private offices · 150 Menachem Begin Rd'],h1:['משרד פרטי משלכם, בלב תל אביב','Your own private office in central Tel Aviv'],
+sub:['משרדים מרוהטים עם מחיצות זכוכית ואור טבעי, מטבחון משותף וחדר ישיבות מעוצב באותו מתחם. מגיעים, מתחברים ומתחילים לעבוד.','Furnished offices with glass partitions and natural light, a shared kitchenette and a designed meeting room in the same space. Arrive, plug in and start working.'],
+ctaHero:['תיאום סיור במתחם','Book a tour'],ctaSee:['למשרדים הפנויים','See open offices'],freeK:['משרדים פנויים','offices open now'],fromK:['מחיר התחלתי לחודש','starting price / month'],roomK:['חדר ישיבות במתחם','meeting room on site'],
+ofK:['פנויים עכשיו','Open now'],ofSub:['כל המשרדים מרוהטים ומחוברים. בסיור תראו את המשרד, את המטבחון ואת חדר הישיבות.','Every office is furnished and connected. On the tour you will see the office, the kitchenette and the meeting room.'],
+loading:['טוען משרדים…','Loading offices…'],noneT:['כרגע כל המשרדים תפוסים','All offices are taken right now'],noneP:['השאירו פרטים ונעדכן אתכם ראשונים כשמשרד מתפנה.','Leave your details and we will tell you first when one opens.'],noneCta:['עדכנו אותי','Let me know'],
+photoSoon:['צילום המשרד יעלה בקרוב','Office photo coming soon'],freeTag:['פנוי','Open'],tourThis:['תיאום סיור למשרד הזה','Tour this office'],
+cxT:['מה עוד מחכה לכם במתחם','What else you get on site'],cx1T:['חדר ישיבות מעוצב','A designed meeting room'],cx1P:['עד 10 משתתפים, מסך 75 אינץ׳ ושעות חינם חודשיות לשוכרים, לפי ההסכם.','Up to 10 people, a 75-inch screen and free monthly hours for tenants, per your agreement.'],
+cx2T:['מטבחון משותף','Shared kitchenette'],cx2P:['קפה, מקרר שתייה ופינה נעימה להפסקה.','Coffee, a drinks fridge and a pleasant corner for a break.'],cx3T:['כניסה מעוצבת','A striking entrance'],cx3P:['רושם ראשון שמתאים לעסק שלכם, מהדלת ועד המשרד.','A first impression that suits your business, from the door to your desk.'],
+altRoom:['חדר הישיבות במתחם במהלך פגישה','The meeting room during a meeting'],altKit:['פינת הקפה ומקרר השתייה','The coffee corner and drinks fridge'],altDoor:['דלת הכניסה למתחם AOS','The AOS entrance'],
+memK:['לא צריכים משרד קבוע?','No need for a full-time office?'],memCta:['לחדר הישיבות','See the meeting room'],
+tourK:['סיור במתחם','Visit'],tourT:['בואו לראות את המשרד','Come and see the office'],tourP:['השאירו פרטים ונחזור אליכם בשעות הפעילות לתיאום סיור. הסיור לוקח כ־15 דקות.','Leave your details and we will call you during opening hours to arrange a tour. It takes about 15 minutes.'],
+addrL:['כתובת','Address'],hoursL:['שעות פעילות','Opening hours'],formT:['בקשה לתיאום סיור','Tour request'],fName:['שם מלא','Full name'],fPhone:['טלפון','Phone'],fEmail:['אימייל (לא חובה)','Email (optional)'],fOffice:['איזה משרד מעניין אתכם?','Which office interests you?'],anyOffice:['עוד לא יודע/ת, אשמח להמלצה','Not sure yet, recommend one'],
+fWhen:['מתי נוח לכם לבקר?','When suits you?'],fMsg:['משהו שחשוב לנו לדעת? (לא חובה)','Anything we should know? (optional)'],submit:['שליחת בקשה לסיור','Request a tour'],privNote:['נשתמש בפרטים רק כדי לחזור אליכם.','We use your details only to get back to you.'],
+sentT:['קיבלנו את הבקשה','Request received'],sentP:['ניצור קשר בשעות הפעילות כדי לקבוע מועד לסיור.','We will contact you during opening hours to set a time for the tour.'],again:['שליחת בקשה נוספת','Send another request'],
+footAria:['קישורים','Links'],toSite:['לאתר AOS','AOS website'],privacy:['מדיניות פרטיות','Privacy policy'],a11y:['הצהרת נגישות','Accessibility statement'],
+e_name:['נא למלא שם מלא','Please enter your name'],e_phone:['מספר הטלפון אינו תקין','Please enter a valid phone number'],e_email:['כתובת האימייל אינה תקינה','Please enter a valid email'],e_contact:['נא למלא טלפון','Please enter a phone number'],e_office:['המשרד שבחרתם כבר אינו פנוי. בחרו משרד אחר או "עוד לא יודע/ת".','That office is no longer open. Choose another or "Not sure yet".'],e_gen:['משהו השתבש. נסו שוב.','Something went wrong. Please try again.']};
+const WHEN=[['morning',['בוקר','Morning']],['noon',['צהריים','Midday']],['after',['אחר הצהריים','Afternoon']]];
+const isoR=s=>String(s||'').replace(/(\d{1,2}:\d{2}\s?[–-]\s?\d{1,2}:\d{2})/g,m=>'\u2066'+m+'\u2069');
+class Component extends DCLogic{
+  state={lang:'he',db:null,f:{name:'',phone:'',email:'',office:'',msg:'',when:''},err:'',busy:false,sent:false,heroVis:true,tourVis:false};
+  componentDidMount(){
+    this._vidT=setTimeout(()=>{const go=()=>this.setState({heroVid:'https://player.vimeo.com/video/1240299050?background=1&autoplay=1&loop=1&muted=1&autopause=0&controls=0&dnt=1&playsinline=1'});document.readyState==='complete'?go():window.addEventListener('load',go,{once:true})},400);
+    let lang=this.props.defaultLang==='en'?'en':'he';try{const l=localStorage.getItem('aos_lang');if(l==='he'||l==='en')lang=l}catch(e){}
+    const q=new URLSearchParams(location.search);this.utm=['utm_source','utm_medium','utm_campaign'].map(k=>q.get(k)).filter(Boolean).join(' / ');
+    try{if(this.utm)sessionStorage.setItem('aos_utm',this.utm);else this.utm=sessionStorage.getItem('aos_utm')||''}catch(e){}
+    const pre=q.get('office');this.setState({lang,f:{...this.state.f,office:pre||''}});document.documentElement.lang=lang;document.documentElement.dir=lang==='he'?'rtl':'ltr';
+    import(new URL('aos-data.js',document.baseURI).href).then(A=>{this.A=A;this.refresh();this.unsub=A.subscribe(()=>this.refresh());try{A.lpView&&A.lpView('offices',this.utm)}catch(e){};this.track('lp_view',{lp:'offices'})}).catch(()=>this.setState({err:D.e_gen[0]}));
+    if('IntersectionObserver' in window){this.io=new IntersectionObserver(es=>es.forEach(e=>{if(e.target.id==='tour')this.setState({tourVis:e.isIntersecting});else this.setState({heroVis:e.isIntersecting})}),{threshold:0.1});setTimeout(()=>{['tour','lp-h1'].forEach(id=>{const el=document.getElementById(id);el&&this.io.observe(el)})},300)}
+  }
+  componentWillUnmount(){clearTimeout(this._vidT);this.unsub&&this.unsub();this.io&&this.io.disconnect()}
+  refresh(){this.setState({db:this.A.load()})}
+  track(ev,p){try{(window.dataLayer=window.dataLayer||[]).push({event:ev,...(p||{}),device:innerWidth<768?'mobile':'desktop',utm:this.utm||undefined})}catch(e){}}
+  scrollTo(id){const el=document.getElementById(id);if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY,behavior:'smooth'})}
+  renderVals(){
+    const S=this.state,A=this.A,db=S.db,ready=!!(A&&db),he=S.lang==='he',L=he?0:1,t={};for(const k in D)t[k]=D[k][L];
+    const money=n=>'₪'+(Math.round((+n||0)*100)/100).toLocaleString('en-US'),set=ready?db.settings:{content:{},tax:{mode:'none'}},C=set.content||{};
+    const addr=(he?C.addressHe:C.addressEn)||'',hours=isoR([he?C.hoursAHe:C.hoursAEn,he?C.hoursBHe:C.hoursBEn].filter(Boolean).join(' · '));
+    const open=ready?db.offices.filter(o=>o.visible&&['available','unset'].includes(o.status)).sort((a,b)=>(a.order||0)-(b.order||0)):[];
+    const rents=open.filter(o=>o.price>0).map(o=>o.price),from=rents.length?Math.min(...rents):0,f=S.f;
+    const oName=o=>(he?o.nameHe:o.nameEn)||o.code,feeSub=he?'+ דמי ניהול + מע״מ':'+ management fee + VAT';
+    const memT=ready?A.memberTotal(db):{price:120},wa=(C.whatsapp||'').replace(/\D/g,'');
+    const bind=k=>e=>this.setState({f:{...this.state.f,[k]:e.target.value},err:''});
+    const pickOffice=id=>{this.setState({f:{...this.state.f,office:id},err:''});this.scrollTo('tour');this.track('lp_office_select',{lp:'offices'});setTimeout(()=>{const n=document.getElementById('t-n');n&&n.focus({preventScroll:true})},500)};
+    return {dir:he?'rtl':'ltr',lang:S.lang,t,arrow:he?'←':'→',addr,hours,
+      waze:'https://waze.com/ul?q='+encodeURIComponent(addr)+'&navigate=yes',gmaps:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(addr),hasWa:!!wa,wa:'https://wa.me/'+wa,
+      toggleLang:()=>{const l=he?'en':'he';try{localStorage.setItem('aos_lang',l)}catch(e){}document.documentElement.lang=l;document.documentElement.dir=l==='he'?'rtl':'ltr';this.setState({lang:l,err:''})},
+      goTour:e=>{e&&e.preventDefault();this.scrollTo('tour');this.track('lp_cta_click',{lp:'offices'})},goOffices:e=>{e&&e.preventDefault();this.scrollTo('offices')},
+      facts:[{v:ready?String(open.length):'—',k:t.freeK}].concat(from?[{v:money(from),k:t.fromK}]:[]).concat([{v:he?'עד 10':'Up to 10',k:t.roomK}]),
+      ofTitle:ready?(open.length?(he?open.length+' משרדים פנויים לכניסה':open.length+' offices open'):(he?'המשרדים במתחם':'Our offices')):(he?'משרדים פנויים':'Open offices'),
+      loading:!ready,noneFree:ready&&!open.length,
+      offices:open.map(o=>{const img=o.images&&o.images[0],src=img?(typeof img==='string'?img:img.src):'';return{code:o.code,name:oName(o),desc:(he?o.descHe:o.descEn)||'',price:o.price>0?money(o.price)+(he?' לחודש':' / month'):(he?'מחיר לפי פנייה':'Price on request'),priceSub:o.price>0?feeSub:(he?'נשלח הצעת מחיר אחרי הסיור':'We send a quote after the tour'),
+        chips:((he?o.amenitiesHe:o.amenitiesEn)||[]).slice(0,4),hasImg:!!src,noImg:!src,img:src,alt:img&&typeof img==='object'?((he?img.he:img.en)||oName(o)):oName(o),pick:()=>pickOffice(o.id)}}),
+      memLine:he?'מנוי חדר ישיבות ב־'+money(memT.price)+' + מע״מ לחודש: 20% הנחה על כל שריון והזמנה גם לאותו היום.':'A meeting-room membership for '+money(memT.price)+' + VAT a month: 20% off every booking and same-day booking.',
+      f,onF:{name:bind('name'),phone:bind('phone'),email:bind('email'),office:bind('office'),msg:bind('msg')},
+      officeOpts:[{v:'',l:t.anyOffice}].concat(open.map(o=>({v:o.id,l:oName(o)+' · '+o.code+(o.price>0?' · '+money(o.price):'')}))),
+      whenOpts:WHEN.map(w=>{const on=f.when===w[0];return{l:w[1][L],pressed:on?'true':'false',bg:on?'#111214':'#fff',fg:on?'#fff':'#111214',bd:on?'#111214':'#CFD2D6',pick:()=>this.setState({f:{...this.state.f,when:on?'':w[0]}})}}),
+      err:S.err,busy:S.busy,sent:S.sent,notSent:!S.sent,
+      submit:e=>{e.preventDefault();if(!ready||S.busy)return;const E=k=>this.setState({err:(D['e_'+k]||D.e_gen)[L]});
+        if(!f.name.trim())return E('name');if(!A.phoneOk(f.phone))return E('phone');if(f.email.trim()&&!A.emailOk(f.email))return E('email');
+        const o=f.office&&open.find(x=>x.id===f.office),w=WHEN.find(x=>x[0]===f.when);
+        const msg=['בקשת סיור במשרדים'+(o?' · '+o.nameHe+' ('+o.code+')':''),w?'זמן מועדף: '+w[1][0]:'',f.msg.trim()].filter(Boolean).join('\n');
+        this.setState({busy:true});const r=A.addInquiry({kind:o?'office':'contact',officeId:o?o.id:null,interest:'tour',name:f.name,phone:f.phone,email:f.email,msg,source:'lp-office',utm:this.utm});
+        if(r.err){this.setState({busy:false});return E(r.err)}
+        this.setState({busy:false,sent:true,err:''});this.track('generate_lead',{lp:'offices',office:o?o.code:'any'})},
+      again:()=>this.setState({sent:false,f:{name:'',phone:'',email:'',office:'',msg:'',when:''}}),
+      heroVid:S.heroVid||'',showBar:ready&&!S.heroVis&&!S.tourVis&&!S.sent,barLine:open.length?(he?open.length+' משרדים פנויים':open.length+' offices open'):t.ctaTop,barPad:(!S.heroVis&&!S.tourVis&&!S.sent)?'72px':'0px'};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>AOS · בדיקות מערכת</title>
+<meta name="robots" content="noindex">
+<style>body{margin:0;background:#0c0e11}</style>
+</helmet>
+<div dir="rtl" style="min-height:100vh;background:#0c0e11;color:#efe9dc;font-family:'Heebo',sans-serif;padding:32px clamp(16px,4vw,48px);box-sizing:border-box">
+  <h1 style="font-family:'Frank Ruhl Libre',serif;font-size:40px;margin:0 0 6px">בדיקות מערכת · שכבת הנתונים</h1>
+  <p style="margin:0 0 20px;color:#b9b3a5;max-width:760px">הבדיקות רצות על מאגר נפרד בדפדפן (לא נוגעות בנתוני האתר) ונמחקות בסיום.</p>
+  <div role="status" style="font-size:22px;margin-bottom:18px;color:{{ sumColor }}">{{ summary }}</div>
+  <ol style="margin:0;padding:0 20px;display:flex;flex-direction:column;gap:6px">
+    <sc-for list="{{ results }}" as="r" hint-placeholder-count="10"><li style="color:{{ r.color }}"><b>{{ r.mark }}</b> {{ r.name }} <span style="color:#8a8f98;direction:ltr;display:inline-block">{{ r.detail }}</span></li></sc-for>
+  </ol>
+  <button onClick="{{ rerun }}" style="margin-top:24px;height:44px;padding:0 20px;background:#c9a45c;color:#0c0e11;border:0;cursor:pointer;font-weight:600">הרצה מחדש</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic{
+  state={results:[],done:false};
+  componentDidMount(){this.runAll()}
+  async runAll(){
+    this.setState({results:[],done:false});
+    const A=await import(new URL('aos-data.js',document.baseURI).href);
+    A._useStore('aos_test_'+Date.now().toString(36));A._wipe();
+    const R=[],ok=(name,cond,detail)=>R.push({name,pass:!!cond,detail:detail||''});
+    try{
+      let db=A.load();
+      ok('מאגר חדש: חדר אחד, 7 משרדים, ללא הזמנות ופניות',db.rooms.length===1&&db.offices.length===7&&!db.bookings.length&&!db.inquiries.length);
+      ok('משרדים ללא סטטוס מומצא (unset)',db.offices.every(o=>o.status==='unset'));
+      const next=dow=>{const d=new Date();d.setDate(d.getDate()+3);while(d.getDay()!==dow)d.setDate(d.getDate()+1);return A.dkey(d)};
+      const sun=next(0),fri=next(5),sat=next(6);
+      const s=A.daySlots(db,'R1',sun);
+      ok('ראשון: 3 חלונות של 3 שעות 09–18',s.length===3&&s.every(x=>x.end-x.start===3)&&s[0].start===9&&s[2].end===18,s.map(x=>x.start).join(','));
+      ok('שישי 09–15: שני חלונות 3 שעות וחצי יום אחד, שבת סגור',A.daySlots(db,'R1',fri).length===2&&A.daySlots(db,'R1',fri,'half').length===1&&A.daySlots(db,'R1',fri,'day').length===0&&A.daySlots(db,'R1',sat).length===0);
+      const ua=await A.signUp({name:'בדיקה א',email:'a@test.example',phone:'0500000001',password:'password-a'});
+      const ub=await A.signUp({name:'בדיקה ב',email:'b@test.example',phone:'0500000002',password:'password-b'});
+      ok('הרשמת שני לקוחות',ua.user&&ub.user);
+      ok('הרשמה כפולה לאותו אימייל נדחית',(await A.signUp({name:'x',email:'a@test.example',password:'password-x'})).err==='exists');
+      ok('סיסמה קצרה נדחית',(await A.signUp({name:'x',email:'c@test.example',password:'123'})).err==='weak');
+      const A1=ua.user.id,B1=ub.user.id;
+      const h1=A.createHold(A1,{roomId:'R1',date:sun,start:9});
+      ok('לקוח א מחזיק בלוק 08:00',h1.booking&&h1.booking.status==='hold',h1.err);
+      ok('המחיר מחושב מהנתונים (350)',h1.booking&&h1.booking.total===350,h1.booking&&String(h1.booking.total));
+      ok('לקוח ב אינו יכול להחזיק את אותו בלוק',A.createHold(B1,{roomId:'R1',date:sun,start:9}).err==='taken');
+      ok('בקשה חוזרת של א מחזירה את אותה החזקה',A.createHold(A1,{roomId:'R1',date:sun,start:9}).booking.id===h1.booking.id);
+      ok('שעת התחלה שאינה בלוק מוגדר נדחית',A.createHold(B1,{roomId:'R1',date:sun,start:10}).err==='slot');
+      A._raw(d=>{d.bookings.find(b=>b.id===h1.booking.id).expires=Date.now()-1000});
+      db=A.load();
+      ok('החזקה שפג תוקפה משוחררת אוטומטית',db.bookings.find(b=>b.id===h1.booking.id).status==='expired');
+      const h2=A.createHold(B1,{roomId:'R1',date:sun,start:9});
+      ok('אחרי השחרור לקוח ב מחזיק את הבלוק',!!h2.booking,h2.err);
+      const rq=A.requestBooking(B1,h2.booking.id);
+      ok('בקשת הזמנה: ממתינה לתשלום',rq.booking&&rq.booking.status==='pending_payment'&&rq.booking.pay==='awaiting');
+      ok('בקשה ממתינה חוסמת את הבלוק לאחרים',A.createHold(A1,{roomId:'R1',date:sun,start:9}).err==='taken');
+      ok('לקוח אינו יכול לרשום תשלום',A.recordPayment(B1,{bookingId:h2.booking.id,amount:350,method:'offline'}).err==='auth');
+      const ad=await A.setupAdmin({name:'מנהל בדיקה',email:'admin@test.example',password:'admin-password-1'});
+      ok('הגדרת מנהל ראשון',!!ad.user,ad.err);
+      ok('מנהל שני דרך מסך ההגדרה נדחה',(await A.setupAdmin({name:'x',email:'x@test.example',password:'admin-password-2'})).err==='exists');
+      const M=ad.user.id;
+      ok('סכום תשלום שגוי נדחה',A.recordPayment(M,{bookingId:h2.booking.id,amount:1,ref:'T1',method:'offline'}).err==='amount');
+      const p1=A.recordPayment(M,{bookingId:h2.booking.id,amount:350,ref:'T1',method:'offline'});
+      ok('תשלום מאומת מאשר את ההזמנה',p1.booking&&p1.booking.status==='confirmed'&&p1.booking.pay==='paid',p1.err);
+      const p2=A.recordPayment(M,{bookingId:h2.booking.id,amount:350,ref:'T1',method:'offline'});
+      db=A.load();
+      ok('אישור תשלום כפול (אותה אסמכתה) לא יוצר רשומה נוספת',p2.dup&&db.payments.length===1);
+      ok('חסימה מעל הזמנה מאושרת נדחית',A.addBlock(M,{roomId:'R1',date:sun,start:9,end:12}).err==='conflict');
+      ok('חסימת בלוק פנוי',A.addBlock(M,{roomId:'R1',date:sun,start:12,end:15,reason:'test'}).ok);
+      db=A.load();
+      ok('בלוק חסום מוצג כחסום ללקוחות',A.daySlots(db,'R1',sun).find(x=>x.start===12).state==='blocked');
+      ok('לקוח אינו יכול להחזיק בלוק חסום',A.createHold(A1,{roomId:'R1',date:sun,start:12}).err==='taken');
+      A.removeBlock(M,A.load().blocks[0].id);
+      ok('שחרור חסימה מחזיר את הבלוק לזמינות',A.daySlots(A.load(),'R1',sun).find(x=>x.start===12).state==='free');
+      ok('הזמנה ידנית על בלוק תפוס נדחית',A.adminBooking(M,{roomId:'R1',date:sun,start:9,name:'x'}).err==='taken');
+      const mb=A.adminBooking(M,{roomId:'R1',date:sun,start:15,name:'לקוח ידני',email:'m@test.example',paid:true});
+      ok('הזמנה ידנית עם תשלום מחוץ לאתר',mb.booking&&mb.booking.status==='confirmed'&&mb.booking.pay==='paid');
+      ok('לקוח אחר אינו יכול לבטל הזמנה שאינה שלו',A.cancelBooking(A1,h2.booking.id).err==='auth');
+      const cx=A.cancelBooking(M,h2.booking.id,'בדיקה');
+      ok('ביטול הזמנה ששולמה: ממתין להחזר',cx.booking&&cx.booking.status==='cancelled'&&cx.booking.pay==='refund_pending');
+      ok('הבלוק המבוטל חוזר לזמינות',A.daySlots(A.load(),'R1',sun).find(x=>x.start===9).state==='free');
+      const rf=A.markRefunded(M,h2.booking.id,'RF1');db=A.load();
+      ok('סימון החזר: יתרת התשלומים להזמנה היא 0',rf.booking&&rf.booking.pay==='refunded'&&db.payments.filter(p=>p.bookingId===h2.booking.id).reduce((a,p)=>a+p.amount,0)===0);
+      const sun7=(()=>{const d=new Date(sun+'T12:00');d.setDate(d.getDate()+7);return A.dkey(d)})();const h3=A.createHold(A1,{roomId:'R1',date:sun7,start:9});A.requestBooking(A1,h3.booking.id);A.recordPayment(M,{bookingId:h3.booking.id,amount:h3.booking.total,ref:'T3',method:'offline'});
+      A._raw(d=>{d.settings.cancelHours=10000});
+      ok('ביטול עצמי מאוחר מהמדיניות נחסם',A.cancelBooking(A1,h3.booking.id).err==='late');
+      A._raw(d=>{d.settings.cancelHours=24});
+      ok('ביטול עצמי בזמן מותר',A.cancelBooking(A1,h3.booking.id).booking.status==='cancelled');
+      for(let i=0;i<5;i++)await A.signIn({email:'a@test.example',password:'wrong-pass'});
+      ok('נעילה אחרי 5 ניסיונות כושלים',(await A.signIn({email:'a@test.example',password:'password-a'})).err==='locked');
+      ok('כניסת מנהל עם סיסמה שגויה נדחית',(await A.adminSignIn({email:'admin@test.example',password:'nope'})).err==='bad');
+      ok('לקוח אינו יכול להיכנס כמנהל',(await A.adminSignIn({email:'b@test.example',password:'password-b'})).err==='bad');
+      ok('פנייה ללא פרטי קשר נדחית',A.addInquiry({kind:'office',officeId:'O1',name:'x'}).err==='contact');
+      const iq=A.addInquiry({kind:'office',officeId:'O1',name:'פונה',phone:'0501112222',msg:'שלום'});
+      ok('פנייה על משרד נשמרת בסטטוס חדשה',iq.inquiry&&iq.inquiry.status==='new');
+      ok('שליחה כפולה מיידית אינה יוצרת פנייה שנייה',A.addInquiry({kind:'office',officeId:'O1',name:'פונה',phone:'0501112222'}).dup&&A.load().inquiries.length===1);
+      A.updateOffice(M,'O2',{...A.load().offices[1],status:'occupied',tenantName:'שוכר'});
+      ok('פנייה על משרד מאוכלס נדחית',A.addInquiry({kind:'office',officeId:'O2',name:'x',phone:'0501112223'}).err==='office');
+      const r=A.load().rooms[0];
+      const ur=A.updateRoom(M,'R1',{...r,schedule:{...r.schedule,0:{open:8,close:20,starts:[8,9,11]}}});
+      ok('בלוקים חופפים בלוח הזמנים מסוננים',ur.room&&ur.room.schedule[0].starts.join(',')==='8,11',ur.room&&ur.room.schedule[0].starts.join(','));
+      ok('מחיר שהשתנה בניהול חל על החזקה חדשה',(()=>{A.updateRoom(M,'R1',{...A.load().rooms[0],price:900});const h=A.createHold(B1,{roomId:'R1',date:next(1),start:9});return h.booking&&h.booking.total===900})());
+      {const day=next(2);const mh=A.createHold(B1,{roomId:'R1',date:day,start:9,end:14});
+      ok('חבילת חצי יום 09–14 במחיר החבילה (500)',mh.booking&&mh.booking.end===14&&mh.booking.total===500,mh.err||(mh.booking&&String(mh.booking.total)));
+      const sl=A.daySlots(A.load(),'R1',day);
+      ok('חצי יום חוסם את חלונות 3 השעות שבתוכו',sl.find(x=>x.start===9).state!=='free'&&sl.find(x=>x.start===12).state!=='free'&&sl.find(x=>x.start===15).state==='free');
+      ok('חצי יום אחר שחופף נדחה',A.createHold(A1,{roomId:'R1',date:day,start:13,end:18}).err==='taken');
+      ok('משך שאינו חבילה נדחה',A.createHold(A1,{roomId:'R1',date:day,start:15,end:17}).err==='slot');
+      ok('יום מלא נדחה כשחלק מהיום תפוס',A.createHold(A1,{roomId:'R1',date:day,start:9,end:18}).err==='taken');}
+      A._raw(d=>{d.settings.tax={mode:'added',pct:18}});
+      ok('מע״מ מתווסף מחושב בסיכום',A.quote(A.load(),A.load().rooms[0],[]).total===1062);
+      ok('מחיר לשלושה בלוקים כולל מע״מ',A.quote(A.load(),A.load().rooms[0],[],3).total===3186);
+      {const day=next(3);A._raw(d=>{d.settings.tax={mode:'none',pct:18}});
+        const tn=await A.createTenant(M,'O1',{name:'דייר בדיקה',email:'tenant@test.example',phone:'0501234567',password:'tenant-pass-1'});const T1=tn.user&&tn.user.id;
+        ok('מנהל יוצר דייר ומשייך למשרד',!!T1&&(A.tenantOffice(A.load(),T1)||{}).id==='O1',tn.err);
+        const tb=A.tenantBook(T1,{date:day,start:9,hours:1});ok('יומן אחד: דייר משריין 09:00–10:00',!!tb.booking,tb.err);
+        ok('יומן אחד: לקוח לא יכול להחזיק בלוק 09:00–12:00 שחופף לדייר',A.createHold(A1,{roomId:'R1',date:day,start:9}).err==='taken');
+        ok('יומן אחד: הזמנה ידנית של מנהל שחופפת לדייר נדחית',A.adminBooking(M,{roomId:'R1',date:day,start:9,name:'x',email:'x2@test.example',phone:'0501112299'}).err==='taken');
+        ok('יומן אחד: חסימה שחופפת לשריון דייר נדחית',A.addBlock(M,{roomId:'R1',date:day,start:9,end:12}).err==='conflict');
+        const h=A.createHold(A1,{roomId:'R1',date:day,start:12});ok('יומן אחד: לקוח מחזיק 12:00–15:00',!!h.booking,h.err);
+        ok('יומן אחד: דייר לא יכול לשריין שעה בתוך בלוק שלקוח מחזיק',A.tenantBook(T1,{date:day,start:12,hours:1}).err==='taken');
+        ok('יומן אחד: דייר לא יכול לשריין טווח שחוצה הזמנה (11:00–13:00)',A.tenantBook(T1,{date:day,start:11,hours:2}).err==='taken');
+        A.addBlock(M,{roomId:'R1',date:day,start:15,end:18,reason:'בדיקה'});
+        ok('יומן אחד: דייר לא יכול לשריין שעה חסומה',A.tenantBook(T1,{date:day,start:15,hours:1}).err==='taken');
+        ok('יומן אחד: לקוח לא יכול להחזיק בלוק חסום',A.createHold(B1,{roomId:'R1',date:day,start:15}).err==='taken');
+        ok('שעת חינם נוכתה ממכסת הדייר',A.tenantUsage(A.load(),'O1',day.slice(0,7)).freeUsed===1);
+        const fu=await A.signUp({name:'מתחזה',email:'fake@test.example',password:'fake-pass-1'});A.updateOffice(M,'O3',{...A.load().offices[2],tenantName:'x',tenantEmail:'fake@test.example'});
+        ok('הרשמה עצמית עם אימייל של שוכר אינה נותנת גישת דייר',!!fu.user&&!A.tenantOffice(A.load(),fu.user.id));
+        {const dd=next(4);A.addPriceRule(M,'R1',{type:'date',from:dd,to:dd,price:500});A.addPriceRule(M,'R1',{type:'hours',start:15,end:18,pct:20});const rr=A.load().rooms[0];
+          ok('מחיר לתאריך מחליף את מחיר הבסיס',A.blockPrice(rr,dd,8)===500);ok('הנחת שעות חלה על בלוק שמתחיל בטווח (15:00, 20%)',A.blockPrice(rr,dd,15)===400);ok('בלוק מחוץ לטווח השעות לא מקבל הנחה',A.blockPrice(rr,dd,12)===500);
+          const hq=A.createHold(B1,{roomId:'R1',date:dd,start:15,end:18});ok('שריון 15–18 מקבל מחיר תאריך והנחת שעות (400)',hq.booking&&hq.booking.quote.base===400,hq.err||(hq.booking&&String(hq.booking.quote.base)));}
+        {const tk=A.openTicket(T1,{kind:'fault',subject:'המזגן לא עובד',msg:'בדיקה'});ok('דייר פותח קריאה',!!tk.ticket,tk.err);
+          const inAdmin=(A.load().tickets||[]).find(x=>x.id===tk.ticket.id);ok('הקריאה מופיעה אצל המנהל עם המשרד והדייר',!!inAdmin&&inAdmin.officeId==='O1'&&inAdmin.userId===T1);
+          const up=A.updateTicket(M,tk.ticket.id,{status:'progress',notes:'טכנאי יגיע מחר ב־10:00'});ok('מנהל עונה ומעדכן סטטוס',!!up.ticket,up.err);
+          const mine=(A.load().tickets||[]).filter(x=>x.officeId===(A.tenantOffice(A.load(),T1)||{}).id);const back=mine.find(x=>x.id===tk.ticket.id);
+          ok('המענה והסטטוס חוזרים לאותו דייר',!!back&&back.notes==='טכנאי יגיע מחר ב־10:00'&&back.status==='progress');
+          {const th=A.postTicketMsg(T1,tk.ticket.id,'תודה');ok('דייר עונה בשיחה של הקריאה',!!th.ticket,th.err);const seq=A.ticketThread((A.load().tickets||[]).find(x=>x.id===tk.ticket.id)).map(m=>m.by).join(',');ok('השיחה שומרת כל הודעה ושינוי סטטוס לפי הסדר',seq==='tenant,system,staff,tenant',seq);ok('לקוח שאינו דייר לא יכול לכתוב בקריאה',A.postTicketMsg(A1,tk.ticket.id,'x').err==='auth');}
+          {const c1=A.addInquiry({kind:'contact',interest:'room',name:'בדיקת טופס',phone:'0501234567',email:'form-test@aos.test',msg:'שאלה'}),o1=A.load().offices.find(x=>x.visible&&['available','unset'].includes(x.status)),c2=o1?A.addInquiry({kind:'office',officeId:o1.id,name:'בדיקת משרד',phone:'0507654321',email:'office-test@aos.test',msg:'מעוניין'}):{err:'no office'};const iq=A.load().inquiries;ok('טופס יצירת קשר מגיע ללוח הפניות (עמודת חדשה)',!!c1.inquiry&&iq.some(x=>x.id===c1.inquiry.id&&x.status==='new'&&x.kind==='contact'),c1.err);ok('טופס פנייה על משרד מגיע ללוח הפניות עם המשרד',!!c2.inquiry&&iq.some(x=>x.id===c2.inquiry.id&&x.officeId===o1.id&&x.status==='new'),c2.err);}
+          ok('לקוח שאינו דייר לא יכול לפתוח קריאה',A.openTicket(A1,{subject:'x'}).err==='tenant');
+          ok('רק מנהל יכול לענות לקריאה',A.updateTicket(T1,tk.ticket.id,{notes:'x'}).err==='auth');}
+        ok('לקוח רגיל לא יכול לשריין לאותו היום',A.createHold(A1,{roomId:'R1',date:A.dkey(new Date()),start:17}).err==='sameday');}
+      {// Double-booking: one room, one calendar, every path
+        const D=next(2),db0=A.load();const tn2=await A.createTenant(M,'O2',{name:'דייר כפילות',email:'dup-tenant@test.example',phone:'0501111111',password:'tenant-pass-2'});const T2=tn2.user&&tn2.user.id;
+        A.setMembership(M,B1,'active');
+        const e=r=>r&&r.err?r.err:'ok';
+        const h=A.createHold(A1,{roomId:'R1',date:D,start:9,end:14});
+        ok('כפילות: לקוח חד־פעמי משריין חצי יום 09–14',!!h.booking,e(h));
+        ok('כפילות: מנוי לא יכול 3 שעות 09–12 באותו זמן',A.createHold(B1,{roomId:'R1',date:D,start:9,end:12}).err==='taken');
+        ok('כפילות: מנוי לא יכול 12–15 (חפיפה חלקית)',A.createHold(B1,{roomId:'R1',date:D,start:12,end:15}).err==='taken');
+        {const r=A.createHold(B1,{roomId:'R1',date:D,start:13,end:18});ok('כפילות: חצי יום 13–18 נחסם (חפיפה של שעה)',r.err==='taken',e(r)+' '+D);}
+        {const r=A.createHold(B1,{roomId:'R1',date:D,start:9,end:18});ok('כפילות: יום מלא נחסם',r.err==='taken',e(r));}
+        ok('כפילות: אדמין לא יכול לרשום ידנית 09–12',A.adminBooking(M,{roomId:'R1',date:D,start:9,end:12,name:'ידני'}).err==='taken');
+        const ad2=A.adminBooking(M,{roomId:'R1',date:D,start:15,end:18,name:'ידני'});
+        ok('כפילות: אדמין רושם 15–18 הפנוי',!!ad2.booking,e(ad2));
+        ok('כפילות: דייר לא יכול שעה 13 (תפוסה בחצי היום)',A.tenantBook(T2,{date:D,start:13,hours:1}).err==='taken');
+        {const r=A.tenantBook(T2,{date:D,start:14,hours:2});ok('כפילות: דייר לא יכול 14–16 (חופף לאדמין)',r.err==='taken',e(r));}
+        const tb=A.tenantBook(T2,{date:D,start:14,hours:1});
+        ok('כפילות: דייר משריין את השעה הפנויה 14–15',!!tb.booking,e(tb));
+        ok('כפילות: אחרי השריון היום מלא לכולם',A.daySlots(A.load(),'R1',D,'p3').every(s=>s.state!=='free')&&A.tenantHours(A.load(),'R1',D).every(s=>s.state!=='free'));
+        ok('כפילות: אי אפשר לחסום שעה תפוסה',A.addBlock(M,{roomId:'R1',date:D,start:10,end:11,reason:'x'}).err==='conflict');
+        ok('כפילות: בקשת תשלום נשארת על אותו שריון',e(A.requestBooking(A1,h.booking.id))==='ok'&&A.overlaps(A.load()).length===0);
+        A._raw(d=>{const b=d.bookings.find(x=>x.id===h.booking.id);b.expires=Date.now()-1000});
+        const nb=A.createHold(B1,{roomId:'R1',date:D,start:9,end:12});
+        ok('כפילות: שריון שפג תוקפו משתחרר ומנוי לוקח 09–12',!!nb.booking,e(nb));
+        ok('כפילות: תשלום מאוחר על השריון שפג נדחה (conflict)',A.recordPayment(M,{bookingId:h.booking.id,amount:h.booking.total,ref:'LATE-1',method:'card'}).err==='conflict');
+        ok('כפילות: אישור ידני של השריון שפג נדחה',!!A.confirmUnpaid(M,h.booking.id).err);
+        const pay=A.recordPayment(M,{bookingId:nb.booking.id,amount:nb.booking.total,ref:'OK-1',method:'card'});
+        ok('כפילות: תשלום על השריון התקף עובר',!!pay.payment,e(pay));
+        ok('כפילות: אותו תשלום פעמיים לא נרשם שוב',A.recordPayment(M,{bookingId:nb.booking.id,amount:nb.booking.total,ref:'OK-1',method:'card'}).dup===true&&A.load().payments.filter(p=>p.ref==='OK-1').length===1);
+        ok('כפילות: תשלום שני עם אסמכתה אחרת נדחה',A.recordPayment(M,{bookingId:nb.booking.id,amount:nb.booking.total,ref:'OK-2',method:'card'}).err==='already');
+        A._raw(d=>{d.bookings.push({...d.bookings.find(x=>x.id===nb.booking.id),id:'FORCED-DUP'})});
+        ok('כפילות: בדיקת השלמות מזהה חפיפה שנכפתה ידנית',A.overlaps(A.load()).length>0);
+        ok('כפילות: כשיש חפיפה במאגר, כל כתיבה שמוסיפה חפיפה חדשה נחסמת',A.createHold(B1,{roomId:'R1',date:D,start:12,end:15}).err==='taken');
+        A._raw(d=>{d.bookings=d.bookings.filter(x=>x.id!=='FORCED-DUP')});
+        ok('שישי: רק חלונות שנגמרים עד 15:00',A.daySlots(A.load(),'R1',fri,'p3').every(s=>s.end<=15)&&!A.daySlots(A.load(),'R1',fri,'day').length);
+        ok('כפילות: בסוף התרחיש אין אף חפיפה ביומן',A.overlaps(A.load()).length===0);}
+      {// Row-level isolation: every actor only acts on its own rows
+        A._strict(true);const D2=next(1);A.signOut();A.adminSignOut();
+        ok('הפרדה: בלי התחברות אי אפשר לשריין בשם לקוח',A.createHold(A1,{roomId:'R1',date:D2,start:9,end:12}).err==='auth');
+        ok('הפרדה: בלי התחברות מנהל אי אפשר לפעולת מנהל',A.confirmUnpaid(M,'x').err==='auth'&&A.updateSettings(M,{}).err==='auth');
+        await A.signIn({email:'a@test.example',password:'password-a'});
+        ok('הפרדה: לקוח א׳ מחובר לא יכול לפעול בשם לקוח ב׳',A.createHold(B1,{roomId:'R1',date:D2,start:9,end:12}).err==='auth'&&A.updateProfile(B1,{name:'x'}).err==='auth');
+        ok('הפרדה: לקוח לא יכול להתחזות למנהל עם המזהה שלו',A.recordPayment(M,{bookingId:'x',amount:1,ref:'r',method:'card'}).err==='auth'&&A.exportData(M).err==='auth');
+        const hb=A.load().bookings.find(b=>b.userId===B1&&A.ACTIVE.includes(b.status));
+        ok('הפרדה: לקוח א׳ לא יכול לבטל הזמנה של ב׳',!hb||A.cancelBooking(A1,hb.id).err==='auth');
+        ok('הפרדה: לקוח רגיל לא יכול לפתוח קריאה (רק דיירים)',!!A.openTicket(A1,{kind:'fault',subject:'x',msg:'y'}).err&&!(A.load().tickets||[]).some(k=>k.userId===A1));
+        ok('הפרדה: לקוח לא יכול לשריין כדייר',!!A.tenantBook(A1,{date:D2,start:10,hours:1}).err);
+        ok('הפרדה: לקוח רגיל לא יכול לבטל מנוי שאין לו / של אחר',!!A.cancelMembership(B1).err);
+        await A.signIn({email:'dup-tenant@test.example',password:'tenant-pass-2'});const T2=(A.load().users.find(u=>u.email==='dup-tenant@test.example')||{}).id,T1=(A.load().users.find(u=>u.email==='tenant@test.example')||{}).id;
+        const tkO1=(A.load().tickets||[]).find(k=>k.officeId!=='O2');
+        ok('הפרדה: דייר משרד O2 לא יכול לכתוב בקריאה של משרד אחר',!tkO1||A.postTicketMsg(T2,tkO1.id,'x').err==='auth');
+        ok('הפרדה: דייר לא יכול לעדכן סטטוס קריאה (רק מנהל)',!tkO1||A.updateTicket(T2,tkO1.id,{status:'closed'}).err==='auth');
+        const own=A.openTicket(T2,{kind:'request',subject:'בקשה',msg:'בדיקת הפרדה'});
+        ok('הפרדה: דייר פותח קריאה במשרד שלו בלבד',own.ticket&&own.ticket.officeId==='O2',own.err);
+        ok('הפרדה: דייר מחובר לא יכול לפעול בשם דייר אחר',!T1||A.tenantBook(T1,{date:D2,start:11,hours:1}).err==='auth');
+        A.signOut();await A.adminSignIn({email:'admin@test.example',password:'admin-password-1'});
+        ok('הפרדה: מנהל מחובר עונה בכל קריאה',!!A.postTicketMsg(M,own.ticket.id,'מענה').ticket);
+        ok('הפרדה: מנהל מחובר לא יכול לפעול בשם לקוח',A.createHold(A1,{roomId:'R1',date:D2,start:9,end:12}).err==='auth');
+        A.adminSignOut();A._strict(false);}
+    }catch(e){R.push({name:'שגיאה בהרצה',pass:false,detail:String(e&&e.message||e)})}
+    A._wipe();
+    this.setState({results:R,done:true});
+  }
+  renderVals(){const R=this.state.results,f=R.filter(r=>!r.pass).length;
+    return{results:R.map(r=>({name:r.name,detail:r.detail,mark:r.pass?'✓':'✗',color:r.pass?'#efe9dc':'#ff8a7a'})),summary:this.state.done?(f?f+' נכשלו מתוך '+R.length:'כל '+R.length+' הבדיקות עברו'):'מריץ בדיקות…',sumColor:f?'#ff8a7a':'#e0c288',rerun:()=>this.runAll()}}
+}
+</script>
+</body>
+</html>

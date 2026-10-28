@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>חדר ישיבות להשכרה בתל אביב · AOS</title>
+<meta name="description" content="חדר ישיבות מעוצב לעד 10 משתתפים בדרך מנחם בגין 150, תל אביב. מסך 75 אינץ׳, אינטרנט מהיר, קפה ושתייה קרה. 3 שעות, חצי יום או יום מלא, בשריון ישיר.">
+<meta property="og:title" content="חדר ישיבות בתל אביב · AOS">
+<meta property="og:image" content="uploads/room-table.png">
+<meta name="theme-color" content="#0B0B0C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&amp;family=Frank+Ruhl+Libre:wght@400&amp;display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth;overflow-x:clip;-webkit-text-size-adjust:100%}body{margin:0;background:#0B0B0C;overflow-x:clip;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}a:hover{color:#C3A46A}button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:2px solid #C3A46A;outline-offset:2px}summary{list-style:none;cursor:pointer}summary::-webkit-details-marker{display:none}
+@keyframes lpZoom{from{transform:scale(1.08)}to{transform:scale(1)}}@keyframes lpRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style>
+</helmet>
+<div dir="{{ dir }}" lang="{{ lang }}" style="font-family:'IBM Plex Sans Hebrew',system-ui,sans-serif;color:#fff;background:#0B0B0C;min-height:100vh">
+<a href="#book" style="position:absolute;inset-inline-start:12px;top:-60px;z-index:50;background:#C3A46A;color:#111214;padding:10px 14px;border-radius:8px;font-weight:600" style-focus="top:12px">{{ t.skip }}</a>
+<header style="position:absolute;top:0;inset-inline:0;z-index:5">
+  <div style="width:100%;box-sizing:border-box;margin:0;padding:18px clamp(16px,5vw,96px);display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="AOS%20Site%20v7.dc.html" aria-label="AOS" style="font-family:'Frank Ruhl Libre',serif;font-size:26px;letter-spacing:.34em;direction:ltr;color:#fff">AOS</a>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onClick="{{ toggleLang }}" aria-label="{{ t.langAria }}" style="height:44px;min-width:44px;padding:0 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:transparent;color:#fff;font-size:14px;font-weight:600;cursor:pointer" style-hover="border-color:#fff">{{ t.langBtn }}</button>
+      <a href="#book" onClick="{{ goBook }}" style="height:44px;display:flex;align-items:center;padding:0 18px;border-radius:999px;background:#C3A46A;color:#111214;font-size:15px;font-weight:700" style-hover="background:#D4B87F;color:#111214">{{ t.ctaTop }}</a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<section aria-labelledby="lp-h1" style="position:relative;overflow:hidden;padding:clamp(104px,12vw,150px) 0 clamp(40px,6vw,80px)">
+  <img src="uploads/room-table.png" alt="" aria-hidden="true" fetchpriority="high" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%;animation:lpZoom 1.8s cubic-bezier(.2,.7,.2,1) both">
+  <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,12,.82) 0%,rgba(11,11,12,.66) 45%,rgba(11,11,12,.94) 80%,#0B0B0C 100%)"></div>
+  <div style="position:relative;width:100%;box-sizing:border-box;margin:0;padding:0 clamp(16px,5vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(24px,4vw,72px);align-items:end">
+    <div style="display:flex;flex-direction:column;gap:22px;animation:lpRise .9s .15s both;padding-bottom:8px">
+      <p style="margin:0;display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600;color:#C3A46A;letter-spacing:.04em"><i aria-hidden="true" style="width:32px;height:2px;background:#C3A46A;display:block"></i>{{ t.kicker }}</p>
+      <h1 id="lp-h1" style="margin:0;font-size:clamp(34px,5.6vw,80px);font-weight:700;line-height:1.04;letter-spacing:-.02em;text-wrap:balance">{{ t.h1 }}</h1>
+      <p style="margin:0;font-size:clamp(17px,1.5vw,20px);line-height:1.6;color:#E6E7E9;max-width:560px;text-wrap:pretty">{{ t.sub }}</p>
+      <dl style="margin:6px 0 0;display:flex;flex-wrap:wrap;gap:0">
+        <sc-for list="{{ facts }}" as="x" hint-placeholder-count="3"><div style="padding-inline-end:clamp(12px,3vw,24px);margin-inline-end:clamp(12px,3vw,24px);margin-bottom:10px;border-inline-end:1px solid rgba(255,255,255,.22);display:flex;flex-direction:column;gap:2px"><dt style="font-size:clamp(26px,2.6vw,34px);font-weight:700;line-height:1.1;color:#fff">{{ x.v }}</dt><dd style="margin:0;font-size:14px;color:#C9CBCF">{{ x.k }}</dd></div></sc-for>
+      </dl>
+    </div>
+    <div id="book" ref="{{ cardRef }}" style="background:#fff;color:#111214;border-radius:clamp(18px,2vw,24px);padding:clamp(14px,2.4vw,30px);box-shadow:0 40px 90px -30px rgba(0,0,0,.7);display:flex;flex-direction:column;gap:18px;animation:lpRise .9s .3s both;scroll-margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+        <div><h2 style="margin:0;font-size:22px;font-weight:700">{{ t.bookT }}</h2><p style="margin:4px 0 0;font-size:14px;color:#5E6268">{{ t.bookSub }}</p></div>
+        <div style="text-align:end"><b style="display:block;font-size:28px;line-height:1.1">{{ priceHead }}</b><span style="font-size:13px;color:#5E6268">{{ t.per3 }} · {{ taxNote }}</span></div>
+      </div>
+      <ol aria-label="{{ t.stepsAria }}" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3"><li aria-current="{{ s.cur }}" style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:{{ s.fg }}"><i aria-hidden="true" style="display:block;height:3px;border-radius:3px;background:{{ s.bar }}"></i>{{ s.l }}</li></sc-for>
+      </ol>
+      <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}"><p style="margin:0;padding:24px 0;color:#5E6268">{{ t.loading }}</p></sc-if>
+      <sc-if value="{{ noRoom }}" hint-placeholder-val="{{ false }}"><p style="margin:0;padding:16px;border-radius:12px;background:#F5F5F4">{{ t.noRoom }}</p></sc-if>
+      <sc-if value="{{ stPick }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><b style="font-size:16px">{{ t.pickDay }}</b><span style="font-size:13px;color:#5E6268">{{ rangeLabel }}</span></div>
+          <div role="group" aria-label="{{ t.pickDay }}" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(3px,.8vw,6px)">
+            <sc-for list="{{ days }}" as="d" hint-placeholder-count="14"><button type="button" onClick="{{ d.pick }}" disabled="{{ d.dis }}" aria-pressed="{{ d.pressed }}" aria-label="{{ d.aria }}" style="min-height:58px;min-width:0;padding:6px 1px;border-radius:12px;border:1px solid {{ d.bd }};background:{{ d.bg }};color:{{ d.fg }};cursor:{{ d.cur }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:border-color .15s"><span style="font-size:11px;font-weight:500;white-space:nowrap">{{ d.wd }}</span><b style="font-size:18px;line-height:1.1">{{ d.num }}</b><span style="font-size:10px;font-weight:600;white-space:nowrap;color:{{ d.subC }}">{{ d.sub }}</span></button></sc-for>
+          </div>
+          <p style="margin:0;font-size:13px;color:#5E6268">{{ legend }}{{ sameDayNote }}</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <b style="font-size:16px">{{ pkTitle }}</b>
+          <div role="group" aria-label="{{ pkTitle }}" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px"><sc-for list="{{ pkgs }}" as="p" hint-placeholder-count="3"><button type="button" onClick="{{ p.pick }}" aria-pressed="{{ p.pressed }}" style="min-height:72px;min-width:0;padding:10px 6px;border-radius:12px;border:1px solid {{ p.bd }};background:{{ p.bg }};color:{{ p.fg }};cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-family:inherit"><b style="font-size:15px">{{ p.name }}</b><span style="font-size:12px;opacity:.8;unicode-bidi:isolate">{{ p.hrs }}</span><b style="font-size:17px">{{ p.price }}</b></button></sc-for></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <b style="font-size:16px">{{ t.pickTime }} · {{ dayLong }}</b>
+          <sc-if value="{{ pkNone }}" hint-placeholder-val="{{ false }}"><p style="margin:0;padding:14px;border:1px dashed #C9CBCF;border-radius:12px;font-size:14px;color:#3F4246;text-align:center">{{ pkFirst }}</p></sc-if>
+          <sc-if value="{{ noSlots }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:14px;color:#5E6268;background:#F5F5F4;border-radius:12px;padding:14px">{{ t.noSlots }}</p></sc-if>
+          <div role="group" aria-label="{{ t.pickTime }}" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,140px),1fr));gap:8px">
+            <sc-for list="{{ slots }}" as="s" hint-placeholder-count="4"><button type="button" onClick="{{ s.pick }}" disabled="{{ s.dis }}" aria-pressed="{{ s.pressed }}" style="min-height:58px;padding:8px 12px;border-radius:12px;border:1px solid {{ s.bd }};background:{{ s.bg }};color:{{ s.fg }};cursor:{{ s.cur }};display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:start"><b style="font-size:16px;direction:ltr">{{ s.label }}</b><span style="font-size:13px;color:{{ s.subC }}">{{ s.sub }}</span></button></sc-for>
+          </div>
+        </div>
+        <div style="border-top:1px solid #E4E5E7;padding-top:14px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;gap:10px;font-size:15px"><span style="color:#3F4246">{{ sumWhen }}</span><b>{{ sumTotal }}</b></div>
+          <button type="button" onClick="{{ next }}" style="height:56px;border:0;border-radius:14px;background:#111214;color:#fff;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px" style-hover="background:#2B2D31">{{ t.cont }}<span aria-hidden="true">{{ arrow }}</span></button>
+          <sc-if value="{{ hint }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin:0;font-size:14px;color:#8C1D13">{{ t.needPick }}</p></sc-if>
+        </div>
+      </sc-if>
+      <sc-if value="{{ stDetails }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;background:#F5F5F4;border-radius:14px;padding:12px 14px"><span style="font-size:15px"><b style="display:block">{{ sumWhen }}</b><span style="color:#3F4246">{{ sumTotal }}</span></span><button type="button" onClick="{{ back }}" style="min-height:44px;border:0;background:none;font-size:15px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;color:#111214">{{ t.change }}</button></div>
+        <sc-if value="{{ isGuest }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ sendCode }}" novalidate style="display:flex;flex-direction:column;gap:12px">
+          <div><label for="lp-n" style="display:block;font-size:14px;font-weight:600;margin-bottom:5px">{{ t.fName }}</label><input id="lp-n" autocomplete="name" value="{{ f.name }}" onChange="{{ onF.name }}" style="width:100%;box-sizing:border-box;height:50px;padding:0 14px;border:1px solid #C9CCD1;border-radius:10px;font-size:16px;color:#111214" style-focus="border-color:#111214;outline:2px solid #C3A46A;outline-offset:1px"></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px">
+            <div><label for="lp-p" style="display:block;font-size:14px;font-weight:600;margin-bottom:5px">{{ t.fPhone }}</label><input id="lp-p" type="tel" dir="ltr" autocomplete="tel" value="{{ f.phone }}" onChange="{{ onF.phone }}" style="width:100%;box-sizing:border-box;height:50px;padding:0 14px;border:1px solid #C9CCD1;border-radius:10px;font-size:16px;color:#111214;text-align:start" style-focus="border-color:#111214;outline:2px solid #C3A46A;outline-offset:1px"></div>
+            <div><label for="lp-e" style="display:block;font-size:14px;font-weight:600;margin-bottom:5px">{{ t.fEmail }}</label><input id="lp-e" type="email" dir="ltr" autocomplete="email" value="{{ f.email }}" onChange="{{ onF.email }}" style="width:100%;box-sizing:border-box;height:50px;padding:0 14px;border:1px solid #C9CCD1;border-radius:10px;font-size:16px;color:#111214;text-align:start" style-focus="border-color:#111214;outline:2px solid #C3A46A;outline-offset:1px"></div>
+          </div>
+          <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#3F4246;cursor:pointer"><input type="checkbox" checked="{{ agree }}" onChange="{{ onAgree }}" style="width:20px;height:20px;margin:1px 0 0;accent-color:#111214;flex:none"><span>{{ t.agree1 }} <a href="AOS%20Site%20v7.dc.html#/terms" target="_blank" rel="noopener" style="color:#111214;text-decoration:underline;text-underline-offset:3px">{{ t.agree2 }}</a></span></label>
+          <button type="submit" disabled="{{ busy }}" style="height:56px;border:0;border-radius:14px;background:#111214;color:#fff;font-size:17px;font-weight:700;cursor:pointer" style-hover="background:#2B2D31">{{ t.sendCode }}</button>
+          <p style="margin:0;font-size:13px;color:#5E6268">{{ t.codeWhy }}</p>
+        </form>
+        </sc-if>
+        <sc-if value="{{ isUser }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:0;font-size:15px;color:#3F4246">{{ asUser }}</p>
+          <button type="button" onClick="{{ bookNow }}" disabled="{{ busy }}" style="height:56px;border:0;border-radius:14px;background:#111214;color:#fff;font-size:17px;font-weight:700;cursor:pointer" style-hover="background:#2B2D31">{{ t.submitReq }}</button>
+          <button type="button" onClick="{{ signOut }}" style="align-self:flex-start;min-height:44px;border:0;background:none;font-size:14px;color:#3F4246;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0">{{ t.notYou }}</button>
+        </sc-if>
+      </sc-if>
+      <sc-if value="{{ stCode }}" hint-placeholder-val="{{ false }}">
+        <form onSubmit="{{ verify }}" novalidate style="display:flex;flex-direction:column;gap:12px">
+          <p style="margin:0;font-size:15px;color:#3F4246">{{ codeSent }}</p>
+          <div><label for="lp-c" style="display:block;font-size:14px;font-weight:600;margin-bottom:5px">{{ t.fCode }}</label><input id="lp-c" inputmode="numeric" autocomplete="one-time-code" maxlength="6" dir="ltr" value="{{ code }}" onChange="{{ onCode }}" style="width:100%;box-sizing:border-box;height:56px;padding:0 14px;border:1px solid #C9CCD1;border-radius:10px;font-size:24px;letter-spacing:.4em;text-align:center;color:#111214" style-focus="border-color:#111214;outline:2px solid #C3A46A;outline-offset:1px"></div>
+          <sc-if value="{{ demo }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:13px;background:#FBF0DA;color:#74500F;border-radius:10px;padding:10px 12px">{{ demoNote }}</p></sc-if>
+          <button type="submit" disabled="{{ busy }}" style="height:56px;border:0;border-radius:14px;background:#111214;color:#fff;font-size:17px;font-weight:700;cursor:pointer" style-hover="background:#2B2D31">{{ t.verifyBtn }}</button>
+          <button type="button" onClick="{{ backDetails }}" style="align-self:flex-start;min-height:44px;border:0;background:none;font-size:14px;color:#3F4246;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0">{{ t.editDetails }}</button>
+        </form>
+      </sc-if>
+      <sc-if value="{{ stDone }}" hint-placeholder-val="{{ false }}">
+        <div role="status" style="display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+          <span aria-hidden="true" style="width:52px;height:52px;border-radius:50%;background:#E6F2EA;color:#1B6340;display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+          <h3 style="margin:0;font-size:24px;font-weight:700">{{ t.doneT }}</h3>
+          <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:15px"><dt style="color:#5E6268">{{ t.refL }}</dt><dd style="margin:0;font-weight:600;direction:ltr;text-align:start">{{ bk.id }}</dd><dt style="color:#5E6268">{{ t.whenL }}</dt><dd style="margin:0;font-weight:600">{{ bk.when }}</dd><dt style="color:#5E6268">{{ t.totalL }}</dt><dd style="margin:0;font-weight:600">{{ bk.total }}</dd></dl>
+          <p style="margin:0;font-size:15px;color:#3F4246;line-height:1.6">{{ doneNote }}</p>
+          <a href="AOS%20Site%20v7.dc.html#/account" style="height:50px;display:flex;align-items:center;padding:0 20px;border-radius:12px;border:1px solid #111214;font-weight:600;color:#111214" style-hover="background:#111214;color:#fff">{{ t.toAccount }}</a>
+        </div>
+      </sc-if>
+      <sc-if value="{{ err }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin:0;font-size:14px;color:#8C1D13;background:#FBEAE7;border-radius:10px;padding:10px 12px">{{ err }}</p></sc-if>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="g-h" style="padding:clamp(56px,7vw,100px) 0;background:#0B0B0C">
+  <div style="width:100%;box-sizing:border-box;margin:0;padding:0 clamp(16px,5vw,96px);display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><h2 id="g-h" style="margin:0;font-size:clamp(30px,3.6vw,50px);font-weight:700;line-height:1.1;max-width:720px;text-wrap:balance">{{ t.galT }}</h2><p style="margin:0;font-size:17px;color:#C9CBCF;max-width:420px">{{ t.galSub }}</p></div>
+    <div style="display:flex;flex-wrap:wrap;gap:14px">
+      <figure style="margin:0;flex:2 1 min(100%,520px);min-height:clamp(240px,40vw,520px);border-radius:22px;overflow:hidden;position:relative"><img src="uploads/room-meeting.png" alt="{{ t.alt1 }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></figure>
+      <div style="flex:1 1 min(100%,280px);display:flex;flex-wrap:wrap;gap:14px">
+        <figure style="margin:0;flex:1 1 min(100%,220px);min-height:clamp(180px,24vw,250px);border-radius:22px;overflow:hidden;position:relative"><img src="uploads/kitchenette-bar.jpg" alt="{{ t.alt2 }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%"></figure>
+        <figure style="margin:0;flex:1 1 min(100%,220px);min-height:clamp(180px,24vw,250px);border-radius:22px;overflow:hidden;position:relative"><img src="uploads/assets-1792344398884-f06p.png" alt="{{ t.alt3 }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="inc-h" style="padding:clamp(56px,7vw,100px) 0;background:#F6F4EF;color:#111214">
+  <div style="width:100%;box-sizing:border-box;margin:0;padding:0 clamp(16px,5vw,96px);display:flex;flex-direction:column;gap:32px">
+    <div style="max-width:720px"><p style="margin:0 0 10px;display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600;color:#6E5320"><i aria-hidden="true" style="width:32px;height:2px;background:#C3A46A;display:block"></i>{{ t.incK }}</p><h2 id="inc-h" style="margin:0;font-size:clamp(30px,3.6vw,50px);font-weight:700;line-height:1.1;text-wrap:balance">{{ t.incT }}</h2></div>
+    <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px">
+      <sc-for list="{{ inc }}" as="x" hint-placeholder-count="6"><li style="background:#fff;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px"><span aria-hidden="true" style="width:48px;height:48px;border-radius:14px;background:#111214;color:#C3A46A;display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="{{ x.ic }}"></path></svg></span><b style="font-size:19px">{{ x.h }}</b><span style="font-size:15px;color:#3F4246;line-height:1.55">{{ x.p }}</span></li></sc-for>
+    </ul>
+  </div>
+</section>
+
+<section aria-labelledby="mem-h" style="padding:clamp(48px,6vw,88px) 0;background:#0B0B0C">
+  <div style="width:100%;box-sizing:border-box;margin:0;padding:0 clamp(16px,5vw,96px)">
+    <div style="border:1px solid rgba(195,164,106,.5);border-radius:28px;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:28px;align-items:center;background:radial-gradient(120% 140% at 100% 0%,rgba(195,164,106,.16),transparent 60%)">
+      <div style="display:flex;flex-direction:column;gap:12px"><p style="margin:0;font-size:15px;font-weight:600;color:#C3A46A">{{ t.memK }}</p><h2 id="mem-h" style="margin:0;font-size:clamp(28px,3.2vw,44px);font-weight:700;line-height:1.12;text-wrap:balance">{{ t.memT }}</h2><p style="margin:0;font-size:17px;color:#D7D8DA;line-height:1.6;max-width:560px">{{ t.memP }}</p></div>
+      <div style="display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+        <div><b style="font-size:clamp(34px,3.6vw,48px);line-height:1">{{ memPrice }}</b><span style="display:block;font-size:14px;color:#C9CBCF;margin-top:4px">{{ t.memPer }}</span></div>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:16px"><sc-for list="{{ memB }}" as="x" hint-placeholder-count="3"><li style="display:flex;gap:10px;align-items:flex-start"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C3A46A" aria-hidden="true" style="stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:none;margin-top:3px"><path d="M20 6 9 17l-5-5"></path></svg>{{ x }}</li></sc-for></ul>
+        <a href="AOS%20Site%20v7.dc.html#/membership" style="height:52px;display:flex;align-items:center;gap:10px;padding:0 22px;border-radius:14px;background:#C3A46A;color:#111214;font-size:16px;font-weight:700" style-hover="background:#D4B87F;color:#111214">{{ t.memCta }}<span aria-hidden="true">{{ arrow }}</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="faq-h" style="padding:clamp(56px,7vw,100px) 0;background:#fff;color:#111214">
+  <div style="width:100%;box-sizing:border-box;margin:0;padding:0 clamp(16px,5vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(28px,5vw,72px)">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <h2 id="faq-h" style="margin:0;font-size:clamp(28px,3.2vw,44px);font-weight:700;line-height:1.1">{{ t.faqT }}</h2>
+      <div style="border-top:1px solid #E4E5E7"><sc-for list="{{ faq }}" as="q" hint-placeholder-count="4"><details style="border-bottom:1px solid #E4E5E7"><summary style="min-height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:17px;font-weight:600;padding:8px 0">{{ q.q }}<span aria-hidden="true" style="font-size:22px;font-weight:400;color:#6E5320">+</span></summary><p style="margin:0 0 18px;font-size:16px;color:#3F4246;line-height:1.65">{{ q.a }}</p></details></sc-for></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <h2 style="margin:0;font-size:clamp(28px,3.2vw,44px);font-weight:700;line-height:1.1">{{ t.locT }}</h2>
+      <p style="margin:0;font-size:19px;font-weight:600">{{ addr }}</p>
+      <p style="margin:0;font-size:16px;color:#3F4246">{{ hours }}</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="{{ waze }}" target="_blank" rel="noopener" style="height:50px;display:flex;align-items:center;padding:0 20px;border-radius:12px;background:#111214;color:#fff;font-weight:600" style-hover="background:#2B2D31;color:#fff">Waze</a><a href="{{ gmaps }}" target="_blank" rel="noopener" style="height:50px;display:flex;align-items:center;padding:0 20px;border-radius:12px;border:1px solid #CFD2D6;color:#111214;font-weight:600" style-hover="border-color:#111214;color:#111214">Google Maps</a></div>
+      <a href="#book" onClick="{{ goBook }}" style="margin-top:8px;align-self:flex-start;height:56px;display:flex;align-items:center;gap:10px;padding:0 26px;border-radius:14px;background:#C3A46A;color:#111214;font-size:17px;font-weight:700" style-hover="background:#D4B87F;color:#111214">{{ t.ctaBottom }}<span aria-hidden="true">{{ arrow }}</span></a>
+    </div>
+  </div>
+</section>
+</main>
+<footer style="background:#0B0B0C;border-top:1px solid #1F2023;padding:28px 0 calc(28px + {{ barPad }})">
+  <div style="width:100%;box-sizing:border-box;margin:0;padding:0 clamp(16px,5vw,96px);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:14px;color:#B9BCC1">
+    <span style="font-family:'Frank Ruhl Libre',serif;font-size:20px;letter-spacing:.3em;direction:ltr;color:#fff">AOS</span>
+    <nav aria-label="{{ t.footAria }}" style="display:flex;gap:6px 20px;flex-wrap:wrap"><a href="AOS%20Site%20v7.dc.html" style="min-height:32px;display:flex;align-items:center">{{ t.toSite }}</a><a href="AOS%20Site%20v7.dc.html#/terms" style="min-height:32px;display:flex;align-items:center">{{ t.terms }}</a><a href="AOS%20Site%20v7.dc.html#/privacy" style="min-height:32px;display:flex;align-items:center">{{ t.privacy }}</a><a href="AOS%20Site%20v7.dc.html#/accessibility" style="min-height:32px;display:flex;align-items:center">{{ t.a11y }}</a></nav>
+  </div>
+</footer>
+<sc-if value="{{ showBar }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset-inline:0;bottom:0;z-index:20;background:rgba(11,11,12,.96);border-top:1px solid #2B2D31;padding:10px clamp(16px,5vw,96px) calc(10px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <span><b style="font-size:20px">{{ priceHead }}</b><span style="display:block;font-size:13px;color:#C9CBCF">{{ t.per3 }}</span></span>
+    <a href="#book" onClick="{{ goBook }}" style="height:50px;display:flex;align-items:center;padding:0 22px;border-radius:12px;background:#C3A46A;color:#111214;font-size:16px;font-weight:700" style-hover="color:#111214">{{ t.ctaTop }}</a>
+  </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const D={skip:['דילוג לשריון','Skip to booking'],langBtn:['EN','עב'],langAria:['Switch to English','מעבר לעברית'],ctaTop:['שריון החדר','Book the room'],
+kicker:['חדר ישיבות · תל אביב','Meeting room · Tel Aviv'],h1:['חדר ישיבות שמכבד את הפגישה שלכם','A meeting room worthy of your meeting'],
+sub:['חדר מעוצב לעד 10 משתתפים בדרך מנחם בגין 150: מסך 75 אינץ׳ לשיחות וידאו, אינטרנט מהיר, קפה ושתייה קרה. בוחרים 3 שעות, חצי יום או יום מלא, ומשריינים כאן.','A designed room for up to 10 people at 150 Menachem Begin Road: a 75-inch screen for video calls, fast internet, coffee and cold drinks. Choose 3 hours, a half day or a full day and book right here.'],
+per3:['ל־3 שעות · חצי יום ₪500 · יום מלא ₪1,200','3 hours · half day ₪500 · full day ₪1,200'],seatsK:['משתתפים','people'],tvK:['מסך לשיחות וידאו','video-call screen'],
+bookT:['שריון חדר הישיבות','Book the meeting room'],bookSub:['בחירת מועד, פרטים ואישור. פחות משתי דקות.','Pick a time, add details, confirm. Under two minutes.'],stepsAria:['שלבי השריון','Booking steps'],
+plusVat:['+ מע״מ','+ VAT'],inclVat:['כולל מע״מ','VAT included'],finalP:['מחיר סופי','Final price'],loading:['טוען זמינות…','Loading availability…'],noRoom:['החדר אינו זמין להזמנה כרגע.','The room is not open for booking right now.'],
+pickDay:['בחרו יום','Choose a day'],pickTime:['בחרו שעה','Choose a time'],noSlots:['אין שעות פנויות ביום הזה. בחרו יום אחר.','No open times on this day. Choose another day.'],
+cont:['המשך לפרטים','Continue'],needPick:['בחרו יום ושעה כדי להמשיך','Choose a day and time to continue'],change:['שינוי','Change'],
+fName:['שם מלא','Full name'],fPhone:['טלפון','Phone'],fEmail:['אימייל','Email'],agree1:['קראתי ואני מסכים/ה ל','I have read and agree to the'],agree2:['תנאי ההזמנה','booking terms'],
+sendCode:['שליחת קוד אימות','Send verification code'],codeWhy:['נשלח קוד חד פעמי לאימייל כדי לאמת את ההזמנה. בלי סיסמה.','We email a one-time code to verify the booking. No password needed.'],
+submitReq:['שליחת בקשת ההזמנה','Send booking request'],notYou:['לא אתם? התנתקות','Not you? Sign out'],fCode:['קוד אימות','Verification code'],verifyBtn:['אישור ושליחת הבקשה','Confirm and send request'],editDetails:['תיקון הפרטים','Edit details'],
+doneT:['בקשת ההזמנה התקבלה','Booking request received'],refL:['מספר הזמנה','Reference'],whenL:['מועד','When'],totalL:['סה״כ','Total'],toAccount:['להזמנות שלי','My bookings'],
+galT:['חדר שנבנה לפגישות חשובות','A room built for meetings that matter'],galSub:['תאורה חמה, כיסאות מנהלים, שולחן ועידה גדול ומסך ענק מול כולם.','Warm lighting, executive chairs, a large conference table and a big screen everyone can see.'],
+alt1:['פגישה בחדר הישיבות עם שיחת וידאו על המסך','A meeting in the boardroom with a video call on screen'],alt2:['פינת הקפה ומקרר השתייה במתחם','The coffee corner and drinks fridge'],alt3:['דלת הכניסה למתחם AOS','The AOS entrance'],
+incK:['כלול בכל שריון','Included in every booking'],incT:['מגיעים עם מחשב. כל השאר כבר כאן.','Bring a laptop. Everything else is here.'],
+memK:['מנוי חדר ישיבות','Meeting-room membership'],memT:['נפגשים כאן לעיתים קרובות?','Meeting here often?'],memP:['עם מנוי חודשי מקבלים הנחה על כל שריון ואפשרות להזמין את החדר גם לאותו היום. אפשר לבטל בכל עת מהאזור האישי.','A monthly membership gives you a discount on every booking and lets you book the room on the same day. Cancel any time from your account.'],memPer:['לחודש + מע״מ','per month + VAT'],memCta:['לפרטים והצטרפות','Details and sign-up'],
+faqT:['שאלות נפוצות','FAQ'],locT:['איך מגיעים','Getting here'],ctaBottom:['לבחירת מועד','Choose a time'],footAria:['קישורים','Links'],toSite:['לאתר AOS','AOS website'],terms:['תנאי הזמנה','Booking terms'],privacy:['מדיניות פרטיות','Privacy policy'],a11y:['הצהרת נגישות','Accessibility statement'],
+e_sameday:['הזמנה לאותו היום פתוחה למנויים בלבד. בחרו יום אחר.','Same-day booking is for members only. Choose another day.'],e_taken:['המועד נתפס הרגע. בחרו מועד אחר.','That time was just taken. Choose another.'],e_window:['התאריך רחוק מדי. בחרו תאריך קרוב יותר.','That date is too far ahead.'],e_slot:['המועד אינו זמין. בחרו מועד אחר.','That time is not available.'],e_price:['מחיר החדר לא הוגדר. צרו קשר.','Room price is not set. Please contact us.'],e_room:['החדר אינו זמין להזמנה כרגע.','The room is not open for booking.'],
+e_codeExp:['תוקף הקוד פג. שלחו קוד חדש.','The code expired. Send a new one.'],e_code:['הקוד שגוי. נסו שוב.','Wrong code. Try again.'],e_locked:['יותר מדי ניסיונות. שלחו קוד חדש.','Too many attempts. Send a new code.'],e_name:['נא למלא שם מלא','Please enter your name'],e_email:['כתובת האימייל אינה תקינה','Please enter a valid email'],e_phone:['מספר הטלפון אינו תקין','Please enter a valid phone number'],e_exists:['האימייל הזה שייך לחשבון ניהול. השתמשו באימייל אחר.','This email belongs to an admin account. Use another email.'],e_agree:['יש לאשר את תנאי ההזמנה','Please accept the booking terms'],e_gen:['משהו השתבש. נסו שוב.','Something went wrong. Please try again.']};
+const IC={tv:'M3 5h18v12H3zM8 21h8M12 17v4',users:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 3a4 4 0 1 0 0 8a4 4 0 1 0 0-8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',wifi:'M5 12.55a11 11 0 0 1 14 0M8.5 16.1a6 6 0 0 1 7 0M12 20h.01M2 8.82a15 15 0 0 1 20 0',ac:'M12 2v20M4.9 4.9l14.2 14.2M2 12h20M4.9 19.1 19.1 4.9',fridge:'M6 2h12v20H6zM6 10h12M9 5v2M9 13v3',coffee:'M17 8h1a4 4 0 0 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4zM6 2v2M10 2v2M14 2v2'};
+const pad=n=>String(n).padStart(2,'0'),dk=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),hm=h=>pad(Math.floor(h))+':'+pad(Math.round((h%1)*60));
+const pd=k=>{const a=k.split('-').map(Number);return new Date(a[0],a[1]-1,a[2],12)};
+const isoR=s=>String(s||'').replace(/(\d{1,2}:\d{2}\s?[–-]\s?\d{1,2}:\d{2})/g,m=>'\u2066'+m+'\u2069');
+class Component extends DCLogic{
+  state={lang:'he',db:null,user:null,date:null,start:null,step:'pick',f:{name:'',phone:'',email:''},agree:false,code:'',demo:'',err:'',busy:false,bk:null,hint:false,cardVis:true};
+  cardRef=el=>{if(this.io){this.io.disconnect();this.io=null}if(el&&'IntersectionObserver' in window){this.io=new IntersectionObserver(([e])=>{if(e.isIntersecting!==this.state.cardVis)this.setState({cardVis:e.isIntersecting})},{threshold:0.12});this.io.observe(el)}};
+  componentDidMount(){
+    let lang=this.props.defaultLang==='en'?'en':'he';try{const l=localStorage.getItem('aos_lang');if(l==='he'||l==='en')lang=l}catch(e){}
+    const q=new URLSearchParams(location.search);this.utm=['utm_source','utm_medium','utm_campaign'].map(k=>q.get(k)).filter(Boolean).join(' / ');
+    try{if(this.utm)sessionStorage.setItem('aos_utm',this.utm);else this.utm=sessionStorage.getItem('aos_utm')||''}catch(e){}
+    this._n=window.innerWidth<520;window.addEventListener('resize',this.onRs);this.setState({lang});document.documentElement.lang=lang;document.documentElement.dir=lang==='he'?'rtl':'ltr';
+    import(new URL('aos-data.js',document.baseURI).href).then(A=>{this.A=A;this.refresh();this.unsub=A.subscribe(()=>this.refresh());try{A.lpView&&A.lpView('room',this.utm)}catch(e){};this.track('lp_view',{lp:'meeting_room'})}).catch(()=>this.setState({err:D.e_gen[0]}));
+  }
+  componentWillUnmount(){this.unsub&&this.unsub();this.io&&this.io.disconnect();window.removeEventListener('resize',this.onRs)}
+  onRs=()=>{const n=window.innerWidth<520;if(n!==this._n){this._n=n;this.forceUpdate()}};
+  refresh(){const db=this.A.load();this.setState({db,user:this.A.sessionUser(db)})}
+  track(ev,p){try{(window.dataLayer=window.dataLayer||[]).push({event:ev,...(p||{}),device:innerWidth<768?'mobile':'desktop',utm:this.utm||undefined})}catch(e){}}
+  e(code,L){return (D['e_'+code]||D.e_gen)[L]}
+  scrollBook(){const el=document.getElementById('book');if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-16,behavior:'smooth'})}
+  renderVals(){
+    const S=this.state,A=this.A,db=S.db,ready=!!(A&&db),he=S.lang==='he',L=he?0:1,t={};for(const k in D)t[k]=D[k][L];
+    const loc=he?'he-IL':'en-GB',money=n=>'₪'+(Math.round((+n||0)*100)/100).toLocaleString('en-US');
+    const set=ready?db.settings:{content:{},tax:{mode:'none'},requestHours:24,cancelHours:24},C=set.content||{},tx=set.tax||{mode:'none'};
+    const addr=(he?C.addressHe:C.addressEn)||'',hours=isoR([he?C.hoursAHe:C.hoursAEn,he?C.hoursBHe:C.hoursBEn].filter(Boolean).join(' · '));
+    const r=ready?db.rooms.filter(x=>x.status==='active'&&x.visible).sort((a,b)=>(a.order||0)-(b.order||0))[0]:null;
+    const u=S.user,mem=!!(ready&&u&&A.isMember(db,u.id)),tk=dk(new Date());
+    const pkg=S.pkg||null,pkq=pkg||'p3',PK=r&&A.packages?A.packages(r):[];const days=[];if(r){const d=new Date();d.setHours(12,0,0,0);for(let i=0;i<14;i++){const k=dk(d),sl=A.daySlots(db,r.id,k,pkq),fr=sl.filter(s=>s.state==='free').length;const st=!sl.length?'closed':(k===tk&&!mem)?(fr?'members':'full'):fr?'open':'full';days.push({k,d:new Date(d),fr,st});d.setDate(d.getDate()+1)}}
+    let date=S.date;if(!date||!days.some(x=>x.k===date&&x.st==='open')){const f=days.find(x=>x.st==='open');date=f?f.k:null}
+    const slots=r&&date&&pkg?A.daySlots(db,r.id,date,pkg):[],start=S.start!=null&&slots.some(s=>s.start===S.start&&s.state==='free')?S.start:null;
+    const q=r&&date&&start!=null?A.quote(db,r,[],1,mem,date,start,pkg):null,taxNote=tx.mode==='added'?t.plusVat:tx.mode==='included'?t.inclVat:t.finalP;
+    const fmtL=k=>pd(k).toLocaleDateString(loc,{weekday:'long',day:'numeric',month:'long'});
+    const SUB={closed:he?'סגור':'Closed',full:he?'מלא':'Full',members:he?'למנויים':'Members'},SL={held:he?'שמור זמנית':'On hold',booked:he?'תפוס':'Booked',blocked:he?'לא זמין':'Unavailable',past:he?'עבר':'Past'};
+    const set1=p=>this.setState({...p,err:'',hint:false});
+    const narrow=typeof window!=='undefined'&&window.innerWidth<520,step=S.step,f=S.f,stepIdx={pick:0,details:1,code:1,done:2}[step];
+    const go=(p)=>{this.setState(p);setTimeout(()=>this.scrollBook(),30)};
+    const book=uid=>{const h=A.createHold(uid,{roomId:r.id,date,start,end:start+A.pkgById(pkq).h,source:'lp-room',utm:this.utm});
+      if(h.err){this.setState({busy:false,err:this.e(h.err,L),...(['taken','slot','sameday'].includes(h.err)?{step:'pick',start:null}:{})});this.refresh();return}
+      const rq=A.requestBooking(uid,h.booking.id);if(rq.err){this.setState({busy:false,err:this.e(rq.err,L)});return}
+      const b=rq.booking;this.setState({busy:false,step:'done',bk:{id:b.id,when:fmtL(b.date)+' · \u2066'+hm(b.start)+'–'+hm(b.end)+'\u2069',total:money(b.total)}});this.track('booking_request_submit',{lp:'meeting_room',value:b.total,currency:'ILS'});this.refresh();setTimeout(()=>this.scrollBook(),30)};
+    const memT=ready?A.memberTotal(db):{price:120};
+    return {dir:he?'rtl':'ltr',lang:S.lang,t,arrow:he?'←':'→',addr,hours,
+      waze:'https://waze.com/ul?q='+encodeURIComponent(addr)+'&navigate=yes',gmaps:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(addr),
+      toggleLang:()=>{const l=he?'en':'he';try{localStorage.setItem('aos_lang',l)}catch(e){}document.documentElement.lang=l;document.documentElement.dir=l==='he'?'rtl':'ltr';this.setState({lang:l,err:''})},
+      goBook:e=>{e&&e.preventDefault();this.scrollBook();this.track('lp_cta_click',{lp:'meeting_room'})},cardRef:this.cardRef,
+      priceHead:r?money(r.price):'₪—',taxNote,
+      facts:[{v:r?money(r.price):'—',k:he?'ל־3 שעות':'per 3 hours'},{v:r?String(r.capacity):'10',k:t.seatsK},{v:he?'75 אינץ׳':'75"',k:t.tvK}],
+      steps:[he?'מועד':'Time',he?'פרטים':'Details',he?'אישור':'Done'].map((l,i)=>({l,cur:i===stepIdx?'step':'false',fg:i<=stepIdx?'#111214':'#8A8D92',bar:i<=stepIdx?'#C3A46A':'#E4E5E7'})),
+      loading:!ready,noRoom:ready&&!r,stPick:ready&&!!r&&step==='pick',stDetails:ready&&!!r&&step==='details',stCode:ready&&!!r&&step==='code',stDone:step==='done',
+      rangeLabel:days.length?[...new Set(days.map(x=>x.d.toLocaleDateString(loc,{month:'long'})))].join(' – '):'',
+      days:days.map(x=>{const sel=x.k===date,ok=x.st==='open';return{wd:he?['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'][x.d.getDay()]:x.d.toLocaleDateString(loc,{weekday:'short'}),num:String(x.d.getDate()),sub:ok?(narrow?String(x.fr):(he?x.fr+' פנויים':x.fr+' open')):(narrow?'·':SUB[x.st]),dis:!ok,pressed:sel?'true':'false',
+        aria:fmtL(x.k)+', '+(ok?(he?x.fr+' מועדים פנויים':x.fr+' open'):SUB[x.st]),bg:sel?'#111214':ok?'#fff':'#F4F4F3',fg:sel?'#fff':ok?'#111214':'#8A8D92',bd:sel?'#111214':ok?'#D9DBDE':'#F4F4F3',subC:sel?'#C3A46A':ok?'#1B6340':'#8A8D92',cur:ok?'pointer':'not-allowed',
+        pick:()=>{set1({date:x.k,start:null});this.track('select_date',{lp:'meeting_room'})}}}),
+      sameDayNote:mem?(he?'כמנויים, אפשר להזמין גם להיום.':'As a member you can also book today.'):(he?'הזמנה לאותו היום פתוחה למנויים. ללא מנוי אפשר להזמין מחר והלאה.':'Same-day booking is for members. Without one, book from tomorrow.'),
+      dayLong:date?fmtL(date):'',pkTitle:he?'כמה זמן תרצו את החדר?':'How long do you need the room?',pkNone:!pkg,pkFirst:he?'בחרו קודם משך: 3 שעות, חצי יום או יום מלא. השעות הפנויות יופיעו כאן.':'First choose 3 hours, a half day or a full day. Open times will appear here.',pkgs:PK.map(p=>{const on=p.id===pkg;return{name:he?p.he:p.en,hrs:p.id==='day'?'09–18':p.starts.map(x=>String(x).padStart(2,'0')+'–'+String(x+p.h).padStart(2,'0')).join(' · '),price:money(mem?Math.round(p.price*80)/100:p.price),pressed:on?'true':'false',bg:on?'#111214':'#fff',fg:on?'#fff':'#111214',bd:on?'#111214':'#D9DBDE',pick:()=>this.setState({pkg:p.id,start:null,err:''})}}),legend:narrow?(he?'המספר ביום = מועדים פנויים. ':'Number = open times. '):'',noSlots:!!pkg&&!!date&&!slots.some(s=>s.state==='free'),
+      slots:slots.map(s=>{const free=s.state==='free',sel=free&&s.start===start,p=free?A.quote(db,r,[],1,mem,date,s.start,pkg):null;return{label:hm(s.start)+'–'+hm(s.end),sub:free?money(p.total)+(p.special||p.disc?(he?' · מחיר מיוחד':' · special price'):''):SL[s.state]||'',dis:!free,pressed:sel?'true':'false',
+        bg:sel?'#111214':free?'#fff':'#F4F4F3',fg:sel?'#fff':free?'#111214':'#8A8D92',bd:sel?'#111214':free?'#D9DBDE':'#F4F4F3',subC:sel?'#C3A46A':free?'#3F4246':'#8A8D92',cur:free?'pointer':'not-allowed',
+        pick:()=>{set1({date,start:s.start});this.track('select_time',{lp:'meeting_room'})}}}),
+      sumWhen:q?fmtL(date)+' · \u2066'+hm(start)+'–'+hm(start+3)+'\u2069':(he?'עוד לא נבחר מועד':'No time selected yet'),sumTotal:q?money(q.total)+(tx.mode==='added'?(he?' כולל מע״מ':' incl. VAT'):''):'',
+      hint:S.hint,next:()=>{if(!q){this.setState({hint:true});return}go({step:'details',date,start,err:'',hint:false});this.track('begin_checkout',{lp:'meeting_room',value:q.total,currency:'ILS'})},
+      back:()=>go({step:'pick',err:''}),backDetails:()=>go({step:'details',err:'',code:''}),
+      isGuest:!u,isUser:!!u,asUser:u?(he?'מזמינים בתור ':'Booking as ')+(u.name||u.email)+(u.email&&u.name?' · '+u.email:''):'',
+      f,onF:{name:e=>this.setState({f:{...this.state.f,name:e.target.value},err:''}),phone:e=>this.setState({f:{...this.state.f,phone:e.target.value},err:''}),email:e=>this.setState({f:{...this.state.f,email:e.target.value},err:''})},
+      agree:S.agree,onAgree:e=>this.setState({agree:e.target.checked,err:''}),busy:S.busy,
+      sendCode:e=>{e.preventDefault();if(!f.name.trim())return this.setState({err:this.e('name',L)});if(!A.phoneOk(f.phone))return this.setState({err:this.e('phone',L)});if(!A.emailOk(f.email))return this.setState({err:this.e('email',L)});if(!S.agree)return this.setState({err:this.e('agree',L)});
+        const rr=A.requestEmailCode(f);if(rr.err)return this.setState({err:this.e(rr.err,L)});this.setState({step:'code',demo:rr.demoCode||'',code:'',err:''});this.track('generate_lead',{lp:'meeting_room'});setTimeout(()=>{const c=document.getElementById('lp-c');c&&c.focus()},60)},
+      codeSent:(he?'שלחנו קוד בן 6 ספרות אל ':'We sent a 6-digit code to ')+f.email,code:S.code,onCode:e=>this.setState({code:e.target.value.replace(/\D/g,'').slice(0,6),err:''}),
+      demo:!!S.demo,demoNote:(he?'מצב הדגמה (שליחת אימייל עוד לא מחוברת): הקוד הוא ':'Demo mode (email sending not connected yet): the code is ')+S.demo,
+      verify:e=>{e.preventDefault();if(S.busy)return;this.setState({busy:true,err:''});const v=A.verifyEmailCode(f.email,S.code);if(v.err){this.setState({busy:false,err:this.e(v.err,L)});return}book(v.user.id)},
+      bookNow:()=>{if(S.busy)return;this.setState({busy:true,err:''});book(u.id)},signOut:()=>{A.signOut();this.refresh()},
+      bk:S.bk||{id:'',when:'',total:''},doneNote:he?'שלחנו אישור קבלה. ניצור קשר להשלמת התשלום, וההזמנה תאושר לאחר אימותו. המועד שמור עבורכם '+set.requestHours+' שעות.':'We will contact you to complete payment, and the booking is confirmed once it is verified. The time is held for you for '+set.requestHours+' hours.',
+      err:S.err,
+      inc:[[IC.tv,['מסך 75 אינץ׳','75-inch screen'],['שיחות וידאו ומצגות על מסך שכולם רואים.','Video calls and presentations on a screen everyone can see.']],[IC.users,['עד 10 משתתפים','Up to 10 people'],['שולחן ועידה גדול וכיסאות מנהלים נוחים.','A large conference table and comfortable executive chairs.']],[IC.wifi,['אינטרנט מהיר','Fast internet'],['חיבור יציב לשיחות, לשיתוף מסך ולהעלאת קבצים.','A stable connection for calls, screen sharing and uploads.']],[IC.ac,['מיזוג אוויר','Air conditioning'],['טמפרטורה נעימה לאורך כל הפגישה.','Comfortable all meeting long.']],[IC.fridge,['מקרר שתייה','Drinks fridge'],['שתייה קרה מחכה לכם ולאורחים.','Cold drinks ready for you and your guests.']],[IC.coffee,['קפה ועוגיות','Coffee and cookies'],['קפה טוב וכיבוד קל, בלי לצאת מהחדר.','Good coffee and light snacks without leaving the room.']]].map(x=>({ic:x[0],h:x[1][L],p:x[2][L]})),
+      memPrice:money(memT.price),memB:he?['20% הנחה על כל שריון','הזמנה גם לאותו היום, לפי מקום פנוי','ביטול בכל עת']:['20% off every booking','Same-day booking when the room is free','Cancel any time'],
+      faq:[[['מתי ההזמנה מאושרת?','When is my booking confirmed?'],['אחרי שליחת הבקשה ניצור קשר להשלמת התשלום. ההזמנה מאושרת לאחר אימות התשלום, ועד אז המועד שמור עבורכם '+set.requestHours+' שעות.','After you send the request we contact you to complete payment. The booking is confirmed once payment is verified, and the time is held for you for '+set.requestHours+' hours.']],
+        [['אפשר לבטל?','Can I cancel?'],['כן. ביטול אפשרי עד '+set.cancelHours+' שעות לפני הפגישה, מהאזור האישי באתר.','Yes, up to '+set.cancelHours+' hours before the meeting, from your account on the site.']],
+        [['אפשר להזמין לאותו היום?','Can I book for today?'],['הזמנה לאותו היום פתוחה למנויי חדר הישיבות. ללא מנוי אפשר להזמין החל ממחר.','Same-day booking is open to meeting-room members. Without a membership you can book from tomorrow.']],
+        [['צריך יותר משלוש שעות?','Need more than three hours?'],['בחרו חצי יום (5 שעות, ₪500) או יום מלא (09:00–18:00, ₪1,200).','Choose a half day (5 hours, ₪500) or a full day (09:00–18:00, ₪1,200).']]].map(x=>({q:x[0][L],a:x[1][L]})),
+      showBar:ready&&!!r&&!S.cardVis&&step!=='done',barPad:ready&&!!r&&!S.cardVis&&step!=='done'?'72px':'0px'};
+  }
+}
+</script>
+</body>
+</html>
