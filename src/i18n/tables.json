@@ -1,0 +1,200 @@
+{
+ "err": {
+  "bad": {
+   "he": "אימייל או סיסמה שגויים",
+   "en": "Wrong email or password"
+  },
+  "exists": {
+   "he": "קיים חשבון עם אימייל זה. היכנסו אליו.",
+   "en": "An account with this email exists. Please sign in."
+  },
+  "locked": {
+   "he": "יותר מדי ניסיונות. נסו שוב בעוד כמה דקות.",
+   "en": "Too many attempts. Try again in a few minutes."
+  },
+  "weak": {
+   "he": "הסיסמה חייבת לכלול לפחות 8 תווים",
+   "en": "Password must be at least 8 characters"
+  },
+  "email": {
+   "he": "כתובת אימייל לא תקינה",
+   "en": "Invalid email address"
+  },
+  "name": {
+   "he": "נא להזין שם",
+   "en": "Please enter your name"
+  },
+  "phone": {
+   "he": "מספר טלפון לא תקין",
+   "en": "Invalid phone number"
+  },
+  "contact": {
+   "he": "נא להזין טלפון או אימייל תקינים",
+   "en": "Please enter a valid phone or email"
+  },
+  "google": {
+   "he": "הכניסה עם Google נכשלה",
+   "en": "Google sign-in failed"
+  },
+  "taken": {
+   "he": "הבלוק הזה נתפס הרגע. בחרו בלוק אחר.",
+   "en": "That block was just taken. Please choose another."
+  },
+  "expired": {
+   "he": "הזמן להשלמת ההזמנה הסתיים.",
+   "en": "Time ran out for this booking."
+  },
+  "late": {
+   "he": "ביטול באתר נסגר {h} שעות לפני הפגישה. צרו קשר.",
+   "en": "Online cancellation closes {h} hours before the meeting. Please contact us."
+  },
+  "window": {
+   "he": "התאריך מחוץ לטווח ההזמנות.",
+   "en": "This date is outside the booking window."
+  },
+  "price": {
+   "he": "מחיר החדר טרם הוגדר. צרו קשר.",
+   "en": "The room price is not set yet. Please contact us."
+  },
+  "office": {
+   "he": "המשרד אינו פנוי לפניות כרגע.",
+   "en": "This office is not open for enquiries."
+  },
+  "storage": {
+   "he": "לא ניתן לשמור את הנתונים בדפדפן.",
+   "en": "Could not save data in this browser."
+  },
+  "gen": {
+   "he": "לא ניתן להשלים את הפעולה. נסו שוב.",
+   "en": "Could not complete the action. Please try again."
+  },
+  "lead": {
+   "he": "הזמנה לאותו היום אפשרית לפחות שעה מראש. בחרו שעה מאוחרת יותר.",
+   "en": "Same-day bookings need at least one hour of notice. Please choose a later time."
+  },
+  "tenant": {
+   "he": "החשבון אינו מקושר למשרד.",
+   "en": "This account is not linked to an office."
+  },
+  "subject": {
+   "he": "נא להזין נושא לקריאה",
+   "en": "Please enter a subject"
+  },
+  "sameday": {
+   "he": "הזמנה לאותו היום זמינה למנויים בלבד. בחרו תאריך ממחר והלאה.",
+   "en": "Same-day booking is for members only. Please choose a date from tomorrow."
+  },
+  "code": {
+   "he": "הקוד שגוי. נסו שוב.",
+   "en": "Incorrect code. Please try again."
+  },
+  "codeExp": {
+   "he": "תוקף הקוד פג. שלחו קוד חדש.",
+   "en": "The code has expired. Send a new one."
+  },
+  "status": {
+   "he": "לא ניתן לעדכן את המנוי.",
+   "en": "Could not update the membership."
+  }
+ },
+ "status": {
+  "hold": {
+   "he": "בתהליך תשלום",
+   "en": "In checkout"
+  },
+  "pending_payment": {
+   "he": "ממתינה לתשלום",
+   "en": "Awaiting payment"
+  },
+  "confirmed": {
+   "he": "מאושרת",
+   "en": "Confirmed"
+  },
+  "cancelled": {
+   "he": "בוטלה",
+   "en": "Cancelled"
+  },
+  "expired": {
+   "he": "פג תוקף",
+   "en": "Expired"
+  },
+  "released": {
+   "he": "שוחררה",
+   "en": "Released"
+  }
+ },
+ "pay": {
+  "none": {
+   "he": "ללא תשלום",
+   "en": "No payment"
+  },
+  "awaiting": {
+   "he": "ממתין לתשלום",
+   "en": "Awaiting payment"
+  },
+  "unpaid": {
+   "he": "טרם שולם",
+   "en": "Not paid"
+  },
+  "paid": {
+   "he": "שולם",
+   "en": "Paid"
+  },
+  "refund_pending": {
+   "he": "החזר בטיפול",
+   "en": "Refund in progress"
+  },
+  "refunded": {
+   "he": "הוחזר",
+   "en": "Refunded"
+  }
+ },
+ "office": {
+  "available": {
+   "he": "פנוי",
+   "en": "Available"
+  },
+  "occupied": {
+   "he": "מאוכלס",
+   "en": "Occupied"
+  },
+  "reserved": {
+   "he": "שמור",
+   "en": "Reserved"
+  },
+  "unavailable": {
+   "he": "לא זמין",
+   "en": "Unavailable"
+  },
+  "unset": {
+   "he": "זמינות בבירור",
+   "en": "Ask for availability"
+  }
+ },
+ "priv": [
+  {
+   "hHe": "איזה מידע נאסף",
+   "hEn": "What we collect",
+   "pHe": "שם, אימייל, טלפון ושם חברה כשנמסר, פרטי הזמנות ופניות שנשלחו דרך האתר. בכניסה עם Google מתקבלים שם וכתובת אימייל מאומתת בלבד.",
+   "pEn": "Name, email, phone and company if provided, plus bookings and enquiries sent through the site. Google sign-in shares only your name and verified email."
+  },
+  {
+   "hHe": "לשם מה",
+   "hEn": "Why",
+   "pHe": "לניהול הזמנות חדרי הישיבות, מענה לפניות על משרדים ויצירת קשר בנוגע להזמנות.",
+   "pEn": "To manage meeting-room bookings, answer office enquiries and contact you about your bookings."
+  },
+  {
+   "hHe": "תשלומים",
+   "hEn": "Payments",
+   "pHe": "פרטי כרטיס אשראי מעובדים אצל ספק הסליקה בלבד ואינם נשמרים במערכות AOS.",
+   "pEn": "Card details are processed only by the payment provider and are never stored by AOS."
+  },
+  {
+   "hHe": "גישה ועדכון",
+   "hEn": "Access and updates",
+   "pHe": "המידע נגיש לצוות AOS המורשה בלבד. אפשר לעדכן פרטים אישיים באזור \"החשבון שלי\" ולבקש מחיקה דרך טופס צור קשר.",
+   "pEn": "Only authorised AOS staff can access your data. Update your details under \"My account\" and request deletion via the contact form."
+  }
+ ]
+}

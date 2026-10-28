@@ -1,0 +1,280 @@
+{
+ "a11y": {
+  "with": [
+   {
+    "hHe": "מחויבות לנגישות",
+    "hEn": "Our commitment",
+    "pHe": "AOS רואה חשיבות במתן שירות שוויוני לכל הלקוחות, ופועלת כדי שהאתר יהיה נגיש ונוח לשימוש לכל אדם, כולל אנשים עם מוגבלות. ההצהרה מתייחסת לאתר AOS, הכולל את דפי המשרדים וחדר הישיבות, הזמנת החדר והאזורים האישיים ללקוחות ולשוכרים.",
+    "pEn": "AOS is committed to equal service for every customer and works to make this site accessible and easy to use for everyone, including people with disabilities. This statement covers the AOS website, including the office and meeting-room pages, room booking and the personal areas for customers and tenants."
+   },
+   {
+    "hHe": "רמת הנגישות",
+    "hEn": "Accessibility level",
+    "pHe": "האתר נבנה לפי תקן ישראלי 5568 ולפי הנחיות WCAG 2.1 ברמה AA, בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג–2013. טרם בוצעה בדיקת נגישות על ידי מורשה נגישות חיצוני. אנחנו בודקים ומשפרים את האתר באופן שוטף.",
+    "pEn": "The site was built to Israeli Standard 5568 and the WCAG 2.1 AA guidelines, in line with the Equal Rights for Persons with Disabilities (Service Accessibility Adjustments) Regulations, 2013. An audit by an external accessibility expert has not yet been carried out. We review and improve the site on an ongoing basis."
+   },
+   {
+    "hHe": "מה הונגש באתר",
+    "hEn": "What is accessible",
+    "pHe": "ניווט מלא במקלדת עם פוקוס נראה, קישור לדילוג לתוכן, מבנה כותרות ברור, תוויות לכל שדות הטפסים והודעות שגיאה כתובות, טקסט חלופי לתמונות, ניגודיות צבעים מספקת, מצבי זמינות ביומן המוצגים גם במילים ולא רק בצבע, אזורי לחיצה בגודל של 44 פיקסלים לפחות, תמיכה מלאה בעברית מימין לשמאל ובאנגלית, הגדלת טקסט עד 200% בלי לאבד תוכן, וכיבוד הגדרת \"הפחתת תנועה\" של המכשיר.",
+    "pEn": "Full keyboard navigation with visible focus, a skip-to-content link, a clear heading structure, labels on all form fields and written error messages, alternative text for images, sufficient colour contrast, calendar availability shown in words as well as colour, touch targets of at least 44 pixels, full right-to-left Hebrew and English support, text zoom up to 200% without loss of content, and respect for the device \"reduce motion\" setting."
+   },
+   {
+    "hHe": "תפריט הנגישות",
+    "hEn": "The accessibility menu",
+    "pHe": "בכפתור הנגישות שבפינת המסך אפשר להגדיל את הטקסט, להפעיל ניגודיות גבוהה או גווני אפור, להדגיש קישורים ופוקוס, לעבור לגופן קריא ולעצור אנימציות. ההגדרות נשמרות בדפדפן לביקור הבא.",
+    "pEn": "The accessibility button in the corner of the screen lets you enlarge text, switch to high contrast or grayscale, highlight links and focus, use a readable font and stop animations. Your settings are saved in the browser for next time."
+   },
+   {
+    "hHe": "דפדפנים וטכנולוגיות מסייעות",
+    "hEn": "Browsers and assistive technology",
+    "pHe": "האתר נבנה לעבודה בגרסאות עדכניות של Chrome, Safari, Edge ו־Firefox, במחשב ובנייד, ולשימוש עם קוראי מסך ותוכנות הגדלה.",
+    "pEn": "The site is built to work in current versions of Chrome, Safari, Edge and Firefox on desktop and mobile, and with screen readers and magnification software."
+   },
+   {
+    "hHe": "מגבלות ידועות",
+    "hEn": "Known limitations",
+    "pHe": "המפה המוטמעת מסופקת על ידי Google ואינה בשליטתנו. לצידה מוצגים הכתובת וקישורים ל־Waze ול־Google Maps כחלופה. תמונות שמעלים שוכרים לקריאות שירות מוצגות ללא טקסט חלופי מפורט. אם נתקלתם בחלק באתר שאינו נגיש, נשמח לקבל את הפרטים ולתת לכם את השירות בדרך אחרת.",
+    "pEn": "The embedded map is provided by Google and is outside our control. The address and links to Waze and Google Maps are shown next to it as an alternative. Photos that tenants attach to service requests are shown without detailed alternative text. If you find a part of the site that is not accessible, please tell us and we will provide the service another way."
+   },
+   {
+    "hHe": "הסדרי נגישות במתחם",
+    "hEn": "Accessibility on site",
+    "pHe": "המתחם נמצא ב{address}. לבירור הסדרי הנגישות הפיזיים במבנה (חניה, כניסה, מעליות ושירותים) לפני ההגעה, פנו לרכז הנגישות ונשמח לעזור.",
+    "pEn": "The space is at {address}. To ask about physical accessibility in the building (parking, entrance, lifts and restrooms) before you arrive, contact our accessibility coordinator and we will be happy to help."
+   },
+   {
+    "hHe": "רכז הנגישות",
+    "hEn": "Accessibility coordinator",
+    "pHe": "לפניות בנושא נגישות: {co}.",
+    "pEn": "For accessibility requests: {co}."
+   },
+   {
+    "hHe": "פנייה בנושא נגישות",
+    "hEn": "Accessibility requests",
+    "pHe": "נתקלתם בבעיית נגישות? כדי שנוכל לטפל בפנייה, ציינו את הדף שבו נתקלתם בבעיה, תיאור קצר שלה, והדפדפן או הטכנולוגיה המסייעת שבה השתמשתם. נחזור אליכם בהקדם. עדכון אחרון של ההצהרה: 28 באוקטובר 2026.",
+    "pEn": "Found an accessibility issue? So we can deal with it, tell us the page where it happened, a short description, and the browser or assistive technology you used. We will get back to you as soon as possible. Statement last updated: 28 October 2026."
+   }
+  ],
+  "without": [
+   {
+    "hHe": "מחויבות לנגישות",
+    "hEn": "Our commitment",
+    "pHe": "AOS רואה חשיבות במתן שירות שוויוני לכל הלקוחות, ופועלת כדי שהאתר יהיה נגיש ונוח לשימוש לכל אדם, כולל אנשים עם מוגבלות. ההצהרה מתייחסת לאתר AOS, הכולל את דפי המשרדים וחדר הישיבות, הזמנת החדר והאזורים האישיים ללקוחות ולשוכרים.",
+    "pEn": "AOS is committed to equal service for every customer and works to make this site accessible and easy to use for everyone, including people with disabilities. This statement covers the AOS website, including the office and meeting-room pages, room booking and the personal areas for customers and tenants."
+   },
+   {
+    "hHe": "רמת הנגישות",
+    "hEn": "Accessibility level",
+    "pHe": "האתר נבנה לפי תקן ישראלי 5568 ולפי הנחיות WCAG 2.1 ברמה AA, בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג–2013. טרם בוצעה בדיקת נגישות על ידי מורשה נגישות חיצוני. אנחנו בודקים ומשפרים את האתר באופן שוטף.",
+    "pEn": "The site was built to Israeli Standard 5568 and the WCAG 2.1 AA guidelines, in line with the Equal Rights for Persons with Disabilities (Service Accessibility Adjustments) Regulations, 2013. An audit by an external accessibility expert has not yet been carried out. We review and improve the site on an ongoing basis."
+   },
+   {
+    "hHe": "מה הונגש באתר",
+    "hEn": "What is accessible",
+    "pHe": "ניווט מלא במקלדת עם פוקוס נראה, קישור לדילוג לתוכן, מבנה כותרות ברור, תוויות לכל שדות הטפסים והודעות שגיאה כתובות, טקסט חלופי לתמונות, ניגודיות צבעים מספקת, מצבי זמינות ביומן המוצגים גם במילים ולא רק בצבע, אזורי לחיצה בגודל של 44 פיקסלים לפחות, תמיכה מלאה בעברית מימין לשמאל ובאנגלית, הגדלת טקסט עד 200% בלי לאבד תוכן, וכיבוד הגדרת \"הפחתת תנועה\" של המכשיר.",
+    "pEn": "Full keyboard navigation with visible focus, a skip-to-content link, a clear heading structure, labels on all form fields and written error messages, alternative text for images, sufficient colour contrast, calendar availability shown in words as well as colour, touch targets of at least 44 pixels, full right-to-left Hebrew and English support, text zoom up to 200% without loss of content, and respect for the device \"reduce motion\" setting."
+   },
+   {
+    "hHe": "תפריט הנגישות",
+    "hEn": "The accessibility menu",
+    "pHe": "בכפתור הנגישות שבפינת המסך אפשר להגדיל את הטקסט, להפעיל ניגודיות גבוהה או גווני אפור, להדגיש קישורים ופוקוס, לעבור לגופן קריא ולעצור אנימציות. ההגדרות נשמרות בדפדפן לביקור הבא.",
+    "pEn": "The accessibility button in the corner of the screen lets you enlarge text, switch to high contrast or grayscale, highlight links and focus, use a readable font and stop animations. Your settings are saved in the browser for next time."
+   },
+   {
+    "hHe": "דפדפנים וטכנולוגיות מסייעות",
+    "hEn": "Browsers and assistive technology",
+    "pHe": "האתר נבנה לעבודה בגרסאות עדכניות של Chrome, Safari, Edge ו־Firefox, במחשב ובנייד, ולשימוש עם קוראי מסך ותוכנות הגדלה.",
+    "pEn": "The site is built to work in current versions of Chrome, Safari, Edge and Firefox on desktop and mobile, and with screen readers and magnification software."
+   },
+   {
+    "hHe": "מגבלות ידועות",
+    "hEn": "Known limitations",
+    "pHe": "המפה המוטמעת מסופקת על ידי Google ואינה בשליטתנו. לצידה מוצגים הכתובת וקישורים ל־Waze ול־Google Maps כחלופה. תמונות שמעלים שוכרים לקריאות שירות מוצגות ללא טקסט חלופי מפורט. אם נתקלתם בחלק באתר שאינו נגיש, נשמח לקבל את הפרטים ולתת לכם את השירות בדרך אחרת.",
+    "pEn": "The embedded map is provided by Google and is outside our control. The address and links to Waze and Google Maps are shown next to it as an alternative. Photos that tenants attach to service requests are shown without detailed alternative text. If you find a part of the site that is not accessible, please tell us and we will provide the service another way."
+   },
+   {
+    "hHe": "הסדרי נגישות במתחם",
+    "hEn": "Accessibility on site",
+    "pHe": "המתחם נמצא ב{address}. לבירור הסדרי הנגישות הפיזיים במבנה (חניה, כניסה, מעליות ושירותים) לפני ההגעה, פנו לרכז הנגישות ונשמח לעזור.",
+    "pEn": "The space is at {address}. To ask about physical accessibility in the building (parking, entrance, lifts and restrooms) before you arrive, contact our accessibility coordinator and we will be happy to help."
+   },
+   {
+    "hHe": "רכז הנגישות",
+    "hEn": "Accessibility coordinator",
+    "pHe": "לפניות בנושא נגישות אפשר לפנות דרך טופס יצירת הקשר באתר.",
+    "pEn": "For accessibility requests, use the site contact form."
+   },
+   {
+    "hHe": "פנייה בנושא נגישות",
+    "hEn": "Accessibility requests",
+    "pHe": "נתקלתם בבעיית נגישות? כדי שנוכל לטפל בפנייה, ציינו את הדף שבו נתקלתם בבעיה, תיאור קצר שלה, והדפדפן או הטכנולוגיה המסייעת שבה השתמשתם. נחזור אליכם בהקדם. עדכון אחרון של ההצהרה: 28 באוקטובר 2026.",
+    "pEn": "Found an accessibility issue? So we can deal with it, tell us the page where it happened, a short description, and the browser or assistive technology you used. We will get back to you as soon as possible. Statement last updated: 28 October 2026."
+   }
+  ]
+ },
+ "privacy": {
+  "with": [
+   {
+    "hHe": "מי אנחנו",
+    "hEn": "Who we are",
+    "pHe": "האתר מופעל על ידי {biz}, {address}. אנחנו האחראים על המידע שנאסף באתר ועל השימוש בו. המדיניות מסבירה איזה מידע נאסף, לשם מה, עם מי הוא משותף ומה הזכויות שלכם, בהתאם לחוק הגנת הפרטיות, התשמ״א–1981.",
+    "pEn": "This site is operated by {biz}, {address}. We are responsible for the information collected on the site and how it is used. This policy explains what we collect, why, who we share it with and your rights, under the Israeli Protection of Privacy Law, 1981."
+   },
+   {
+    "hHe": "איזה מידע נאסף",
+    "hEn": "What we collect",
+    "pHe": "פרטי חשבון: שם, אימייל, טלפון ושם חברה אם נמסר. בכניסה עם Google מתקבלים שם וכתובת אימייל מאומתת בלבד. פרטי הזמנות: חדר, תאריך, שעות, סכום וסטטוס תשלום. פרטי מנוי ותשלום: סוג הכרטיס, ארבע הספרות האחרונות, תוקף ומזהה שספק הסליקה מנפיק. מספר הכרטיס המלא אינו מגיע אלינו. פניות: מה שכתבתם בטופס יצירת קשר או בפנייה על משרד. שוכרים: קריאות שירות, ההודעות בהן ותמונות שצורפו.",
+    "pEn": "Account details: name, email, phone and company if provided. Google sign-in shares only your name and verified email. Bookings: room, date, times, amount and payment status. Membership and payment: card type, last four digits, expiry and a reference issued by the payment provider. The full card number never reaches us. Enquiries: what you wrote in the contact or office enquiry form. Tenants: service requests, their messages and attached photos."
+   },
+   {
+    "hHe": "לשם מה",
+    "hEn": "Why we use it",
+    "pHe": "לניהול הזמנות חדר הישיבות והמנויים, לגביית תשלומים והפקת קבלות, למתן שירות לשוכרים, למענה לפניות, לשליחת אישורים ועדכונים על הזמנות, ולשמירה על אבטחת האתר. דיוור שיווקי יישלח רק אם הסכמתם לכך, ואפשר להסיר את עצמכם בכל עת.",
+    "pEn": "To manage meeting-room bookings and memberships, take payments and issue receipts, serve tenants, answer enquiries, send booking confirmations and updates, and keep the site secure. Marketing messages are sent only if you agreed to them, and you can unsubscribe at any time."
+   },
+   {
+    "hHe": "חובה למסור מידע",
+    "hEn": "Do you have to provide it",
+    "pHe": "אין חובה חוקית למסור לנו מידע. בלי שם ופרטי קשר לא נוכל לבצע הזמנה, לנהל מנוי או לחזור אליכם.",
+    "pEn": "You are not legally required to give us any information. Without a name and contact details we cannot take a booking, manage a membership or get back to you."
+   },
+   {
+    "hHe": "עם מי המידע משותף",
+    "hEn": "Who we share it with",
+    "pHe": "אנחנו לא מוכרים מידע אישי. המידע מועבר רק לספקים שעובדים בשבילנו ובמידה הנדרשת: ספק הסליקה לעיבוד תשלומים, Google לכניסה עם חשבון Google ולמפה המוטמעת, וספקי אחסון ודיוור. חלק מהספקים שומרים מידע בשרתים מחוץ לישראל. נמסור מידע לרשויות רק כשהחוק מחייב זאת.",
+    "pEn": "We do not sell personal information. It is shared only with providers working for us, and only as needed: the payment provider to process payments, Google for Google sign-in and the embedded map, and hosting and email providers. Some providers store data on servers outside Israel. We disclose information to authorities only when the law requires it."
+   },
+   {
+    "hHe": "עוגיות ואחסון בדפדפן",
+    "hEn": "Cookies and browser storage",
+    "pHe": "האתר שומר בדפדפן את החיבור לחשבון, את השפה שבחרתם ואת הגדרות הנגישות. האתר רושם את שלבי תהליך ההזמנה יחד עם סוג המכשיר בלבד, ללא פרטים מזהים. המפה המוטמעת של Google עשויה לשמור עוגיות משלה, לפי מדיניות הפרטיות של Google.",
+    "pEn": "The site stores your sign-in, chosen language and accessibility settings in your browser. It records the steps of the booking process with device type only, without identifying details. The embedded Google map may set its own cookies under Google's privacy policy."
+   },
+   {
+    "hHe": "אבטחת מידע",
+    "hEn": "Security",
+    "pHe": "הסיסמאות נשמרות בצורה מוצפנת ולא כטקסט גלוי. הגישה למידע מוגבלת לצוות AOS המורשה. פרטי כרטיס האשראי מעובדים אצל ספק הסליקה בלבד.",
+    "pEn": "Passwords are stored encrypted, never as plain text. Access to data is limited to authorised AOS staff. Card details are processed only by the payment provider."
+   },
+   {
+    "hHe": "כמה זמן נשמר המידע",
+    "hEn": "How long we keep it",
+    "pHe": "כל עוד החשבון פעיל, ולאחר מכן לתקופה הנדרשת לפי דין, למשל לצורך רישומי הנהלת חשבונות. פניות שלא הובילו להזמנה או לחוזה נמחקות כשאין בהן עוד צורך.",
+    "pEn": "For as long as your account is active, and afterwards for as long as the law requires, for example for accounting records. Enquiries that did not lead to a booking or contract are deleted when no longer needed."
+   },
+   {
+    "hHe": "הזכויות שלכם",
+    "hEn": "Your rights",
+    "pHe": "אתם רשאים לעיין במידע שנשמר עליכם, לבקש לתקן מידע שגוי או לא מעודכן, ולבקש למחוק מידע שאין חובה לשמור. את הפרטים האישיים אפשר לעדכן גם באזור \"החשבון שלי\". נענה לבקשה תוך 30 יום.",
+    "pEn": "You may see the information we hold about you, ask us to correct information that is wrong or out of date, and ask us to delete information we are not required to keep. You can also update your details under \"My account\". We will respond within 30 days."
+   },
+   {
+    "hHe": "גיל",
+    "hEn": "Age",
+    "pHe": "השירות מיועד לעסקים ולמבוגרים מגיל 18.",
+    "pEn": "The service is intended for businesses and adults aged 18 and over."
+   },
+   {
+    "hHe": "שינויים ויצירת קשר",
+    "hEn": "Changes and contact",
+    "pHe": "אם נשנה את המדיניות, הגרסה המעודכנת תפורסם בדף זה. לשאלות ולבקשות בנושא פרטיות אפשר לפנות דרך טופס יצירת הקשר באתר או ישירות: {pcl}. עדכון אחרון: 28 באוקטובר 2026.",
+    "pEn": "If we change this policy, the updated version will be published on this page. For privacy questions and requests, use the site contact form or contact us directly: {pcl}. Last updated: 28 October 2026."
+   }
+  ],
+  "without": [
+   {
+    "hHe": "מי אנחנו",
+    "hEn": "Who we are",
+    "pHe": "האתר מופעל על ידי {biz}, {address}. אנחנו האחראים על המידע שנאסף באתר ועל השימוש בו. המדיניות מסבירה איזה מידע נאסף, לשם מה, עם מי הוא משותף ומה הזכויות שלכם, בהתאם לחוק הגנת הפרטיות, התשמ״א–1981.",
+    "pEn": "This site is operated by {biz}, {address}. We are responsible for the information collected on the site and how it is used. This policy explains what we collect, why, who we share it with and your rights, under the Israeli Protection of Privacy Law, 1981."
+   },
+   {
+    "hHe": "איזה מידע נאסף",
+    "hEn": "What we collect",
+    "pHe": "פרטי חשבון: שם, אימייל, טלפון ושם חברה אם נמסר. בכניסה עם Google מתקבלים שם וכתובת אימייל מאומתת בלבד. פרטי הזמנות: חדר, תאריך, שעות, סכום וסטטוס תשלום. פרטי מנוי ותשלום: סוג הכרטיס, ארבע הספרות האחרונות, תוקף ומזהה שספק הסליקה מנפיק. מספר הכרטיס המלא אינו מגיע אלינו. פניות: מה שכתבתם בטופס יצירת קשר או בפנייה על משרד. שוכרים: קריאות שירות, ההודעות בהן ותמונות שצורפו.",
+    "pEn": "Account details: name, email, phone and company if provided. Google sign-in shares only your name and verified email. Bookings: room, date, times, amount and payment status. Membership and payment: card type, last four digits, expiry and a reference issued by the payment provider. The full card number never reaches us. Enquiries: what you wrote in the contact or office enquiry form. Tenants: service requests, their messages and attached photos."
+   },
+   {
+    "hHe": "לשם מה",
+    "hEn": "Why we use it",
+    "pHe": "לניהול הזמנות חדר הישיבות והמנויים, לגביית תשלומים והפקת קבלות, למתן שירות לשוכרים, למענה לפניות, לשליחת אישורים ועדכונים על הזמנות, ולשמירה על אבטחת האתר. דיוור שיווקי יישלח רק אם הסכמתם לכך, ואפשר להסיר את עצמכם בכל עת.",
+    "pEn": "To manage meeting-room bookings and memberships, take payments and issue receipts, serve tenants, answer enquiries, send booking confirmations and updates, and keep the site secure. Marketing messages are sent only if you agreed to them, and you can unsubscribe at any time."
+   },
+   {
+    "hHe": "חובה למסור מידע",
+    "hEn": "Do you have to provide it",
+    "pHe": "אין חובה חוקית למסור לנו מידע. בלי שם ופרטי קשר לא נוכל לבצע הזמנה, לנהל מנוי או לחזור אליכם.",
+    "pEn": "You are not legally required to give us any information. Without a name and contact details we cannot take a booking, manage a membership or get back to you."
+   },
+   {
+    "hHe": "עם מי המידע משותף",
+    "hEn": "Who we share it with",
+    "pHe": "אנחנו לא מוכרים מידע אישי. המידע מועבר רק לספקים שעובדים בשבילנו ובמידה הנדרשת: ספק הסליקה לעיבוד תשלומים, Google לכניסה עם חשבון Google ולמפה המוטמעת, וספקי אחסון ודיוור. חלק מהספקים שומרים מידע בשרתים מחוץ לישראל. נמסור מידע לרשויות רק כשהחוק מחייב זאת.",
+    "pEn": "We do not sell personal information. It is shared only with providers working for us, and only as needed: the payment provider to process payments, Google for Google sign-in and the embedded map, and hosting and email providers. Some providers store data on servers outside Israel. We disclose information to authorities only when the law requires it."
+   },
+   {
+    "hHe": "עוגיות ואחסון בדפדפן",
+    "hEn": "Cookies and browser storage",
+    "pHe": "האתר שומר בדפדפן את החיבור לחשבון, את השפה שבחרתם ואת הגדרות הנגישות. האתר רושם את שלבי תהליך ההזמנה יחד עם סוג המכשיר בלבד, ללא פרטים מזהים. המפה המוטמעת של Google עשויה לשמור עוגיות משלה, לפי מדיניות הפרטיות של Google.",
+    "pEn": "The site stores your sign-in, chosen language and accessibility settings in your browser. It records the steps of the booking process with device type only, without identifying details. The embedded Google map may set its own cookies under Google's privacy policy."
+   },
+   {
+    "hHe": "אבטחת מידע",
+    "hEn": "Security",
+    "pHe": "הסיסמאות נשמרות בצורה מוצפנת ולא כטקסט גלוי. הגישה למידע מוגבלת לצוות AOS המורשה. פרטי כרטיס האשראי מעובדים אצל ספק הסליקה בלבד.",
+    "pEn": "Passwords are stored encrypted, never as plain text. Access to data is limited to authorised AOS staff. Card details are processed only by the payment provider."
+   },
+   {
+    "hHe": "כמה זמן נשמר המידע",
+    "hEn": "How long we keep it",
+    "pHe": "כל עוד החשבון פעיל, ולאחר מכן לתקופה הנדרשת לפי דין, למשל לצורך רישומי הנהלת חשבונות. פניות שלא הובילו להזמנה או לחוזה נמחקות כשאין בהן עוד צורך.",
+    "pEn": "For as long as your account is active, and afterwards for as long as the law requires, for example for accounting records. Enquiries that did not lead to a booking or contract are deleted when no longer needed."
+   },
+   {
+    "hHe": "הזכויות שלכם",
+    "hEn": "Your rights",
+    "pHe": "אתם רשאים לעיין במידע שנשמר עליכם, לבקש לתקן מידע שגוי או לא מעודכן, ולבקש למחוק מידע שאין חובה לשמור. את הפרטים האישיים אפשר לעדכן גם באזור \"החשבון שלי\". נענה לבקשה תוך 30 יום.",
+    "pEn": "You may see the information we hold about you, ask us to correct information that is wrong or out of date, and ask us to delete information we are not required to keep. You can also update your details under \"My account\". We will respond within 30 days."
+   },
+   {
+    "hHe": "גיל",
+    "hEn": "Age",
+    "pHe": "השירות מיועד לעסקים ולמבוגרים מגיל 18.",
+    "pEn": "The service is intended for businesses and adults aged 18 and over."
+   },
+   {
+    "hHe": "שינויים ויצירת קשר",
+    "hEn": "Changes and contact",
+    "pHe": "אם נשנה את המדיניות, הגרסה המעודכנת תפורסם בדף זה. לשאלות ולבקשות בנושא פרטיות אפשר לפנות דרך טופס יצירת הקשר באתר. עדכון אחרון: 28 באוקטובר 2026.",
+    "pEn": "If we change this policy, the updated version will be published on this page. For privacy questions and requests, use the site contact form. Last updated: 28 October 2026."
+   }
+  ]
+ },
+ "terms": [
+  {
+   "hHe": "בלוקים של שלוש שעות",
+   "hEn": "Three-hour blocks",
+   "pHe": "הזמנת חדר הישיבות נעשית בבלוקים של שלוש שעות, לפי הבלוקים המוצגים ביומן החדר. אפשר להזמין בלוק אחד או כמה בלוקים רצופים באותו יום, כל עוד הם פנויים.",
+   "pEn": "The meeting room is booked in three-hour blocks, as shown on the room calendar. You can book one block or several consecutive blocks on the same day while they are open."
+  },
+  {
+   "hHe": "אישור הזמנה",
+   "hEn": "Confirmation",
+   "pHe": "ההזמנה מאושרת רק לאחר אימות התשלום. בזמן ההזמנה הבלוק נשמר עבורכם ל־{holdMinutes} דקות, ובקשת הזמנה שנשלחה נשמרת ל־{requestHours} שעות.",
+   "pEn": "A booking is confirmed only after payment is verified. During checkout the block is held for {holdMinutes} minutes; a submitted request is held for {requestHours} hours."
+  },
+  {
+   "hHe": "ביטול",
+   "hEn": "Cancellation",
+   "pHe": "ביטול הזמנה מאושרת אפשרי עד {cancelHours} שעות לפני מועד הפגישה, מאזור \"החשבון שלי\". הזמנה ששולמה ובוטלה במועד מועברת לטיפול בהחזר.",
+   "pEn": "A confirmed booking can be cancelled up to {cancelHours} hours before the meeting from \"My account\". Paid bookings cancelled in time are passed for refund."
+  },
+  {
+   "hHe": "מחירים",
+   "hEn": "Prices",
+   "pHe": "המחיר המלא, כולל מיסים ככל שחלים, מוצג בסיכום ההזמנה לפני התשלום.",
+   "pEn": "The full price, including any applicable tax, is shown in the summary before payment."
+  }
+ ]
+}

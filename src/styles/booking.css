@@ -1,0 +1,235 @@
+/* Room page and booking flow (v7 design) */
+.rm-top { padding: clamp(16px, 2vw, 24px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box }
+.crumb { font-size: 15px; color: var(--g2); margin-bottom: 12px }
+.crumb a { color: var(--g2) }
+.crumb a:hover { color: var(--ink) }
+.crumb [aria-current] { color: var(--ink) }
+.rm-top h1 { margin: 0; font-size: clamp(28px, 3vw, 40px); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em }
+.rm-meta { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 16px; color: var(--g1) }
+.rm-meta li { display: flex; align-items: center; gap: 8px }
+.rm-meta li.av { font-weight: 500; color: var(--ink) }
+
+.bk { border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: 0 30px 70px -48px rgba(17, 18, 20, 0.55); overflow: hidden; scroll-margin-top: 84px }
+.bk-head { padding: 18px clamp(16px, 3vw, 32px); border-bottom: 1px solid var(--line-2); display: flex; justify-content: space-between; align-items: center; gap: 12px 32px; flex-wrap: wrap }
+.bk-head h2 { margin: 0; font-size: 20px; font-weight: 700 }
+.bk-steps { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 4px; flex-wrap: nowrap; min-width: 0; width: 100% }
+@media (min-width: 1024px) { .bk-steps { width: auto } }
+.bk-steps li { display: flex; align-items: center; gap: 4px; min-width: 0 }
+.bk-steps li:not(:last-child) { flex: 1 1 auto }
+.bk-steps button { display: flex; align-items: center; gap: 8px; min-height: 44px; min-width: 44px; justify-content: center; padding: 0 2px; border: 0; flex: none; background: none; cursor: pointer; color: var(--g2) }
+.bk-steps button:disabled { cursor: default }
+.bk-steps .n { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; background: #fff; color: var(--ink); border: 1px solid #cfd2d6; flex: none; transition: background 0.2s }
+.bk-steps .done .n { background: var(--ink); color: #fff; border-color: var(--ink) }
+.bk-steps .cur .n { background: var(--gold); border-color: var(--gold) }
+.bk-steps .done button, .bk-steps .cur button { color: var(--ink) }
+.bk-steps .lbl { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: none }
+.bk-steps .cur .lbl { font-weight: 700 }
+@media (min-width: 1024px) { .bk-steps .cur .lbl { display: inline } }
+@media (min-width: 1280px) { .bk-steps .lbl { display: inline } }
+.bk-steps i { flex: 1 1 8px; min-width: 6px; max-width: 48px; height: 1px; background: #dadcdf; display: block }
+.bk-steps .done + i, .bk-steps .done i { background: var(--ink) }
+.bk-cap { margin: -4px 0 0; width: 100%; font-size: 15px; font-weight: 600; color: var(--ink) }
+@media (min-width: 1024px) { .bk-cap { display: none } }
+
+.bk-body { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch }
+@media (min-width: 1024px) { .bk-body { grid-template-columns: minmax(0, 1fr) clamp(300px, 26vw, 380px) } }
+.bk-main { padding: clamp(20px, 3vw, 40px); min-width: 0; display: flex; flex-direction: column; gap: 22px; animation: aosFade 0.25s both }
+.bk-h3 { margin: 0; font-size: clamp(22px, 2.2vw, 28px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em }
+.bk-sub { margin: 6px 0 0; font-size: 16px; color: var(--g1) }
+.bk-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding-top: 4px }
+.bk-actions.end { justify-content: flex-end }
+
+.cal-wrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(20px, 3vw, 36px); align-items: start }
+@media (min-width: 1024px) { .cal-wrap { grid-template-columns: minmax(0, 1.5fr) minmax(220px, 1fr) } }
+.cal { border: 1px solid var(--line); border-radius: 18px; padding: clamp(12px, 2vw, 20px); min-width: 0; max-width: 640px; width: 100%; box-sizing: border-box }
+.cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px }
+.cal-nav button { width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 12px; background: #fff; cursor: pointer; color: var(--ink); display: flex; align-items: center; justify-content: center }
+.cal-nav button:hover:not(:disabled) { border-color: var(--ink) }
+.cal-nav button:disabled { opacity: 0.35; cursor: default }
+[dir="rtl"] .cal-nav svg { transform: scaleX(-1) }
+.cal-nav span { font-size: 19px; font-weight: 700 }
+.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: clamp(3px, 0.6vw, 6px) }
+.cal-grid .wd { text-align: center; font-size: 14px; font-weight: 600; color: var(--g2); padding: 2px 0 6px }
+.day { height: clamp(50px, 6vw, 72px); border-radius: 12px; border: 1px solid transparent; background: transparent; color: var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 0; transition: background 0.15s, border-color 0.15s; cursor: default }
+.day.blank { visibility: hidden }
+.day .n { font-size: clamp(15px, 1.5vw, 19px); font-weight: 700; line-height: 1.1 }
+.day .s { font-size: 12px; font-weight: 600; line-height: 1.1 }
+.day.out, .day.closed, .day.full { color: #a9acb1 }
+.day.full .n { text-decoration: line-through }
+.day.avail { cursor: pointer }
+.day.avail .s { color: var(--ok) }
+.day.avail:hover { background: var(--bg-3) }
+.day.today { border-color: var(--gold) }
+.day.on { background: var(--ink); border-color: var(--ink); color: #fff }
+.day.on .s { color: #e3cf9f }
+.day .s .m { display: inline }
+.day .s .d { display: none }
+@media (min-width: 640px) { .day .s .m { display: none } .day .s .d { display: inline } }
+.cal-side { display: flex; flex-direction: column; gap: 14px; min-width: 0 }
+.chosen { background: var(--bg-2); border-radius: 16px; padding: 18px 20px }
+.chosen span.k { display: block; font-size: 14px; color: var(--g2) }
+.chosen b { display: block; font-size: 20px; font-weight: 700; margin-top: 2px }
+.chosen span.f { display: block; font-size: 15px; color: var(--ok); font-weight: 600; margin-top: 4px }
+.sameday { display: flex; gap: 10px; align-items: flex-start; background: var(--ink); color: #fff; border-radius: 14px; padding: 14px 16px; font-size: 15px; line-height: 1.5 }
+.sameday a { color: var(--gold); font-weight: 600; text-decoration: underline; text-underline-offset: 3px }
+.legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--g1) }
+.legend li { display: flex; align-items: center; gap: 10px }
+.legend .sw { min-width: 26px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700 }
+
+.pk-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: -6px }
+.pk { min-height: 76px; min-width: 0; padding: 10px 6px; border: 1px solid #e0e1e3; border-radius: 12px; background: #fff; color: var(--ink); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px }
+.pk b:first-child { font-size: 16px }
+.pk span { font-size: 13px; opacity: 0.8; unicode-bidi: isolate; direction: ltr }
+.pk b:last-child { font-size: 18px }
+.pk[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink) }
+.pk-none { margin: 0; padding: 16px; border: 1px dashed #c9c2b4; border-radius: 12px; font-size: 15px; color: var(--g1); text-align: center }
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 10px }
+.slot { min-height: 104px; border-radius: 14px; border: 1px solid #e0e1e3; background: #fff; color: var(--ink); cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; padding: 14px 18px; text-align: start; transition: border-color 0.15s, background 0.15s }
+.slot:hover:not(:disabled):not([aria-pressed="true"]) { border-color: var(--ink) }
+.slot .part { font-size: 14px; font-weight: 500; opacity: 0.85 }
+.slot .time { font-size: 22px; font-weight: 700; direction: ltr; unicode-bidi: isolate }
+.slot .sub { font-size: 14px; font-weight: 600 }
+.slot:disabled { cursor: not-allowed; color: #a39b8c; border-color: #efeff0; background: repeating-linear-gradient(135deg, #f3f3f2 0 6px, #ececeb 6px 12px) }
+.slot:disabled .time { text-decoration: line-through }
+.slot[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink) }
+.notice { background: var(--bg-2); border-radius: 14px; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap }
+.notice p { margin: 0; font-size: 16px }
+.mini-btn { min-height: 44px; padding: 0 16px; border: 1px solid var(--ink); border-radius: 10px; background: #fff; color: var(--ink); font-size: 15px; font-weight: 600; cursor: pointer }
+.mini-btn:hover { background: var(--ink); color: #fff }
+.link-btn { min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--ink); font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: underline; text-underline-offset: 4px }
+.cta-off { background: #efe6d2 !important }
+.cta-off:hover { background: #e8dcc2 !important }
+
+.sum-box { border: 1px solid var(--line); border-radius: 16px; overflow: hidden }
+.sum-box dl { margin: 0 }
+.sum-box .rows { padding: 6px 20px }
+.sum-box .rows > div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line-2) }
+.sum-box .rows dt { font-size: 15px; color: var(--g2) }
+.sum-box .rows dd { margin: 0; font-size: 16px; font-weight: 600; text-align: end }
+.sum-box .cost { padding: 12px 20px 16px; background: #fafaf9 }
+.sum-box .cost > div { display: flex; justify-content: space-between; gap: 16px; padding: 6px 0 }
+.sum-box .cost dt { font-size: 16px; color: var(--g1) }
+.sum-box .cost dd { margin: 0; font-size: 16px; direction: ltr }
+.sum-box .tot { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; border-top: 1px solid #dfe0e2; margin-top: 8px; padding-top: 14px }
+.sum-box .tot dt { font-size: 18px; font-weight: 700; color: var(--ink) }
+.sum-box .tot dd { font-size: 34px; font-weight: 700; line-height: 1 }
+.sum-box .note { margin: 8px 0 0; font-size: 14px; color: var(--g2) }
+.upsell { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; background: var(--ink); color: #fff; border-radius: 14px; padding: 14px 18px; font-size: 15px }
+.upsell:hover { color: #fff; background: var(--ink-2) }
+.upsell b { color: var(--gold) }
+.reassure { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px }
+.reassure li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; color: var(--g1); line-height: 1.45; background: var(--bg-2); border-radius: 12px; padding: 12px 14px }
+.reassure svg { flex: none; margin-top: 2px; color: var(--ok) }
+
+.rail { display: none; background: var(--ink); color: #fff; padding: clamp(24px, 3vw, 36px); flex-direction: column; gap: 20px; min-width: 0 }
+@media (min-width: 1024px) { .rail { display: flex } }
+.rail .k0 { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--gold) }
+.rail .big { display: flex; align-items: baseline; gap: 8px; margin-top: 8px; flex-wrap: wrap }
+.rail .big b { font-size: 36px; font-weight: 700; line-height: 1; direction: ltr }
+.rail dl { margin: 0; display: flex; flex-direction: column; border-top: 1px solid rgba(255, 255, 255, 0.14) }
+.rail dl > div { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.14) }
+.rail dt { font-size: 15px; color: #b9bcc1 }
+.rail dd { margin: 0; font-size: 15px; font-weight: 600; text-align: end }
+.rail .tot { display: flex; justify-content: space-between; align-items: baseline; gap: 12px }
+.rail ul { list-style: none; margin: auto 0 0; padding: 16px 0 0; border-top: 1px solid rgba(255, 255, 255, 0.14); display: flex; flex-direction: column; gap: 10px }
+.rail ul li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: #d7d8da; line-height: 1.45 }
+
+.auth-box { max-width: 520px; display: flex; flex-direction: column; gap: 16px }
+.auth-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 14px }
+.auth-form .full { grid-column: 1 / -1 }
+.or { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--g2) }
+.or i { flex: 1; height: 1px; background: var(--line) }
+.pay-box { border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px }
+.timer { display: flex; align-items: center; gap: 10px; background: var(--bg-2); border-radius: 999px; padding: 8px 16px; font-size: 15px }
+.timer b { font-size: 17px; direction: ltr; font-variant-numeric: tabular-nums }
+.ok-note { background: var(--ok-bg); color: var(--ok); border-radius: 10px; padding: 10px 14px; font-size: 15px }
+
+/* Room details below the booking panel */
+.rm-gal { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); align-items: start; padding: clamp(32px, 4vw, 48px) clamp(16px, 4vw, 40px) clamp(40px, 5vw, 56px); box-sizing: border-box }
+.rm-gal h2, .rm-sec h2 { margin: 0; font-size: 24px; font-weight: 700 }
+.mosaic { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); grid-auto-rows: clamp(150px, 20vw, 280px); gap: clamp(8px, 1vw, 14px) }
+.mosaic .tile { background: #f1f1f0; min-height: 0; border-radius: 18px }
+.mosaic .tile .cap { background: rgba(255, 255, 255, 0.95); color: var(--ink); max-width: calc(100% - 20px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; padding: 5px 10px; border-radius: 8px; bottom: 10px; inset-inline-start: 10px }
+.mosaic .tile:first-child { grid-row: 1 / span 2 }
+.mosaic.one { grid-template-columns: minmax(0, 1fr) }
+.mosaic.one .tile:first-child { grid-row: auto }
+.no-photo { aspect-ratio: 16 / 10; border-radius: 16px; background: #f1f1f0; border: 1px dashed var(--field); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: #45494f; text-align: center; padding: 24px }
+.rm-sec-grid { max-width: none; margin: 0 auto; padding: clamp(40px, 5vw, 64px) clamp(16px, 4vw, 40px); box-sizing: border-box; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(32px, 4vw, 56px) }
+.inc { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 12px }
+.inc li { display: flex; gap: 14px; align-items: flex-start; background: var(--bg-2); border-radius: 16px; padding: 18px; transition: transform 0.25s, box-shadow 0.25s }
+.inc li:hover { transform: translateY(-3px); box-shadow: 0 14px 28px -20px rgba(17, 18, 20, 0.45) }
+.inc .ic { width: 46px; height: 46px; border-radius: 12px; background: var(--ink); color: var(--gold); display: flex; align-items: center; justify-content: center; flex: none }
+.inc b { display: block; font-size: 17px; font-weight: 700 }
+.inc span.s { display: block; font-size: 15px; color: var(--g1); margin-top: 2px }
+.kv { margin: 0; border-top: 1px solid var(--line) }
+.kv > div { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); gap: 2px 20px; padding: 12px 0; border-bottom: 1px solid var(--line) }
+.kv dt { font-weight: 600; font-size: 16px }
+.kv dd { margin: 0; font-size: 16px; color: var(--g1) }
+.kv.where > div { grid-template-columns: 120px minmax(0, 1fr) }
+.kv.where dt { font-size: 15px; color: var(--g2); font-weight: 400 }
+.kv.where dd { color: var(--ink) }
+
+/* Mobile sticky booking bar */
+.room-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -8px 24px -16px rgba(17, 18, 20, 0.3); display: flex; align-items: center; justify-content: space-between; gap: 12px; animation: aosUp 0.25s both }
+.room-bar b { font-size: 20px; font-weight: 700; direction: ltr; display: inline-block }
+.room-bar span { display: block; font-size: 14px; color: var(--g1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.room-bar button { flex: none; height: 50px; padding: 0 20px; border: 0; border-radius: 12px; background: var(--gold); color: var(--ink); font-size: 16px; font-weight: 600; cursor: pointer }
+@media (min-width: 1024px) { .room-bar { display: none } }
+.room-pad { padding-bottom: 88px }
+@media (min-width: 1024px) { .room-pad { padding-bottom: 0 } }
+
+/* Booking status page */
+.status-page { max-width: 720px; margin: 0 auto; padding: clamp(32px, 5vw, 64px) clamp(16px, 4vw, 40px) clamp(56px, 7vw, 96px); box-sizing: border-box; width: 100%; animation: aosFade 0.3s both }
+.status-card { border: 1px solid var(--line); border-radius: 20px; overflow: hidden; animation: aosUp 0.3s both }
+.status-top { padding: clamp(24px, 4vw, 40px); display: flex; flex-direction: column; gap: 14px; align-items: flex-start }
+.status-ic { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center }
+.status-top h1 { margin: 0; font-size: clamp(28px, 3vw, 36px); font-weight: 700; line-height: 1.15 }
+.status-top p { margin: 0; color: var(--g1); font-size: 17px }
+.status-card dl { margin: 0; padding: 0 clamp(24px, 4vw, 40px); border-top: 1px solid var(--line-2) }
+.status-card dl > div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line-2) }
+.status-card dt { font-size: 15px; color: var(--g2) }
+.status-card dd { margin: 0; font-weight: 500; unicode-bidi: isolate; text-align: end }
+.status-actions { display: flex; gap: 10px; flex-wrap: wrap; padding: clamp(20px, 3vw, 28px) clamp(24px, 4vw, 40px) clamp(24px, 4vw, 40px) }
+
+/* Login / account entry */
+.login-grid { max-width: 1100px; margin: 0 auto; padding: clamp(32px, 6vw, 80px) clamp(16px, 4vw, 40px); box-sizing: border-box; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(24px, 5vw, 64px); align-items: center }
+.login-grid h1 { margin: 0; font-size: clamp(30px, 3.4vw, 44px); font-weight: 700; line-height: 1.12 }
+.login-card { border: 1px solid var(--line); border-radius: 16px; padding: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 18px }
+
+.auth-box { display: flex; flex-direction: column; gap: 16px }
+
+/* Account lists */
+.acc-card { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px; border: 1px solid var(--line); border-radius: 16px }
+@media (max-width: 640px) { .acc-card { grid-template-columns: 72px minmax(0, 1fr) } .acc-card > :last-child { grid-column: 1 / -1; justify-content: flex-start !important } }
+.acc-date { text-align: center; line-height: 1.15; background: var(--bg-2); border-radius: 12px; padding: 8px 0 }
+.acc-date span { display: block; font-size: 13px; color: var(--g2) }
+.acc-date b { display: block; font-size: 24px; font-weight: 700 }
+.acc-past { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 8px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px }
+
+/* Membership page */
+.mem-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); align-items: start }
+@media (min-width: 1024px) { .mem-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) } }
+.mem-hero { background: var(--ink); color: #fff; border-radius: 24px; padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; gap: 22px; animation: aosRise 0.7s both }
+.mem-hero h1 { margin: 0; font-size: clamp(34px, 4.4vw, 60px); font-weight: 700; line-height: 1.05; letter-spacing: -0.025em; color: #fff }
+.mem-price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding: 18px 0; border-top: 1px solid rgba(255, 255, 255, 0.12); border-bottom: 1px solid rgba(255, 255, 255, 0.12) }
+.mem-price b { font-size: 52px; font-weight: 700; line-height: 1; direction: ltr }
+.mem-ex { background: rgba(195, 164, 106, 0.1); border: 1px solid rgba(195, 164, 106, 0.4); border-radius: 16px; padding: 18px 20px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; text-align: center }
+.mem-ex span { display: block; font-size: 14px; color: #c9cbcf }
+.mem-ex b { display: block; font-size: 22px; direction: ltr }
+.mem-flow { border: 1px solid var(--line); border-radius: 24px; background: #fff; box-shadow: 0 30px 70px -48px rgba(17, 18, 20, 0.55); overflow: hidden; animation: aosRise 0.7s 0.15s both }
+.mem-steps { list-style: none; margin: 0; padding: 16px clamp(16px, 3vw, 28px); display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--line-2) }
+.mem-steps li { display: flex; align-items: center; gap: 8px; min-width: 0; color: var(--g2) }
+.mem-steps li:not(:last-child) { flex: 1 1 auto }
+.mem-steps .n { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; background: #fff; color: var(--ink); border: 1px solid #cfd2d6; flex: none }
+.mem-steps .l { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.mem-steps i { flex: 1 1 8px; min-width: 6px; height: 1px; background: #dadcdf; display: block }
+.mem-steps .cur { color: var(--ink) } .mem-steps .cur .n { background: var(--gold); border-color: var(--gold) } .mem-steps .cur .l { font-weight: 700 }
+.mem-steps .done { color: var(--ink) } .mem-steps .done .n { background: var(--ink); color: #fff; border-color: var(--ink) } .mem-steps .done i { background: var(--ink) }
+.g-btn { width: 100%; height: 54px; border: 1px solid #cfd2d6; border-radius: 12px; background: #fff; color: #45494f; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: not-allowed; opacity: 0.75 }
+.mem-sum { margin: 0; border: 1px solid var(--line); border-radius: 16px; padding: 8px 20px 16px }
+.mem-sum > div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line-2) }
+.mem-sum dt { color: var(--g1) }
+.mem-sum dd { margin: 0; font-weight: 600; direction: ltr }
+.mem-sum .tot { align-items: baseline; border: 0; padding-top: 14px; padding-bottom: 0 }
+.mem-sum .tot dt { font-size: 18px; font-weight: 700; color: var(--ink) }
+.mem-sum .tot dd { font-size: 32px; font-weight: 700 }
