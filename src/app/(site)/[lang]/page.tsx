@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import Image from "next/image";
+import { preload } from "react-dom";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ContactForm } from "@/components/contact-form";
+import { JsonLd } from "@/components/json-ld";
 import { Faq } from "@/components/faq";
 import { Gallery } from "@/components/gallery";
 import { HeroPanel, HeroVideo } from "@/components/hero-client";
+import { MapEmbed } from "@/components/map-embed";
 import { MembershipBanner } from "@/components/membership-banner";
 import { OfficeExplorer } from "@/components/office-explorer";
 import { getT, isLang, tr } from "@/i18n";
@@ -13,9 +17,18 @@ import { contactLinks, mapQuery, siteText } from "@/lib/contact";
 import { getSite, getViewer } from "@/lib/data";
 import { fixRanges, imgSrc, money, todayKey } from "@/lib/format";
 import { officeView } from "@/lib/office-view";
+import { buildFaqs } from "@/lib/faq";
+import { faqSchema, graph } from "@/lib/schema";
+import { pageMeta } from "@/lib/seo";
 import { roomFeatures } from "@/lib/room-features";
-import { fetchSlots } from "@/lib/slots";
+import { availability } from "@/lib/slots-server";
 import { createClient } from "@/lib/supabase/server";
+
+// Pre-sized hero photo, served straight from the CDN instead of through the runtime image optimizer.
+// Self-hosted, muted 720p loop. NEXT_PUBLIC_HERO_VIDEO overrides the file, or set it to "vimeo" to use the Vimeo player instead.
+const HERO_VIDEO = process.env.NEXT_PUBLIC_HERO_VIDEO || "/uploads/hero.mp4";
+const HERO_AVIF ="/uploads/hero-640.avif 640w, /uploads/hero-1080.avif 1080w, /uploads/hero-1800.avif 1800w";
+const HERO_WEBP = "/uploads/hero-640.webp 640w, /uploads/hero-1080.webp 1080w, /uploads/hero-1800.webp 1800w";
 
 const LIB = [
   { src: "/uploads/assets-1792344398884-f06p.png", he: "דלת הכניסה למתחם AOS עם הלוגו", en: "AOS entrance door with logo" },
@@ -29,9 +42,27 @@ const BLD = [
   { src: "/uploads/WE2.jpeg", he: "פינת המתנה וגלריה", en: "Waiting area and gallery", row: "auto", pos: "center" },
 ];
 
+export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
+  const { lang } = await params;
+  if (!isLang(lang)) return {};
+  const { rooms, offices, settings } = await getSite();
+  const room = rooms[0];
+  const address = siteText(settings.content, lang).address;
+  const he = lang === "he";
+  return pageMeta({
+    lang,
+    absoluteTitle: true,
+    title: he ? "AOS · משרדים להשכרה וחדר ישיבות בתל אביב" : "AOS · Private Offices & Meeting Room for Rent in Tel Aviv",
+    description: he
+      ? `${offices.length} משרדים פרטיים מרוהטים להשכרה${room ? ` וחדר ישיבות ל־${room.capacity} משתתפים` : ""} להזמנה אונליין, ב${address}.${room?.price ? ` חדר ישיבות מ־${money(room.price)} ל־3 שעות.` : ""}`
+      : `${offices.length} furnished private offices to rent${room ? ` and a meeting room for up to ${room.capacity} people` : ""} you book online, at ${address}.${room?.price ? ` Meeting room from ${money(room.price)} for 3 hours.` : ""}`,
+  });
+}
+
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!isLang(lang)) notFound();
+  preload("/uploads/hero-1080.avif", { as: "image", type: "image/avif", imageSrcSet: HERO_AVIF, imageSizes: "100vw", fetchPriority: "high" });
   const t = getT(lang);
   const he = lang === "he";
   const arrow = he ? "←" : "→";
@@ -41,7 +72,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const s = siteText(c, lang);
   const room = site.rooms[0];
   const supabase = await createClient();
-  const slots = room ? await fetchSlots(supabase, room.id, todayKey(), 62, "p3") : [];
+  const slots = room ? await availability(supabase, !!viewer, room.id, todayKey(), 62, "p3") : [];
   const av = availOf(slots, t, lang);
 
   const roomHref = room ? `/${lang}/room/${room.id}` : `/${lang}/rooms`;
@@ -79,15 +110,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     [["מיקום במרכז העסקים", "Business-district address"], [s.address, s.address]],
   ].map(([a, b]) => ({ title: tr(lang, a[0], a[1]), body: tr(lang, b[0], b[1]) }));
 
-  const hours = `${s.hoursA}, ${s.hoursB}`;
-  const faqs = [
-    [["איך מזמינים חדר ישיבות?", "How do I book a meeting room?"], ["בוחרים יום וחבילה (3 שעות, חצי יום או יום מלא), מתחברים לחשבון ושולחים בקשת הזמנה. ההזמנה מאושרת לאחר אימות התשלום.", "Choose a day and a package (3 hours, half day or full day), sign in and send a booking request. It is confirmed once payment is verified."]],
-    [["כמה זמן נמשכת הזמנה?", "How long is a booking?"], ["אפשר להזמין 3 שעות (09–12, 12–15 או 15–18), חצי יום של 5 שעות או יום מלא, לפי הזמינות ביומן.", "You can book 3 hours (09–12, 12–15 or 15–18), a 5-hour half day or a full day, subject to availability."]],
-    [["האם אפשר לבטל?", "Can I cancel?"], [`כן, עד ${settings.cancelHours} שעות לפני הפגישה, מאזור "החשבון שלי".`, `Yes, up to ${settings.cancelHours} hours before the meeting, from "My account".`]],
-    [["מה כלול בחדר?", "What is included in a room?"], ["טלוויזיה 75 אינץ׳, אינטרנט מהיר, מיזוג, מקרר משקאות, קפה ועוגיות.", "A 75-inch TV, fast internet, A/C, a drinks fridge, coffee and cookies."]],
-    [["איך שוכרים משרד?", "How do I rent an office?"], ["בדף המשרדים מוצג הסטטוס של כל אחד משבעת המשרדים. משאירים פנייה ונחזור לתאם סיור והצעת מחיר.", "The offices page shows the status of each of the seven offices. Send an enquiry and we will arrange a tour and a quote."]],
-    [["מה שעות הפעילות?", "What are the opening hours?"], [hours, hours]],
-  ].map(([q, a]) => ({ q: tr(lang, q[0], q[1]), a: tr(lang, a[0], a[1]) }));
+  const faqs = buildFaqs(lang, { room, offices, settings });
 
   const links = contactLinks(c);
   const q = mapQuery(c.addressHe || s.address);
@@ -95,10 +118,14 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
   return (
     <>
+      <JsonLd data={graph(faqSchema(faqs))} />
       <section aria-labelledby="hero-h" className="hero">
         <div aria-hidden="true" className="hero-bg">
-          <Image src="/uploads/corridor-2026.jpg" alt="" fill priority sizes="100vw" />
-          <HeroVideo />
+          <picture>
+            <source type="image/avif" srcSet={HERO_AVIF} sizes="100vw" />
+            <img src="/uploads/hero-1080.webp" srcSet={HERO_WEBP} sizes="100vw" alt="" fetchPriority="high" decoding="async" width={1800} height={2400} />
+          </picture>
+          <HeroVideo src={HERO_VIDEO === "vimeo" ? undefined : HERO_VIDEO} />
           <div className="hero-shade" />
         </div>
         {nextSlots[0] && (
@@ -200,7 +227,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                     <p style={{ margin: "0 0 10px", fontSize: 15, fontWeight: 600, color: "#fff" }}>{t.nextSlotsT}</p>
                     <div className="next-slots">
                       {nextSlots.map((x) => (
-                        <Link key={x.href} href={x.href} aria-label={x.aria}>
+                        <Link key={x.href} href={x.href}>
                           <span>{x.day}</span>
                           <span>{x.time}</span>
                         </Link>
@@ -341,11 +368,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             </div>
           </div>
           <div className="map-box">
-            <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, padding: 24, textAlign: "center", color: "var(--g1)" }}>
-              <span style={{ fontSize: 18, fontWeight: 600, color: "var(--ink)" }}>{s.address}</span>
-              <span style={{ fontSize: 15 }}>{t.mapFallback}</span>
-            </div>
-            <iframe title={t.mapTitle} loading="lazy" src={`https://maps.google.com/maps?q=${q}&output=embed`} />
+            <MapEmbed src={`https://maps.google.com/maps?q=${q}&output=embed`} title={t.mapTitle} address={s.address} fallback={t.mapFallback} openLabel={tr(lang, "הצגת המפה", "Show the map")} />
           </div>
         </div>
       </section>

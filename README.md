@@ -59,6 +59,16 @@ Environment variables (Amplify console → Hosting → Environment variables): t
 `amplify.yml` writes `NEXT_PUBLIC_*` and `SUPABASE_*` into `.env.production` so the server runtime sees them.
 In Supabase → Authentication → URL Configuration, set the Site URL and add `https://<domain>/**` to the redirect URLs, or email links (sign-up, password reset) will point elsewhere.
 
+## Speed, SEO and AI search (GEO)
+
+- **Speed:** the hero photo ships as pre-sized AVIF/WebP in `public/uploads/hero-*`; the hero video loads only after the page is idle and never on data-saver or reduced-motion;
+  the public catalogue and anonymous availability are shared between requests for 60 s and 15 s (`src/lib/data.ts`, `src/lib/slots-server.ts`; the back office clears them after saving);
+  Google Maps loads on click; below-the-fold sections use `content-visibility`; static photos are cached for a month (`next.config.ts`).
+- **SEO:** per-page title, description, canonical and hreflang (he, en, x-default) from `src/lib/seo.ts`; structured data from `src/lib/schema.ts`
+  (LocalBusiness, WebSite, Product with offers for the room and each office, FAQPage, BreadcrumbList, ItemList); `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`; account, booking and admin pages are `noindex`.
+- **GEO:** `/llms.txt` is generated from the database (prices, hours, rules, FAQ in both languages); the FAQ answers carry concrete numbers; `robots.txt` explicitly allows search and answer-engine crawlers.
+  Set `NEXT_PUBLIC_SITE_URL` in production, because canonical links, the sitemap and structured data are built from it. Optional map coordinates can be entered in the back office settings.
+
 ## Design reference
 
 `design/` holds the original Claude Design prototype (reference only, see its README). It is not part of the build.

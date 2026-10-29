@@ -334,9 +334,9 @@ export function BookingWidget({
                         <Ico d="m9 18 6-6-6-6" size={16} />
                       </button>
                     </div>
-                    <div role="grid" aria-label={fmtMonth(monthKey, lang)} className="cal-grid">
+                    <div role="group" aria-label={fmtMonth(monthKey, lang)} className="cal-grid">
                       {WEEK.map((w) => (
-                        <div key={w} role="columnheader" className="wd">
+                        <div key={w} aria-hidden="true" className="wd">
                           {parseKey(w).toLocaleDateString(he ? "he-IL" : "en-GB", { timeZone: "UTC", weekday: "narrow" })}
                         </div>
                       ))}
@@ -392,7 +392,7 @@ export function BookingWidget({
                       <div className="sameday">
                         <Ico d="M12 2a10 10 0 1 0 0 20a10 10 0 1 0 0-20M12 6v6l4 2" style={{ marginTop: 2, color: "var(--gold)" }} />
                         <span>
-                          {t.sameDayNote} <Link href={`/${lang}/membership`}>{t.sameDayCta}</Link>
+                          {t.sameDayNote} <Link href={`/${lang}/membership`} className="tap-x">{t.sameDayCta}</Link>
                         </span>
                       </div>
                     )}

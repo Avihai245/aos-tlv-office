@@ -55,6 +55,9 @@ export type SiteContent = {
   phone: string;
   email: string;
   whatsapp: string;
+  /** Optional map coordinates; published in structured data only when filled in. */
+  lat?: string;
+  lng?: string;
 };
 
 export type Settings = {

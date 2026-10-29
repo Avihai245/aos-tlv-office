@@ -1,6 +1,6 @@
 import "server-only";
 import { cache } from "react";
-import { getSite } from "@/lib/data";
+import { getSiteLive } from "@/lib/data";
 import { addDays, dowOf, fmtShort, localParts, money, nowIL, range } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 
@@ -50,7 +50,7 @@ export const BOOKING_STATUS_FILTERS: [string, string][] = [
 
 /** Share of the room's open hours that are booked over the next seven days, as a percentage. */
 export async function weekOccupancy(rows: Pick<BookingRow, "starts_at" | "ends_at" | "status" | "room_id">[]) {
-  const { rooms } = await getSite();
+  const { rooms } = await getSiteLive();
   const today = nowIL().key;
   let total = 0;
   for (let i = 0; i < 7; i++) {

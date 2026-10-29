@@ -6,15 +6,32 @@ import { OfficeInquiry } from "@/components/office-inquiry";
 import { getT, isLang } from "@/i18n";
 import { getSite } from "@/lib/data";
 import { imgSrc, money } from "@/lib/format";
+import { JsonLd } from "@/components/json-ld";
+import { siteText } from "@/lib/contact";
+import { breadcrumbSchema, graph, officeSchema } from "@/lib/schema";
+import { langUrl, pageMeta } from "@/lib/seo";
 import { officeOpen, officeView } from "@/lib/office-view";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/office/[id]">): Promise<Metadata> {
   const { lang, id } = await params;
   if (!isLang(lang)) return {};
-  const o = (await getSite()).offices.find((x) => x.id === id);
+  const { offices, settings } = await getSite();
+  const o = offices.find((x) => x.id === id);
   if (!o) return {};
-  const t = getT(lang);
-  return { title: `${lang === "he" ? o.nameHe : o.nameEn} · ${t.offsTitle}` };
+  const he = lang === "he";
+  const name = he ? o.nameHe : o.nameEn;
+  const amen = (he ? o.amenitiesHe : o.amenitiesEn).join(", ");
+  const address = siteText(settings.content, lang).address;
+  return pageMeta({
+    lang,
+    path: `/office/${o.id}`,
+    title: he ? `${name} · משרד פרטי להשכרה בתל אביב` : `${name} · Private office for rent in Tel Aviv`,
+    description: he
+      ? `${name} ב${address}: ${amen}.${o.price ? ` שכירות חודשית ${money(o.price)}${o.mgmtFee ? ` + ${money(o.mgmtFee)} דמי ניהול` : ""} + מע״מ.` : ""} אפשר לקבוע סיור.`
+      : `${name} at ${address}: ${amen}.${o.price ? ` Monthly rent ${money(o.price)}${o.mgmtFee ? ` + ${money(o.mgmtFee)} management fee` : ""} + VAT.` : ""} Tours on request.`,
+    image: o.images[0] ? imgSrc(o.images[0].src) : "/uploads/og-home.jpg",
+    imageAlt: o.images[0] ? (he ? o.images[0].he : o.images[0].en) || name : undefined,
+  });
 }
 
 export default async function OfficePage({ params }: PageProps<"/[lang]/office/[id]">) {
@@ -50,6 +67,16 @@ export default async function OfficePage({ params }: PageProps<"/[lang]/office/[
 
   return (
     <section aria-labelledby="ofc-h" style={{ animation: "aosFade .3s both" }}>
+      <JsonLd
+        data={graph(
+          officeSchema(lang, o, langUrl(lang, `/office/${o.id}`)),
+          breadcrumbSchema([
+            { name: t.home, path: "", lang },
+            { name: t.nOff, path: "/offices", lang },
+            { name: v.name, path: `/office/${o.id}`, lang },
+          ]),
+        )}
+      />
       <div className="wrap" style={{ paddingTop: "clamp(16px,2vw,24px)", paddingBottom: "clamp(56px,7vw,96px)" }}>
         <nav aria-label={t.crumbAria} className="crumb" style={{ marginBottom: 16 }}>
           <Link href={`/${lang}`}>{t.home}</Link>

@@ -1,4 +1,6 @@
 import "server-only";
+import { createClient as createAnonClient, type SupabaseClient } from "@supabase/supabase-js";
+import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import type { Img, Office, Pkg, Room, Settings, Site, SiteContent, Viewer } from "./types";
@@ -6,14 +8,13 @@ import type { Img, Office, Pkg, Room, Settings, Site, SiteContent, Viewer } from
 const EMPTY_CONTENT: SiteContent = {
   addressHe: "", addressEn: "", hoursAHe: "", hoursAEn: "", hoursBHe: "", hoursBEn: "",
   heroAHe: "", heroAEn: "", heroBHe: "", heroBEn: "", heroSubHe: "", heroSubEn: "",
-  phone: "", email: "", whatsapp: "",
+  phone: "", email: "", whatsapp: "", lat: "", lng: "",
 };
 
 const imgs = (v: unknown): Img[] => (Array.isArray(v) ? (v as Img[]).filter((x) => x && typeof x.src === "string") : []);
 
-/** Public catalogue: settings, the visible room(s) with opening hours, packages and offices. */
-export const getSite = cache(async (): Promise<Site> => {
-  const supabase = await createClient();
+/** Reads the public catalogue: settings, the visible room(s) with opening hours, packages and offices. */
+async function loadSite(supabase: SupabaseClient): Promise<Site> {
   const [s, r, h, p, o] = await Promise.all([
     supabase.from("settings").select("*").eq("id", 1).maybeSingle(),
     supabase.from("rooms").select("*").eq("visible", true).eq("status", "active").order("sort_order"),
@@ -77,7 +78,24 @@ export const getSite = cache(async (): Promise<Site> => {
     status: x.status as Office["status"],
   }));
   return { settings, rooms, offices, packages };
-});
+}
+
+/** A client without a session, for data every visitor sees (so it can be cached across requests). */
+export const anonClient = () =>
+  createAnonClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+
+const cachedSite = unstable_cache(async () => loadSite(anonClient()), ["site-v1"], { revalidate: 60, tags: ["site"] });
+
+/**
+ * The public catalogue as every visitor sees it. Shared between requests for up to a minute, which removes the database round trips
+ * from almost every page view; the back office clears it (tag "site") after saving.
+ */
+export const getSite = cache(cachedSite);
+
+/** The same catalogue read fresh with the current session, for the back office. */
+export const getSiteLive = cache(async () => loadSite(await createClient()));
 
 /** The signed-in user (verified from the JWT) with membership and tenancy, or null. */
 export const getViewer = cache(async (): Promise<Viewer | null> => {

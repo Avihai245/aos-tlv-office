@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient as createServiceClient } from "@supabase/supabase-js";
+import { revalidateTag } from "next/cache";
 import { getViewer } from "@/lib/data";
 import { emailOk, phoneOk } from "@/lib/format";
 
@@ -47,4 +48,12 @@ export async function findAccount(emailRaw: string): Promise<{ id?: string; name
   const supabase = await createClient();
   const { data } = await supabase.from("profiles").select("id,name,role").eq("email", email).maybeSingle();
   return data ? { id: data.id, name: data.name, role: data.role } : { err: "nf" };
+}
+
+/** Clears the shared copies of the public catalogue and availability after the back office saves something. */
+export async function revalidateSite(): Promise<void> {
+  const viewer = await getViewer();
+  if (viewer?.role !== "admin") return;
+  revalidateTag("site");
+  revalidateTag("slots");
 }

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getT, isLang, tr, type Lang } from "@/i18n";
 import { getSite } from "@/lib/data";
 import { docItems, type DocKind } from "@/lib/docs";
+import { pageMeta } from "@/lib/seo";
 
 const KINDS: DocKind[] = ["privacy", "terms", "accessibility"];
 const isKind = (x: string): x is DocKind => (KINDS as string[]).includes(x);
@@ -19,7 +20,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/[lang]/[doc]">): Promise<Metadata> {
   const { lang, doc } = await params;
   if (!isLang(lang) || !isKind(doc)) return {};
-  return { title: titleOf(doc, lang) };
+  const he = lang === "he";
+  const description =
+    doc === "privacy"
+      ? he ? "מדיניות הפרטיות של AOS: איזה מידע נאסף, לשם מה, עם מי הוא משותף ומה הזכויות שלכם." : "AOS privacy policy: what we collect, why, who we share it with and your rights."
+      : doc === "terms"
+        ? he ? "תנאי ההזמנה של חדר הישיבות ב־AOS: חבילות, אישור הזמנה, ביטול ומחירים." : "Booking terms for the AOS meeting room: packages, confirmation, cancellation and prices."
+        : he ? "הצהרת הנגישות של אתר AOS ושל המתחם: רמת הנגישות, התאמות ופנייה בנושא נגישות." : "Accessibility statement for the AOS website and premises: level, adjustments and how to report an issue.";
+  return pageMeta({ lang, path: `/${doc}`, title: titleOf(doc, lang), description });
 }
 
 export default async function DocPage({ params }: PageProps<"/[lang]/[doc]">) {

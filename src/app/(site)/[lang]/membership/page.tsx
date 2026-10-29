@@ -6,11 +6,23 @@ import { MembershipJoin } from "@/components/membership-join";
 import { getT, isLang, tr } from "@/i18n";
 import { getSite, getViewer } from "@/lib/data";
 import { fmtDate, money } from "@/lib/format";
+import { pageMeta } from "@/lib/seo";
 import { createClient } from "@/lib/supabase/server";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/membership">): Promise<Metadata> {
   const { lang } = await params;
-  return isLang(lang) ? { title: getT(lang).memBadge } : {};
+  if (!isLang(lang)) return {};
+  const { settings, rooms } = await getSite();
+  const pct = Math.round(settings.memberDiscount * 100);
+  const he = lang === "he";
+  return pageMeta({
+    lang,
+    path: "/membership",
+    title: he ? `מנוי חדר ישיבות: ${pct}% הנחה על כל פגישה` : `Meeting-room membership: ${pct}% off every meeting`,
+    description: he
+      ? `מנוי חודשי ב־${money(settings.memberPrice)} + מע״מ: ${pct}% הנחה על כל הזמנה של חדר הישיבות ב־AOS תל אביב, כולל הזמנה לאותו יום${rooms[0] ? ` (מ־${money(Math.round(rooms[0].price * (1 - settings.memberDiscount)))} ל־3 שעות)` : ""}.`
+      : `A ${money(settings.memberPrice)} + VAT monthly membership gives ${pct}% off every AOS meeting-room booking in Tel Aviv, including same-day booking.`,
+  });
 }
 
 const CHECK = "M20 6 9 17l-5-5";

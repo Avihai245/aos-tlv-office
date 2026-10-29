@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { errText, type Dict, type Lang } from "@/i18n";
-import { createClient } from "@/lib/supabase/client";
 
 export function ContactForm({ lang, t, source = "home" }: { lang: Lang; t: Dict; source?: string }) {
   const [type, setType] = useState(0);
@@ -17,6 +16,7 @@ export function ContactForm({ lang, t, source = "home" }: { lang: Lang; t: Dict;
     if (busy) return;
     setBusy(true);
     setErr("");
+    const { createClient } = await import("@/lib/supabase/client");
     const { data, error } = await createClient().rpc("add_inquiry", {
       p_kind: "contact",
       p_office: null,

@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { A11yWidget } from "@/components/a11y-widget";
+import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { dirOf, getT, isLang, tr } from "@/i18n";
-import { siteText } from "@/lib/contact";
+import { graph, businessSchema, websiteSchema } from "@/lib/schema";
+import { SITE_URL } from "@/lib/seo";
 import { frank, plex } from "@/lib/fonts";
 import { getSite, getViewer } from "@/lib/data";
 import "@/styles/base.css";
@@ -17,7 +19,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
   const { lang } = await params;
   if (!isLang(lang)) return {};
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+    metadataBase: new URL(SITE_URL),
     title: {
       default: tr(lang, "AOS · משרדים וחדר ישיבות בתל אביב", "AOS · Offices & Meetings · Tel Aviv"),
       template: "%s · AOS",
@@ -27,15 +29,16 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
       "AOS בדרך מנחם בגין 150, תל אביב: שבעה משרדים פרטיים להשכרה וחדר ישיבות להזמנה באתר.",
       "Seven private offices and a meeting room booked online, 150 Menachem Begin Road, Tel Aviv.",
     ),
-    openGraph: {
-      type: "website",
-      siteName: "AOS",
-      title: tr(lang, "AOS · משרדים וחדר ישיבות בתל אביב", "AOS · Offices & Meetings · Tel Aviv"),
-      images: ["/uploads/corridor-2026.jpg"],
-      locale: lang === "he" ? "he_IL" : "en_GB",
+    applicationName: "AOS",
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "48x48" },
+        { url: "/uploads/icon-192.png", sizes: "192x192", type: "image/png" },
+      ],
+      apple: { url: "/uploads/apple-touch-icon.png", sizes: "180x180" },
     },
-    twitter: { card: "summary_large_image" },
-    alternates: { languages: { he: "/he", en: "/en" } },
+    // Regional hints for search engines (ISO 3166-2 code for the Tel Aviv district).
+    other: { "geo.region": "IL-TA", "geo.placename": "Tel Aviv" },
   };
 }
 
@@ -45,15 +48,7 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
   const t = getT(lang);
   const [site, viewer] = await Promise.all([getSite(), getViewer()]);
   const bookHref = site.rooms.length === 1 ? `/${lang}/room/${site.rooms[0].id}` : `/${lang}/rooms`;
-  const s = siteText(site.settings.content, lang);
-  const ld = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "AOS",
-    description: "Private offices and a meeting room",
-    image: "/uploads/corridor-2026.jpg",
-    address: { "@type": "PostalAddress", streetAddress: s.address, addressCountry: "IL" },
-  };
+  const ld = graph(businessSchema(lang, site), websiteSchema(lang));
 
   return (
     <html lang={lang} dir={dirOf(lang)} className={`${plex.variable} ${frank.variable}`}>
@@ -69,7 +64,7 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
           <SiteFooter lang={lang} t={t} c={site.settings.content} viewer={viewer} bookHref={bookHref} />
           <A11yWidget lang={lang} t={t} />
         </div>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+        <JsonLd data={ld} />
       </body>
     </html>
   );

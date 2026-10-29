@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
+import { revalidateSite } from "@/app/admin/actions";
 import { createClient } from "@/lib/supabase/client";
 
 const ERR: Record<string, string> = {
@@ -45,6 +46,8 @@ export function useRpc() {
     setErr("");
     setMsg(ok);
     after?.();
+    // Public pages keep a short-lived shared copy of rooms, offices and availability; clear it so edits show immediately.
+    await revalidateSite();
     router.refresh();
     return true;
   }

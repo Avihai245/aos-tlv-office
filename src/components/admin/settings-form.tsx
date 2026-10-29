@@ -20,6 +20,8 @@ const CONTENT: { key: keyof SiteContent; label: string; dir?: "ltr"; type?: stri
   { key: "phone", label: "טלפון", dir: "ltr", type: "tel" },
   { key: "email", label: "אימייל", dir: "ltr", type: "email" },
   { key: "whatsapp", label: "WhatsApp (מספר בינלאומי)", dir: "ltr", type: "tel" },
+  { key: "lat", label: "קו רוחב (Latitude) למפות וחיפוש, למשל 32.0746", dir: "ltr" },
+  { key: "lng", label: "קו אורך (Longitude), למשל 34.7922", dir: "ltr" },
 ];
 
 type Rules = Pick<Settings, "holdMinutes" | "requestHours" | "cancelHours" | "windowDays" | "memberPrice" | "samedayLeadHours" | "taxPct" | "taxMode"> & { memberPct: number };

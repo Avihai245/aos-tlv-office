@@ -12,6 +12,9 @@ frontend:
       commands:
         # Amplify keeps console environment variables out of the SSR runtime unless they are written to .env.production.
         - (env | grep -E '^(NEXT_PUBLIC_|SUPABASE_)' >> .env.production) || true
+        # Canonical links, the sitemap and the structured data need the public address. Until a custom domain is set in
+        # NEXT_PUBLIC_SITE_URL, fall back to the branch's Amplify address so they never point at localhost.
+        - if [ -z "$NEXT_PUBLIC_SITE_URL" ] && [ -n "$AWS_APP_ID" ] && [ -n "$AWS_BRANCH" ]; then echo "NEXT_PUBLIC_SITE_URL=https://$AWS_BRANCH.$AWS_APP_ID.amplifyapp.com" >> .env.production; fi
         - npm run build
   artifacts:
     baseDirectory: .next

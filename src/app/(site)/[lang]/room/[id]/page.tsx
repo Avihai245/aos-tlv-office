@@ -3,15 +3,19 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BookingWidget } from "@/components/booking-widget";
 import { Faq } from "@/components/faq";
+import { JsonLd } from "@/components/json-ld";
 import { MembershipBanner } from "@/components/membership-banner";
 import { RoomGallery } from "@/components/room-gallery";
 import { getT, isLang, tr } from "@/i18n";
 import { availOf } from "@/lib/availability";
 import { mapQuery, siteText } from "@/lib/contact";
 import { getSite, getViewer } from "@/lib/data";
-import { addDays, fixRanges, imgSrc, todayKey } from "@/lib/format";
+import { addDays, fixRanges, imgSrc, money, todayKey } from "@/lib/format";
+import { buildFaqs } from "@/lib/faq";
+import { breadcrumbSchema, faqSchema, graph, roomSchema } from "@/lib/schema";
+import { langUrl, pageMeta } from "@/lib/seo";
 import { featIntro, roomFeatures } from "@/lib/room-features";
-import { fetchSlots } from "@/lib/slots";
+import { availability } from "@/lib/slots-server";
 import { createClient } from "@/lib/supabase/server";
 import type { Slot } from "@/lib/types";
 
@@ -24,10 +28,18 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/room/[id]"
   if (!isLang(lang)) return {};
   const room = (await getSite()).rooms.find((r) => r.id === id);
   if (!room) return {};
-  return {
-    title: lang === "he" ? room.nameHe : room.nameEn,
-    description: (lang === "he" ? room.descHe : room.descEn).slice(0, 155),
-  };
+  const he = lang === "he";
+  const desc = ((he ? room.descHe : room.descEn) || "").split(". ")[0].replace(/\.$/, "");
+  return pageMeta({
+    lang,
+    path: `/room/${room.id}`,
+    title: he ? `חדר ישיבות להשכרה בתל אביב ל־${room.capacity} משתתפים` : `Meeting room for rent in Tel Aviv, up to ${room.capacity} people`,
+    description: he
+      ? `${desc}. ${money(room.price)} ל־3 שעות, ${money(room.priceHalf)} לחצי יום, ${money(room.priceDay)} ליום מלא. הזמנה אונליין.`
+      : `${desc}. ${money(room.price)} for 3 hours, ${money(room.priceHalf)} for a half day, ${money(room.priceDay)} for a full day. Book online.`,
+    image: "/uploads/og-room.jpg",
+    imageAlt: he ? (room.images[0]?.he ?? room.nameHe) : (room.images[0]?.en ?? room.nameEn),
+  });
 }
 
 export default async function RoomPage({ params, searchParams }: PageProps<"/[lang]/room/[id]">) {
@@ -53,7 +65,7 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
 
   const supabase = await createClient();
   const need = Array.from(new Set(["p3", ...(pkg ? [pkg] : [])]));
-  const lists = await Promise.all(need.map((p) => fetchSlots(supabase, room.id, today, 62, p)));
+  const lists = await Promise.all(need.map((p) => availability(supabase, !!viewer, room.id, today, 62, p)));
   const initialSlots: Record<string, Slot[]> = Object.fromEntries(need.map((p, i) => [p, lists[i]]));
   const av = availOf(initialSlots.p3, t, lang);
 
@@ -61,7 +73,6 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
   const feats = roomFeatures(room, lang);
   const q = mapQuery(settings.content.addressHe || c.address);
   const gallery = room.images.map((g) => ({ src: imgSrc(g.src), alt: (he ? g.he : g.en) || roomName }));
-  const hours = `${c.hoursA}, ${c.hoursB}`;
 
   const metaFacts = [
     { ic: I_U, v: `${room.capacity} ${t.seats}` },
@@ -73,12 +84,8 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
     { k: tr(lang, "אישור לאחר תשלום", "Confirmed after payment"), v: tr(lang, `הבלוק נשמר ל־${settings.holdMinutes} דקות בזמן ההזמנה.`, `The block is held for ${settings.holdMinutes} minutes while you book.`) },
     { k: tr(lang, "ביטול", "Cancellation"), v: tr(lang, `עד ${settings.cancelHours} שעות לפני הפגישה, מהחשבון שלכם.`, `Up to ${settings.cancelHours} hours before, from your account.`) },
   ];
-  const faqs = [
-    [["איך מזמינים חדר ישיבות?", "How do I book a meeting room?"], ["בוחרים יום וחבילה (3 שעות, חצי יום או יום מלא), מתחברים לחשבון ושולחים בקשת הזמנה. ההזמנה מאושרת לאחר אימות התשלום.", "Choose a day and a package (3 hours, half day or full day), sign in and send a booking request. It is confirmed once payment is verified."]],
-    [["האם אפשר לבטל?", "Can I cancel?"], [`כן, עד ${settings.cancelHours} שעות לפני הפגישה, מאזור "החשבון שלי".`, `Yes, up to ${settings.cancelHours} hours before the meeting, from "My account".`]],
-    [["מה כלול בחדר?", "What is included in a room?"], ["טלוויזיה 75 אינץ׳, אינטרנט מהיר, מיזוג, מקרר משקאות, קפה ועוגיות.", "A 75-inch TV, fast internet, A/C, a drinks fridge, coffee and cookies."]],
-    [["מה שעות הפעילות?", "What are the opening hours?"], [hours, hours]],
-  ].map(([qq, a]) => ({ q: tr(lang, qq[0], qq[1]), a: tr(lang, a[0], a[1]) }));
+  const faqs = buildFaqs(lang, { room, offices: site.offices, settings });
+  const pageUrl = langUrl(lang, `/room/${room.id}`);
   const where = [
     { k: t.capL, v: `${room.capacity} ${t.seats}` },
     { k: t.durL, v: t.blocks3 },
@@ -88,6 +95,16 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
 
   return (
     <div className="room-pad">
+      <JsonLd
+        data={graph(
+          roomSchema(lang, site, room, pageUrl),
+          breadcrumbSchema([
+            { name: t.home, path: "", lang },
+            { name: roomName, path: `/room/${room.id}`, lang },
+          ]),
+          faqSchema(faqs),
+        )}
+      />
       <section aria-labelledby="room-h" style={{ animation: "aosFade .3s both" }}>
         <div className="rm-top">
           <nav aria-label={t.crumbAria} className="crumb">

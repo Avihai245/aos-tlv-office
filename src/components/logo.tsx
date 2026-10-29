@@ -3,7 +3,7 @@ import type { Lang } from "@/i18n";
 
 export function Logo({ lang, small }: { lang: Lang; small?: boolean }) {
   return (
-    <Link href={`/${lang}`} aria-label="AOS" className={small ? "logo sm" : "logo"}>
+    <Link href={`/${lang}`} aria-label="AOS OFFICES · MEETINGS" className={small ? "logo sm" : "logo"}>
       <span className="logo-in">
         <span className="logo-mark" aria-hidden="true">
           <span>A</span>

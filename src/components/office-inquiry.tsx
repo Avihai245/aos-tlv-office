@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { errText, type Dict, type Lang } from "@/i18n";
-import { createClient } from "@/lib/supabase/client";
 
 export function OfficeInquiry({ lang, t, officeId }: { lang: Lang; t: Dict; officeId: string }) {
   const [f, setF] = useState({ name: "", phone: "", email: "", msg: "" });
@@ -16,6 +15,7 @@ export function OfficeInquiry({ lang, t, officeId }: { lang: Lang; t: Dict; offi
     if (busy) return;
     setBusy(true);
     setErr("");
+    const { createClient } = await import("@/lib/supabase/client");
     const { data, error } = await createClient().rpc("add_inquiry", {
       p_kind: "office",
       p_office: officeId,

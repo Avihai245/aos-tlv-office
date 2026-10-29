@@ -1,10 +1,10 @@
 import { ExportBackup, SettingsForm } from "@/components/admin/settings-form";
-import { getSite } from "@/lib/data";
+import { getSiteLive } from "@/lib/data";
 import { fmtDateTime } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function SettingsPage() {
-  const { settings } = await getSite();
+  const { settings } = await getSiteLive();
   const supabase = await createClient();
   const { data: audit } = await supabase.from("audit_log").select("*").order("at", { ascending: false }).limit(40);
   return (

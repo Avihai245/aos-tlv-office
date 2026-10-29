@@ -1,7 +1,8 @@
 /* Room page and booking flow (v7 design) */
 .rm-top { padding: clamp(16px, 2vw, 24px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box }
-.crumb { font-size: 15px; color: var(--g2); margin-bottom: 12px }
-.crumb a { color: var(--g2) }
+.crumb { display: flex; flex-wrap: wrap; align-items: center; font-size: 15px; color: var(--g2); margin-bottom: 12px }
+.crumb a { color: var(--g2); display: inline-flex; align-items: center; min-height: 24px }
+@media (pointer: coarse), (max-width: 1023px) { .crumb { margin-bottom: 4px } .crumb a { min-height: 44px } .tap-x { position: relative } .tap-x::after { content: ""; position: absolute; inset: -14px -10px } }
 .crumb a:hover { color: var(--ink) }
 .crumb [aria-current] { color: var(--ink) }
 .rm-top h1 { margin: 0; font-size: clamp(28px, 3vw, 40px); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em }
@@ -233,3 +234,14 @@
 .mem-sum .tot { align-items: baseline; border: 0; padding-top: 14px; padding-bottom: 0 }
 .mem-sum .tot dt { font-size: 18px; font-weight: 700; color: var(--ink) }
 .mem-sum .tot dd { font-size: 32px; font-weight: 700 }
+
+/* The booking panel runs edge to edge on phones so the calendar days get as wide as the screen allows */
+@media (max-width: 480px) {
+  .bk { margin-inline: calc(-1 * clamp(16px, 4vw, 40px)); border-radius: 0; border-inline-width: 0 }
+  .bk-head { padding-inline: 14px }
+  .bk-main { padding: 18px 12px }
+  .cal { padding: 8px 6px }
+  .cal-grid { gap: 2px }
+  .day { height: 52px; border-radius: 10px }
+  .pk { padding-inline: 4px }
+}

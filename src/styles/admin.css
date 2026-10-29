@@ -195,3 +195,12 @@ textarea.in { padding: 10px 12px; resize: vertical; line-height: 1.5 }
 .gate { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; box-sizing: border-box }
 .gate .box { width: min(440px, 100%); padding: 36px; background: #fff; border: 1px solid #e4e5e7; border-radius: 20px; box-shadow: 0 40px 80px -48px rgba(17, 18, 20, 0.5); display: flex; flex-direction: column; gap: 16px; animation: aosFade 0.4s both }
 .sticky-save { position: sticky; bottom: 0; background: rgba(245, 245, 244, 0.92); backdrop-filter: blur(6px); padding: 12px 0; margin-top: 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; z-index: 5 }
+
+/* iOS zooms into inputs below 16px, so the back office uses 16px on phones */
+@media (max-width: 960px) {
+  .adm .in, .adm select.in, .adm textarea.in { font-size: 16px; min-height: 44px }
+  .adm .btn { min-height: 44px }
+  .adm .b-sm { min-height: 40px }
+  .adm-topnav a { min-height: 44px }
+  .adm-main { padding-top: 18px }
+}

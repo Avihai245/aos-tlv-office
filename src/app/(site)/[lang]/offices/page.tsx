@@ -5,11 +5,27 @@ import { notFound } from "next/navigation";
 import { getT, isLang, tr } from "@/i18n";
 import { getSite } from "@/lib/data";
 import { officeView } from "@/lib/office-view";
+import { JsonLd } from "@/components/json-ld";
+import { siteText } from "@/lib/contact";
+import { money } from "@/lib/format";
+import { breadcrumbSchema, graph } from "@/lib/schema";
+import { langUrl, pageMeta } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/offices">): Promise<Metadata> {
   const { lang } = await params;
   if (!isLang(lang)) return {};
-  return { title: getT(lang).offsTitle };
+  const { offices, settings } = await getSite();
+  const rents = offices.map((o) => o.price ?? 0).filter((p) => p > 0);
+  const address = siteText(settings.content, lang).address;
+  const he = lang === "he";
+  return pageMeta({
+    lang,
+    path: "/offices",
+    title: he ? "משרדים פרטיים להשכרה בתל אביב" : "Private offices for rent in Tel Aviv",
+    description: he
+      ? `${offices.length} משרדים פרטיים מרוהטים ב${address}${rents.length ? `, שכירות חודשית החל מ־${money(Math.min(...rents))} + דמי ניהול ומע״מ` : ""}. סטטוס עדכני לכל משרד וקביעת סיור.`
+      : `${offices.length} furnished private offices at ${address}${rents.length ? `, monthly rent from ${money(Math.min(...rents))} + management fee and VAT` : ""}. Current status for each office, and tours on request.`,
+  });
 }
 
 export default async function Offices({ params, searchParams }: PageProps<"/[lang]/offices">) {
@@ -31,8 +47,21 @@ export default async function Offices({ params, searchParams }: PageProps<"/[lan
     { key: "avail", label: t.fAvail, on: onlyAvail },
   ];
 
+  const ld = graph(
+    breadcrumbSchema([
+      { name: t.home, path: "", lang },
+      { name: t.nOff, path: "/offices", lang },
+    ]),
+    {
+      "@type": "ItemList",
+      name: t.offsTitle,
+      itemListElement: offices.map((o, i) => ({ "@type": "ListItem", position: i + 1, url: langUrl(lang, `/office/${o.id}`), name: lang === "he" ? o.nameHe : o.nameEn })),
+    },
+  );
+
   return (
     <section aria-labelledby="offs-h" style={{ animation: "aosFade .3s both" }}>
+      <JsonLd data={ld} />
       <div className="wrap" style={{ paddingTop: "clamp(16px,2vw,24px)", paddingBottom: "clamp(56px,7vw,96px)" }}>
         <nav aria-label={t.crumbAria} className="crumb">
           <Link href={`/${lang}`}>{t.home}</Link>
@@ -66,14 +95,14 @@ export default async function Offices({ params, searchParams }: PageProps<"/[lan
         </div>
         {list.length === 0 && <p style={{ color: "var(--g1)", background: "var(--bg-2)", borderRadius: 12, padding: 20 }}>{t.noOffices}</p>}
         <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,280px),1fr))", gap: 16 }}>
-          {list.map((o) => {
+          {list.map((o, i) => {
             const v = officeView(o, lang, t);
             return (
               <li key={o.id}>
                 <Link href={v.href} className="off-tile">
                   <span style={{ position: "relative", display: "block", aspectRatio: "4 / 3", background: "#f1f1f0" }}>
                     {v.img ? (
-                      <Image src={v.img} alt={v.alt} fill sizes="(min-width: 1024px) 25vw, 100vw" style={{ objectFit: "cover" }} />
+                      <Image src={v.img} alt={v.alt} fill priority={i < 2} sizes="(min-width: 1024px) 25vw, 100vw" style={{ objectFit: "cover" }} />
                     ) : (
                       <span style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, color: "#45494f" }}>
                         <b style={{ fontSize: 40, fontWeight: 600, lineHeight: 1, direction: "ltr" }}>{v.idx}</b>
