@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { errText, type Dict, type Lang } from "@/i18n";
+import { errText, tr, type Dict, type Lang } from "@/i18n";
+import { emailOk, phoneOk } from "@/lib/format";
+import { getUtm, track } from "@/lib/track";
 
 export function ContactForm({ lang, t, source = "home" }: { lang: Lang; t: Dict; source?: string }) {
   const [type, setType] = useState(0);
@@ -9,11 +11,17 @@ export function ContactForm({ lang, t, source = "home" }: { lang: Lang; t: Dict;
   const [err, setErr] = useState("");
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
-  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF((s) => ({ ...s, [k]: e.target.value }));
+  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => {
+    setErr("");
+    setF((s) => ({ ...s, [k]: e.target.value }));
+  };
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (busy) return;
+    // The server needs a name and a phone or an email; checking here reports a gap at once.
+    if (!f.name.trim()) return setErr(errText("name", lang));
+    if (!phoneOk(f.phone) && !emailOk(f.email)) return setErr(errText("contact", lang));
     setBusy(true);
     setErr("");
     const { createClient } = await import("@/lib/supabase/client");
@@ -26,11 +34,12 @@ export function ContactForm({ lang, t, source = "home" }: { lang: Lang; t: Dict;
       p_email: f.email,
       p_msg: f.msg,
       p_source: source,
-      p_utm: new URLSearchParams(window.location.search).get("utm_source") ?? "",
+      p_utm: getUtm(),
     });
     setBusy(false);
     const code = error ? "gen" : (data as { err?: string } | null)?.err;
     if (code) return setErr(errText(code, lang));
+    track("generate_lead", { form: source, interest: type === 0 ? "office" : "room" });
     setSent(true);
   }
 
@@ -56,19 +65,19 @@ export function ContactForm({ lang, t, source = "home" }: { lang: Lang; t: Dict;
       </fieldset>
       <div className="field">
         <label htmlFor="c-name">{t.fName}</label>
-        <input id="c-name" className="input" autoComplete="name" value={f.name} onChange={set("name")} />
+        <input id="c-name" className="input" autoComplete="name" enterKeyHint="next" value={f.name} onChange={set("name")} />
       </div>
       <div className="field">
         <label htmlFor="c-phone">{t.fPhone}</label>
-        <input id="c-phone" className="input ltr-in" type="tel" autoComplete="tel" dir="ltr" value={f.phone} onChange={set("phone")} />
+        <input id="c-phone" className="input ltr-in" type="tel" inputMode="tel" autoComplete="tel" enterKeyHint="next" dir="ltr" value={f.phone} onChange={set("phone")} />
       </div>
       <div className="field full">
         <label htmlFor="c-email">{t.fEmail}</label>
-        <input id="c-email" className="input ltr-in" type="email" autoComplete="email" dir="ltr" value={f.email} onChange={set("email")} />
+        <input id="c-email" className="input ltr-in" type="email" autoComplete="email" autoCapitalize="none" spellCheck={false} dir="ltr" value={f.email} onChange={set("email")} />
       </div>
       <div className="field full">
         <label htmlFor="c-msg">{t.fMsgOpt}</label>
-        <textarea id="c-msg" className="input" rows={3} value={f.msg} onChange={set("msg")} />
+        <textarea id="c-msg" className="input" rows={3} placeholder={tr(lang, "למשל: כמה אנשים, ממתי", "E.g. team size, move-in date")} value={f.msg} onChange={set("msg")} />
       </div>
       {err && (
         <div role="alert" className="alert full">
@@ -77,7 +86,7 @@ export function ContactForm({ lang, t, source = "home" }: { lang: Lang; t: Dict;
       )}
       <div className="full">
         <button type="submit" disabled={busy} className="btn btn-dark" style={{ height: 52, padding: "0 26px" }}>
-          {t.send}
+          {busy ? t.busyL : t.send}
         </button>
       </div>
     </form>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { errText, type Dict, type Lang } from "@/i18n";
+import { errText, tr, type Dict, type Lang } from "@/i18n";
 import { addDays, dowOf, fmtLong, money, pad, parseKey, phoneOk, range, todayKey } from "@/lib/format";
 import type { RoomCopy } from "@/lib/lp-copy";
 import { fetchSlots } from "@/lib/slots";
@@ -293,18 +293,18 @@ export function LpBooking({ lang, t, c, room, packages, cfg, viewer, initialSlot
               <p className="lp-note" style={{ fontSize: 15 }}>
                 {c.signInFirst}
               </p>
-              <AuthPanel lang={lang} t={t} idp="lp" next={nextPath} onSuccess={afterAuth} />
+              <AuthPanel lang={lang} t={t} idp="lp" next={nextPath} onSuccess={afterAuth} start="up" afterEmail={tr(lang, "הקישור יחזיר אתכם לאותו מועד שבחרתם.", "The link brings you back to the slot you chose.")} />
             </>
           )}
           {needPhone && (
             <form onSubmit={savePhone} noValidate className="lp-form">
               <div className="lp-fld">
                 <label htmlFor="lp-ph">{c.fPhone}</label>
-                <input id="lp-ph" className="lp-in ltr" type="tel" dir="ltr" autoComplete="tel" value={phone} onChange={(e) => (setPhone(e.target.value), setErr(""))} />
+                <input id="lp-ph" className="lp-in ltr" type="tel" inputMode="tel" dir="ltr" autoComplete="tel" value={phone} onChange={(e) => (setPhone(e.target.value), setErr(""))} />
               </div>
               <p className="lp-note">{c.phoneWhy}</p>
               <button type="submit" className="lp-submit dark" disabled={busy}>
-                {c.savePhone}
+                {busy ? tr(lang, "רגע…", "One moment…") : c.savePhone}
               </button>
             </form>
           )}
@@ -316,8 +316,10 @@ export function LpBooking({ lang, t, c, room, packages, cfg, viewer, initialSlot
                 {viewer?.email && viewer?.name ? ` · ${viewer.email}` : ""}
               </p>
               <button type="button" className="lp-submit dark" disabled={busy} onClick={() => void book(uid)} data-cta="send_request">
-                {c.submitReq}
+                {busy ? tr(lang, "רגע…", "One moment…") : c.submitReq}
               </button>
+              {/* True while payment is offline: sending the request charges nothing. Remove once online payment goes live. */}
+              <p className="lp-note">{tr(lang, "לא מתבצע חיוב כעת.", "You won't be charged now.")}</p>
               {viewer && (
                 <button
                   type="button"

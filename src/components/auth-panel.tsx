@@ -27,6 +27,8 @@ export function AuthPanel({
   idp,
   next,
   onSuccess,
+  start = "in",
+  afterEmail,
 }: {
   lang: Lang;
   t: Dict;
@@ -35,8 +37,12 @@ export function AuthPanel({
   /** where an email link should send the user back to */
   next: string;
   onSuccess: () => void;
+  /** the tab shown first: booking flows open on sign-up, since most visitors there have no account yet */
+  start?: Mode;
+  /** added to the "check your email" note, e.g. that the link brings the visitor back to the chosen slot */
+  afterEmail?: string;
 }) {
-  const [mode, setMode] = useState<Mode>("in");
+  const [mode, setMode] = useState<Mode>(start);
   const [f, setF] = useState({ name: "", phone: "", email: "", pw: "" });
   const [err, setErr] = useState("");
   const [note, setNote] = useState("");
@@ -81,7 +87,7 @@ export function AuthPanel({
         if (error) setErr(text(authCode(error)));
         else if (data.user && data.user.identities && data.user.identities.length === 0) setErr(text("exists"));
         else if (data.session) onSuccess();
-        else setNote(x("checkEmail", lang));
+        else setNote(afterEmail ? `${x("checkEmail", lang)} ${afterEmail}` : x("checkEmail", lang));
       }
     } catch {
       setErr(text("gen"));
@@ -121,7 +127,7 @@ export function AuthPanel({
               </div>
               <div className="field">
                 <label htmlFor={`${idp}-phone`}>{t.fPhone}</label>
-                <input id={`${idp}-phone`} className="input ltr-in" type="tel" dir="ltr" autoComplete="tel" value={f.phone} onChange={set("phone")} />
+                <input id={`${idp}-phone`} className="input ltr-in" type="tel" inputMode="tel" dir="ltr" autoComplete="tel" value={f.phone} onChange={set("phone")} />
               </div>
             </>
           )}
