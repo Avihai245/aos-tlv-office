@@ -2,6 +2,10 @@ import type { MetadataRoute } from "next";
 import { getSite } from "@/lib/data";
 import { langUrl } from "@/lib/seo";
 
+// Built on every request (the catalogue behind it is shared for a minute), never at build time: a build can reuse cached data
+// from an older deploy, and the sitemap must always list the rooms and offices as they are now.
+export const dynamic = "force-dynamic";
+
 type Entry = MetadataRoute.Sitemap[number];
 
 /** Every public page in both languages, each pointing at its translation. */

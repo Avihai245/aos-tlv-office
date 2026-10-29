@@ -88,7 +88,7 @@ export const anonClient = () =>
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
-const cachedSite = unstable_cache(async () => loadSite(anonClient()), ["site-v1"], { revalidate: 60, tags: ["site"] });
+const cachedSite = unstable_cache(async () => loadSite(anonClient()), ["site-v2"], { revalidate: 60, tags: ["site"] });
 
 /**
  * The public catalogue as every visitor sees it. Shared between requests for up to a minute, which removes the database round trips
