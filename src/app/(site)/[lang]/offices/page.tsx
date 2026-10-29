@@ -55,7 +55,7 @@ export default async function Offices({ params, searchParams }: PageProps<"/[lan
     {
       "@type": "ItemList",
       name: t.offsTitle,
-      itemListElement: offices.map((o, i) => ({ "@type": "ListItem", position: i + 1, url: langUrl(lang, `/office/${o.id}`), name: lang === "he" ? o.nameHe : o.nameEn })),
+      itemListElement: offices.map((o, i) => ({ "@type": "ListItem", position: i + 1, url: langUrl(lang, `/office/${o.slug}`), name: lang === "he" ? o.nameHe : o.nameEn })),
     },
   );
 

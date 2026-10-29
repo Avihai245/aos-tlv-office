@@ -1,22 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { OfficeGallery } from "@/components/office-gallery";
 import { OfficeInquiry } from "@/components/office-inquiry";
 import { getT, isLang } from "@/i18n";
 import { getSite } from "@/lib/data";
 import { imgSrc, money } from "@/lib/format";
+import { isUuid, officePath } from "@/lib/urls";
 import { JsonLd } from "@/components/json-ld";
 import { siteText } from "@/lib/contact";
 import { breadcrumbSchema, graph, officeSchema } from "@/lib/schema";
 import { langUrl, pageMeta } from "@/lib/seo";
 import { officeOpen, officeView } from "@/lib/office-view";
 
-export async function generateMetadata({ params }: PageProps<"/[lang]/office/[id]">): Promise<Metadata> {
-  const { lang, id } = await params;
+export async function generateMetadata({ params }: PageProps<"/[lang]/office/[slug]">): Promise<Metadata> {
+  const { lang, slug } = await params;
   if (!isLang(lang)) return {};
   const { offices, settings } = await getSite();
-  const o = offices.find((x) => x.id === id);
+  const o = offices.find((x) => x.slug === slug);
   if (!o) return {};
   const he = lang === "he";
   const name = he ? o.nameHe : o.nameEn;
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/office/[id
   const address = siteText(settings.content, lang).address;
   return pageMeta({
     lang,
-    path: `/office/${o.id}`,
+    path: `/office/${o.slug}`,
     title: he ? `${name} · משרד פרטי להשכרה בתל אביב` : `${name} · Private office for rent in Tel Aviv`,
     description: he
       ? `${name} ב${address}: ${amen}.${o.price ? ` שכירות חודשית ${money(o.price)}${o.mgmtFee ? ` + ${money(o.mgmtFee)} דמי ניהול` : ""} + מע״מ.` : ""} אפשר לקבוע סיור.`
@@ -35,15 +36,20 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/office/[id
   });
 }
 
-export default async function OfficePage({ params }: PageProps<"/[lang]/office/[id]">) {
-  const { lang, id } = await params;
+export default async function OfficePage({ params }: PageProps<"/[lang]/office/[slug]">) {
+  const { lang, slug } = await params;
   if (!isLang(lang)) notFound();
   const t = getT(lang);
   const he = lang === "he";
   const arrow = he ? "←" : "→";
   const { offices } = await getSite();
-  const o = offices.find((x) => x.id === id);
-  if (!o) notFound();
+  const o = offices.find((x) => x.slug === slug);
+  if (!o) {
+    // A link shared before the readable addresses existed: send it to the new address.
+    const old = isUuid(slug) ? offices.find((x) => x.id === slug) : undefined;
+    if (old) permanentRedirect(officePath(lang, old));
+    notFound();
+  }
   const v = officeView(o, lang, t);
   const open = officeOpen(o);
   const priced = (o.price ?? 0) > 0;
@@ -70,11 +76,11 @@ export default async function OfficePage({ params }: PageProps<"/[lang]/office/[
     <section aria-labelledby="ofc-h" style={{ animation: "aosFade .3s both" }}>
       <JsonLd
         data={graph(
-          officeSchema(lang, o, langUrl(lang, `/office/${o.id}`)),
+          officeSchema(lang, o, langUrl(lang, `/office/${o.slug}`)),
           breadcrumbSchema([
             { name: t.home, path: "", lang },
             { name: t.nOff, path: "/offices", lang },
-            { name: v.name, path: `/office/${o.id}`, lang },
+            { name: v.name, path: `/office/${o.slug}`, lang },
           ]),
         )}
       />

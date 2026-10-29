@@ -7,6 +7,7 @@ import { errText, type Dict, type Lang } from "@/i18n";
 import { x } from "@/i18n/extra";
 import { addDays, dowOf, fmtLong, fmtMonth, fmtShort, hm, keyOf, money, pad, parseKey, phoneOk, range, todayKey } from "@/lib/format";
 import { fetchQuote, fetchSlots } from "@/lib/slots";
+import { bookingPath } from "@/lib/urls";
 import { createClient } from "@/lib/supabase/client";
 import type { Pkg, Quote, Slot } from "@/lib/types";
 import { AuthPanel } from "./auth-panel";
@@ -227,14 +228,14 @@ export function BookingWidget({
     setBusy(true);
     const { data, error } = await supabase.rpc("request_booking", { p_booking: hold.id });
     setBusy(false);
-    const res = (data ?? {}) as { err?: string; booking?: { id: string } };
+    const res = (data ?? {}) as { err?: string; booking?: { id: string; ref: string } };
     if (error || res.err || !res.booking) {
       const code = error ? "gen" : res.err ?? "gen";
       setCoErr(errText(code, lang, cfg.cancelHours));
       if (code === "expired" || code === "nf") setPhase("dead");
       return;
     }
-    router.push(`/${lang}/booking/${res.booking.id}`);
+    router.push(bookingPath(lang, res.booking.ref));
   }
 
   // ── derived view data ──

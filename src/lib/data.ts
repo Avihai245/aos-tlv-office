@@ -38,6 +38,7 @@ async function loadSite(supabase: SupabaseClient): Promise<Site> {
   const hours = h.data ?? [];
   const rooms: Room[] = (r.data ?? []).map((x) => ({
     id: x.id,
+    slug: x.slug,
     code: x.code,
     nameHe: x.name_he,
     nameEn: x.name_en,
@@ -65,6 +66,7 @@ async function loadSite(supabase: SupabaseClient): Promise<Site> {
   }));
   const offices: Office[] = (o.data ?? []).map((x) => ({
     id: x.id,
+    slug: x.slug,
     code: x.code,
     nameHe: x.name_he,
     nameEn: x.name_en,

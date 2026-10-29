@@ -6,6 +6,7 @@ import { LoginCard } from "@/components/login-card";
 import { errText, getT, isLang, payText, statusText, tr } from "@/i18n";
 import { getSite, getViewer } from "@/lib/data";
 import { fmtDow, fmtMon, fmtShort, localParts, money, range } from "@/lib/format";
+import { bookingPath, roomPath } from "@/lib/urls";
 import { getMyBookings } from "@/lib/bookings";
 
 export const metadata: Metadata = { robots: { index: false } };
@@ -46,7 +47,11 @@ export default async function Account({ params, searchParams }: PageProps<"/[lan
     const r = site.rooms.find((x) => x.id === id);
     return r ? (lang === "he" ? r.nameHe : r.nameEn) : "AOS";
   };
-  const bookHref = site.rooms.length === 1 ? `/${lang}/room/${site.rooms[0].id}` : `/${lang}/rooms`;
+  const bookHref = site.rooms.length === 1 ? roomPath(lang, site.rooms[0]) : `/${lang}/rooms`;
+  const roomHref = (id: string) => {
+    const r = site.rooms.find((x) => x.id === id);
+    return r ? roomPath(lang, r) : bookHref;
+  };
   const first = viewer.name ? viewer.name.split(" ")[0] : "";
   const tabs = [
     { key: "up", label: t.tUp, badge: up.length },
@@ -126,7 +131,7 @@ export default async function Account({ params, searchParams }: PageProps<"/[lan
                       <div style={{ fontSize: 13, color: "var(--g2)", marginTop: 2, direction: "ltr", textAlign: "start" }}>{b.ref}</div>
                     </div>
                     <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "flex-end", alignItems: "center" }}>
-                      <Link href={`/${lang}/booking/${b.id}`} className="link-u" style={{ fontSize: 15, fontWeight: 600 }}>
+                      <Link href={bookingPath(lang, b.ref)} className="link-u" style={{ fontSize: 15, fontWeight: 600 }}>
                         {t.details}
                       </Link>
                       {!late && <CancelBooking id={b.id} lang={lang} t={t} cancelHours={cancelHours} />}
@@ -160,7 +165,7 @@ export default async function Account({ params, searchParams }: PageProps<"/[lan
                       {statusText(b.status, lang)} · <span style={{ direction: "ltr", display: "inline-block" }}>{money(b.total)}</span>
                     </span>
                     <span style={{ display: "flex", justifyContent: "flex-end" }}>
-                      <Link href={`/${lang}/room/${b.room_id}`} className="link-u" style={{ fontWeight: 600 }}>
+                      <Link href={roomHref(b.room_id)} className="link-u" style={{ fontWeight: 600 }}>
                         {t.bookAgain}
                       </Link>
                     </span>

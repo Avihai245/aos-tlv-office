@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { A11yWidget } from "@/components/a11y-widget";
+import { CookieNotice } from "@/components/cookie-notice";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -9,6 +10,7 @@ import { graph, businessSchema, websiteSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/seo";
 import { frank, plex } from "@/lib/fonts";
 import { getSite, getViewer } from "@/lib/data";
+import { roomPath } from "@/lib/urls";
 import "@/styles/base.css";
 import "@/styles/home.css";
 import "@/styles/booking.css";
@@ -47,7 +49,7 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
   if (!isLang(lang)) notFound();
   const t = getT(lang);
   const [site, viewer] = await Promise.all([getSite(), getViewer()]);
-  const bookHref = site.rooms.length === 1 ? `/${lang}/room/${site.rooms[0].id}` : `/${lang}/rooms`;
+  const bookHref = site.rooms.length === 1 ? roomPath(lang, site.rooms[0]) : `/${lang}/rooms`;
   const ld = graph(businessSchema(lang, site), websiteSchema(lang));
 
   return (
@@ -63,6 +65,7 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
           </main>
           <SiteFooter lang={lang} t={t} c={site.settings.content} viewer={viewer} bookHref={bookHref} />
           <A11yWidget lang={lang} t={t} />
+          <CookieNotice lang={lang} />
         </div>
         <JsonLd data={ld} />
       </body>

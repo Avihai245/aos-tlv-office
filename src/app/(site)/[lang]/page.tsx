@@ -22,6 +22,7 @@ import { faqSchema, graph } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
 import { roomFeatures } from "@/lib/room-features";
 import { availability } from "@/lib/slots-server";
+import { roomPath } from "@/lib/urls";
 import { createClient } from "@/lib/supabase/server";
 
 // Pre-sized hero photo, served straight from the CDN instead of through the runtime image optimizer.
@@ -75,7 +76,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const slots = room ? await availability(supabase, !!viewer, room.id, todayKey(), 62, "p3") : [];
   const av = availOf(slots, t, lang);
 
-  const roomHref = room ? `/${lang}/room/${room.id}` : `/${lang}/rooms`;
+  const roomHref = room ? roomPath(lang, room) : `/${lang}/rooms`;
   const roomName = room ? (he ? room.nameHe : room.nameEn) : "";
   const taxText =
     settings.taxMode === "added"

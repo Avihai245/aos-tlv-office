@@ -1,5 +1,6 @@
 import { payText, statusText } from "@/i18n";
 import { bookingView, getRoomNames, money, type BookingRow } from "@/lib/admin";
+import { sourceLabel } from "@/lib/admin-meta";
 import { fmtDateTime, fmtLong } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import { BookingActions } from "./booking-actions";
@@ -35,7 +36,7 @@ export async function BookingDrawer({ id, closeHref }: { id: string; closeHref: 
           ["סכום", <span key="t" className="ltr">{money(b.total)}</span>],
           ["סטטוס", <Tag key="s" tone={bookingTone(b.status)}>{statusText(b.status, "he")}</Tag>],
           ["תשלום", payText(b.pay, "he")],
-          ["מקור", b.tenant ? "שוכר משרד" : b.source],
+          ["מקור", b.tenant ? "שוכר משרד" : sourceLabel(b.source)],
           ...(b.note ? ([["הערה", b.note]] as [string, string][]) : []),
           ...(b.expires_at && ["hold", "pending_payment"].includes(b.status) ? ([["בתוקף עד", fmtDateTime(b.expires_at, "he")]] as [string, string][]) : []),
         ]}

@@ -17,6 +17,7 @@ const ITEMS: { href: string; label: string; sub?: boolean; group?: string; badge
   { href: "/admin/tenants", label: "שוכרים" },
   { href: "/admin/tickets", label: "קריאות שירות", sub: true, badge: "tickets" },
   { href: "/admin/inquiries", label: "פניות", badge: "inquiries" },
+  { href: "/admin/marketing", label: "שיווק ודפי נחיתה" },
   { href: "/admin/team", label: "צוות ניהול" },
   { href: "/admin/settings", label: "תוכן והגדרות" },
 ];

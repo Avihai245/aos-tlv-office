@@ -7,6 +7,7 @@ import { getT, isLang, tr } from "@/i18n";
 import { getSite, getViewer } from "@/lib/data";
 import { fmtDate, money } from "@/lib/format";
 import { pageMeta } from "@/lib/seo";
+import { roomPath } from "@/lib/urls";
 import { createClient } from "@/lib/supabase/server";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/membership">): Promise<Metadata> {
@@ -36,7 +37,7 @@ export default async function Membership({ params }: PageProps<"/[lang]/membersh
   const [site, viewer] = await Promise.all([getSite(), getViewer()]);
   const { settings } = site;
   const room = site.rooms[0];
-  const bookHref = room ? `/${lang}/room/${room.id}` : `/${lang}/rooms`;
+  const bookHref = room ? roomPath(lang, room) : `/${lang}/rooms`;
 
   let status: "none" | "pending" | "active" = "none";
   if (viewer) {

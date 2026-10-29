@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { BookingWidget } from "@/components/booking-widget";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
@@ -18,21 +18,22 @@ import { featIntro, roomFeatures } from "@/lib/room-features";
 import { availability } from "@/lib/slots-server";
 import { createClient } from "@/lib/supabase/server";
 import type { Slot } from "@/lib/types";
+import { isUuid, queryOf, roomPath } from "@/lib/urls";
 
 const I_U = "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 3a4 4 0 1 0 0 8a4 4 0 1 0 0-8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75";
 const I_P = "M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0ZM12 7a3 3 0 1 0 0 6a3 3 0 1 0 0-6";
 const I_CLOCK = "M12 2a10 10 0 1 0 0 20a10 10 0 1 0 0-20M12 6v6l4 2";
 
-export async function generateMetadata({ params }: PageProps<"/[lang]/room/[id]">): Promise<Metadata> {
-  const { lang, id } = await params;
+export async function generateMetadata({ params }: PageProps<"/[lang]/room/[slug]">): Promise<Metadata> {
+  const { lang, slug } = await params;
   if (!isLang(lang)) return {};
-  const room = (await getSite()).rooms.find((r) => r.id === id);
+  const room = (await getSite()).rooms.find((r) => r.slug === slug);
   if (!room) return {};
   const he = lang === "he";
   const desc = ((he ? room.descHe : room.descEn) || "").split(". ")[0].replace(/\.$/, "");
   return pageMeta({
     lang,
-    path: `/room/${room.id}`,
+    path: `/room/${room.slug}`,
     title: he ? `חדר ישיבות להשכרה בתל אביב ל־${room.capacity} משתתפים` : `Meeting room for rent in Tel Aviv, up to ${room.capacity} people`,
     description: he
       ? `${desc}. ${money(room.price)} ל־3 שעות, ${money(room.priceHalf)} לחצי יום, ${money(room.priceDay)} ליום מלא. הזמנה אונליין.`
@@ -42,16 +43,21 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/room/[id]"
   });
 }
 
-export default async function RoomPage({ params, searchParams }: PageProps<"/[lang]/room/[id]">) {
-  const { lang, id } = await params;
+export default async function RoomPage({ params, searchParams }: PageProps<"/[lang]/room/[slug]">) {
+  const { lang, slug } = await params;
   if (!isLang(lang)) notFound();
   const sp = await searchParams;
   const t = getT(lang);
   const he = lang === "he";
   const [site, viewer] = await Promise.all([getSite(), getViewer()]);
   const { settings, packages } = site;
-  const room = site.rooms.find((r) => r.id === id);
-  if (!room) notFound();
+  const room = site.rooms.find((r) => r.slug === slug);
+  if (!room) {
+    // A link shared before the readable addresses existed: send it to the new address, keeping the query.
+    const old = isUuid(slug) ? site.rooms.find((r) => r.id === slug) : undefined;
+    if (old) permanentRedirect(roomPath(lang, old) + queryOf(sp));
+    notFound();
+  }
   const c = siteText(settings.content, lang);
 
   const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
@@ -85,7 +91,7 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
     { k: tr(lang, "ביטול", "Cancellation"), v: tr(lang, `עד ${settings.cancelHours} שעות לפני הפגישה, מהחשבון שלכם.`, `Up to ${settings.cancelHours} hours before, from your account.`) },
   ];
   const faqs = buildFaqs(lang, { room, offices: site.offices, settings });
-  const pageUrl = langUrl(lang, `/room/${room.id}`);
+  const pageUrl = langUrl(lang, `/room/${room.slug}`);
   const where = [
     { k: t.capL, v: `${room.capacity} ${t.seats}` },
     { k: t.durL, v: t.blocks3 },
@@ -100,7 +106,7 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
           roomSchema(lang, site, room, pageUrl),
           breadcrumbSchema([
             { name: t.home, path: "", lang },
-            { name: roomName, path: `/room/${room.id}`, lang },
+            { name: roomName, path: `/room/${room.slug}`, lang },
           ]),
           faqSchema(faqs),
         )}
@@ -148,7 +154,7 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
             viewer={viewer ? { id: viewer.id, name: viewer.name, email: viewer.email, phone: viewer.phone, isMember: viewer.isMember } : null}
             initial={{ date, start, pkg }}
             initialSlots={initialSlots}
-            roomHref={`/${lang}/room/${room.id}`}
+            roomHref={roomPath(lang, room)}
           />
         </div>
 

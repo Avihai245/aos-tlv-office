@@ -238,8 +238,18 @@ textarea.input { height: auto; padding: 12px 14px; resize: vertical }
 .center-page { max-width: 640px; margin: 0 auto; padding: 96px 24px; text-align: center; display: flex; flex-direction: column; gap: 20px; align-items: center }
 .center-page h1 { margin: 0; font-size: 36px; font-weight: 700 }
 
+/* Small translucent cookie notice pinned to the bottom of the screen */
+.cookie-note { position: fixed; z-index: 70; bottom: 12px; inset-inline: 12px; margin-inline: auto; max-width: 560px; display: flex; align-items: center; gap: 14px; padding: 10px 12px 10px 16px; border-radius: 16px; background: rgba(17, 18, 20, 0.86); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.45); color: #fff; font-size: 14px; line-height: 1.5; animation: aosRise 0.45s 0.2s both }
+.cookie-note p { margin: 0; flex: 1; min-width: 0 }
+.cookie-note a { color: #e8d6ae; text-decoration: underline; text-underline-offset: 3px; display: inline-block; min-height: 24px }
+.cookie-note button { flex: none; min-height: 44px; padding: 0 18px; border: 0; border-radius: 12px; background: var(--gold); color: var(--ink); font: inherit; font-weight: 700; cursor: pointer }
+.cookie-note button:hover { background: var(--gold-l) }
+@media (max-width: 480px) { .cookie-note { gap: 10px; padding: 8px 8px 8px 14px; font-size: 13.5px } .cookie-note button { padding: 0 14px } }
+@media (max-width: 760px) { body:has(.cookie-note) .a11y-fab { bottom: 96px !important } body:has(.cookie-note) .a11y-panel { bottom: 154px !important } }
+@media (prefers-reduced-motion: reduce) { .cookie-note { animation: none } }
+
 @media print {
-  .hdr, .ftr, .a11y-fab, .a11y-panel, .no-print { display: none !important }
+  .hdr, .ftr, .a11y-fab, .a11y-panel, .cookie-note, .no-print { display: none !important }
 }
 
 /* Phones and tablets: comfortable touch targets and a floating button that never covers the booking bar */

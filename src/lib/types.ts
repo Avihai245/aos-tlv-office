@@ -4,6 +4,7 @@ export type Img = { src: string; he: string; en: string };
 
 export type Room = {
   id: string;
+  slug: string;
   code: string;
   nameHe: string;
   nameEn: string;
@@ -24,6 +25,7 @@ export type Room = {
 
 export type Office = {
   id: string;
+  slug: string;
   code: string;
   nameHe: string;
   nameEn: string;

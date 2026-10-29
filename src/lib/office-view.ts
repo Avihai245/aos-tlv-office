@@ -3,6 +3,7 @@ import { officeStatusText } from "@/i18n";
 import type { OfficeView } from "@/components/office-explorer";
 import { imgSrc, money } from "./format";
 import type { Office } from "./types";
+import { officePath } from "./urls";
 
 export const officeOpen = (o: Office) => o.status === "available" || o.status === "unset";
 
@@ -26,7 +27,7 @@ export function officeView(o: Office, lang: Lang, t: Dict): OfficeView {
     pill,
     img: img ? imgSrc(img.src) : "",
     alt: img ? (he ? img.he : img.en) || (he ? o.nameHe : o.nameEn) : "",
-    href: `/${lang}/office/${o.id}`,
+    href: officePath(lang, o),
     cta: officeOpen(o) ? t.getDetails : t.viewOff2,
   };
 }

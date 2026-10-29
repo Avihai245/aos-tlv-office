@@ -72,6 +72,28 @@ In Supabase → Authentication → URL Configuration, set the Site URL and add `
   WhatsApp and Facebook cache previews, so after a change re-scrape the address in the Facebook Sharing Debugger, or share it with `?v=2` added.
   Set `NEXT_PUBLIC_SITE_URL` in production, because canonical links, the sitemap and structured data are built from it. Optional map coordinates can be entered in the back office settings.
 
+## Readable addresses
+
+Public pages use English slugs, never ids: `/he/room/meeting-room`, `/he/office/office-1`, `/he/booking/AOS-3F9A1C2` (the booking reference).
+`rooms.slug` and `offices.slug` come from migration `add_url_slugs`; rows created in the back office get a unique slug from their English name by a trigger.
+Links shared with the old UUID addresses redirect permanently (308) to the slug address and keep their query string. Build addresses with `src/lib/urls.ts`, not by hand.
+
+## Landing pages and marketing stats
+
+- `/he|en/lp/offices` (tour request, becomes an inquiry with source `lp-office`) and `/he|en/lp/meeting-room` (booking card with the same availability, hold and request functions as the booking page, source `lp-room`).
+  They live in their own route group `(lp)` with a dark layout, are `noindex` and are not in the sitemap: they are meant for paid campaigns.
+- Campaign tags (`utm_source`, `utm_medium`, `utm_campaign`) are read from the address, kept for the visit and written on the inquiry or booking request.
+  Each visit adds one to a daily counter per campaign (`lp_view`, no personal data), and events (`lp_view`, `lp_cta_click`, `select_date`, `select_time`, `begin_checkout`, `generate_lead`, `booking_request_submit`) go to `window.dataLayer` for a tag manager.
+  Nothing is loaded or sent to a third party from these pages.
+- The back office tab **שיווק ודפי נחיתה** (`/admin/marketing`) shows views, tour requests, booking requests and conversion by campaign and by day, and where all inquiries and bookings came from.
+- If advertising or analytics tags are added later, the cookie notice must become a real consent prompt (see below) before those tags load.
+
+## Cookie notice
+
+A small translucent notice at the bottom of the public pages (`src/components/cookie-notice.tsx`) says the site uses only essential cookies (sign-in, language, accessibility) and links to the privacy policy.
+It is informational: it stores one flag in the browser (`aos_cookie_notice`) and changes nothing else. Israel's Privacy Protection Law (Amendment 13, in force since 14 August 2025) has no cookie-specific rule,
+but non-essential tracking or advertising cookies need informed, unambiguous consent with an equally prominent way to refuse. This is not legal advice.
+
 ## Design reference
 
 `design/` holds the original Claude Design prototype (reference only, see its README). It is not part of the build.

@@ -11,3 +11,15 @@ export const TICKET_COLS: [string, string, string][] = [
   ["progress", "בטיפול", "#74500f"],
   ["done", "טופלו", "#1b6340"],
 ];
+
+/** Where an inquiry or booking came from, as the back office shows it. */
+const SOURCES: Record<string, string> = {
+  "lp-office": "דף נחיתה · משרדים",
+  "lp-room": "דף נחיתה · חדר ישיבות",
+  home: "האתר · עמוד הבית",
+  office: "האתר · עמוד משרד",
+  membership: "האתר · מנוי",
+  web: "האתר",
+};
+export const sourceLabel = (s: string | null | undefined) => (s ? SOURCES[s] ?? s : "לא ידוע");
+export const isLandingSource = (s: string | null | undefined) => !!s && s.startsWith("lp-");

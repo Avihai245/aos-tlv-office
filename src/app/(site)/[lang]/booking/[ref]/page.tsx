@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { AddToCalendar } from "@/components/booking-actions";
 import { getT, isLang, payText, statusText, tr } from "@/i18n";
 import { siteText } from "@/lib/contact";
 import { getSite, getViewer } from "@/lib/data";
 import { fmtDateTime, fmtShort, localParts, money, range } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
+import { bookingPath, isUuid, roomPath } from "@/lib/urls";
 
 export const metadata: Metadata = { robots: { index: false } };
 
@@ -14,17 +15,21 @@ const CHECK = "M20 6 9 17l-5-5";
 const CLOCK = "M12 2a10 10 0 1 0 0 20a10 10 0 1 0 0-20M12 6v6l4 2";
 const X = "M18 6 6 18M6 6l12 12";
 
-export default async function BookingPage({ params }: PageProps<"/[lang]/booking/[id]">) {
-  const { lang, id } = await params;
+export default async function BookingPage({ params }: PageProps<"/[lang]/booking/[ref]">) {
+  const { lang, ref } = await params;
   if (!isLang(lang)) notFound();
   const t = getT(lang);
   const [site, viewer] = await Promise.all([getSite(), getViewer()]);
   const s = siteText(site.settings.content, lang);
 
   const supabase = await createClient();
-  const { data: b } = viewer && /^[0-9a-f-]{36}$/i.test(id)
-    ? await supabase.from("bookings").select("*").eq("id", id).eq("user_id", viewer.id).maybeSingle()
-    : { data: null };
+  // The address carries the short reference (AOS-3F9A1C2); older links carry the id and are sent to the reference address.
+  const byId = isUuid(ref);
+  const { data: b } =
+    viewer && (byId || /^AOS-[0-9A-Z]{4,12}$/i.test(ref))
+      ? await supabase.from("bookings").select("*").eq(byId ? "id" : "ref", byId ? ref : ref.toUpperCase()).eq("user_id", viewer.id).maybeSingle()
+      : { data: null };
+  if (b && byId) permanentRedirect(bookingPath(lang, b.ref));
 
   if (!b) {
     return (
@@ -94,7 +99,7 @@ export default async function BookingPage({ params }: PageProps<"/[lang]/booking
             {t.myBookings}
           </Link>
           {room && (
-            <Link href={`/${lang}/room/${room.id}`} className="link-u" style={{ display: "inline-flex", alignItems: "center", height: 52, padding: "0 12px", fontSize: 16, fontWeight: 600, textUnderlineOffset: 4 }}>
+            <Link href={roomPath(lang, room)} className="link-u" style={{ display: "inline-flex", alignItems: "center", height: 52, padding: "0 12px", fontSize: 16, fontWeight: 600, textUnderlineOffset: 4 }}>
               {t.bookAgain}
             </Link>
           )}

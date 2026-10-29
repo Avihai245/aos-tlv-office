@@ -62,8 +62,8 @@ export async function GET() {
 
   lines.push("## Pages");
   if (room) {
-    lines.push(`- [Book the meeting room (English)](${langUrl("en", `/room/${room.id}`)}): live availability and prices`);
-    lines.push(`- [הזמנת חדר הישיבות](${langUrl("he", `/room/${room.id}`)}): זמינות ומחירים בזמן אמת`);
+    lines.push(`- [Book the meeting room (English)](${langUrl("en", `/room/${room.slug}`)}): live availability and prices`);
+    lines.push(`- [הזמנת חדר הישיבות](${langUrl("he", `/room/${room.slug}`)}): זמינות ומחירים בזמן אמת`);
   }
   lines.push(`- [Private offices](${langUrl("en", "/offices")}) · [משרדים להשכרה](${langUrl("he", "/offices")})`);
   lines.push(`- [Membership](${langUrl("en", "/membership")}) · [מנוי חדר ישיבות](${langUrl("he", "/membership")})`);

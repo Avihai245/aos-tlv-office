@@ -1,5 +1,5 @@
 import { InquiryCard, type InquiryView } from "@/components/admin/inquiry-card";
-import { INQUIRY_COLS } from "@/lib/admin-meta";
+import { INQUIRY_COLS, sourceLabel } from "@/lib/admin-meta";
 import { Page } from "@/components/admin/ui";
 import { fmtDateTime } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
@@ -17,7 +17,7 @@ export default async function Inquiries() {
     id: q.id,
     title: q.name,
     kind: KIND[q.kind] ?? q.kind,
-    meta: [q.office_id ? officeName.get(q.office_id) : null, q.phone, q.email, fmtDateTime(q.created_at, "he")].filter(Boolean).join(" · "),
+    meta: [q.office_id ? officeName.get(q.office_id) : null, q.phone, q.email, fmtDateTime(q.created_at, "he"), `מקור: ${sourceLabel(q.source)}`, q.utm ? `קמפיין: ${q.utm}` : null].filter(Boolean).join(" · "),
     msg: q.msg,
     notes: q.notes,
     status: q.status,
