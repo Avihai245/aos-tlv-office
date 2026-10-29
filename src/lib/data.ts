@@ -77,6 +77,7 @@ async function loadSite(supabase: SupabaseClient): Promise<Site> {
     images: imgs(x.images),
     price: x.price === null ? null : Number(x.price),
     mgmtFee: x.mgmt_fee === null ? null : Number(x.mgmt_fee),
+    freeHours: Number(x.free_hours ?? 0),
     status: x.status as Office["status"],
   }));
   return { settings, rooms, offices, packages };

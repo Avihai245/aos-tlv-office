@@ -12,6 +12,7 @@ export function officeView(o: Office, lang: Lang, t: Dict): OfficeView {
   const img = o.images[0];
   const pill = o.status === "available" ? "available" : o.status === "reserved" ? "reserved" : "other";
   const amen = he ? o.amenitiesHe : o.amenitiesEn;
+  const free = o.freeHours > 0 ? (he ? `חדר ישיבות ל־${o.freeHours} שעות במסגרת השכירות` : `${o.freeHours} hours of the meeting room included in the rent`) : "";
   const priced = (o.price ?? 0) > 0;
   const fee = (o.mgmtFee ?? 0) > 0;
   return {
@@ -19,7 +20,7 @@ export function officeView(o: Office, lang: Lang, t: Dict): OfficeView {
     idx: String(parseInt(o.code.replace(/\D/g, ""), 10) || 0).padStart(2, "0"),
     name: he ? o.nameHe : o.nameEn,
     amen: amen.slice(0, 3).join(" · "),
-    amenList: amen,
+    amenList: free ? [...amen, free] : amen,
     rent: priced ? `${money(o.price)} ${t.monthly}` : t.priceReq,
     feeLine: priced && fee ? (he ? `+ ${money(o.mgmtFee)} דמי ניהול` : `+ ${money(o.mgmtFee)} management fee`) : "",
     vatL: priced ? (he ? "+ מע״מ" : "+ VAT") : "",
