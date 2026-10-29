@@ -29,8 +29,9 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/office/[id
     description: he
       ? `${name} ב${address}: ${amen}.${o.price ? ` שכירות חודשית ${money(o.price)}${o.mgmtFee ? ` + ${money(o.mgmtFee)} דמי ניהול` : ""} + מע״מ.` : ""} אפשר לקבוע סיור.`
       : `${name} at ${address}: ${amen}.${o.price ? ` Monthly rent ${money(o.price)}${o.mgmtFee ? ` + ${money(o.mgmtFee)} management fee` : ""} + VAT.` : ""} Tours on request.`,
-    image: o.images[0] ? imgSrc(o.images[0].src) : "/uploads/og-home.jpg",
-    imageAlt: o.images[0] ? (he ? o.images[0].he : o.images[0].en) || name : undefined,
+    // The share card is a branded 1200x630 image under 100 KB; raw office photos can be several MB and WhatsApp skips those.
+    image: `/uploads/og-home-${lang}.jpg`,
+    imageAlt: `${name}: ${he ? "משרד פרטי להשכרה בתל אביב" : "private office for rent in Tel Aviv"}`,
   });
 }
 

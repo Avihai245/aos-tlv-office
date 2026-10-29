@@ -25,7 +25,7 @@ export function clip(text: string, max = 158) {
 }
 
 /** Title, description, canonical, hreflang, Open Graph and Twitter tags for one page. */
-export function pageMeta({ lang, path = "", title, description, image = "/uploads/og-home.jpg", imageAlt, absoluteTitle, noindex }: PageMeta): Metadata {
+export function pageMeta({ lang, path = "", title, description, image = `/uploads/og-home-${lang}.jpg`, imageAlt, absoluteTitle, noindex }: PageMeta): Metadata {
   const url = langUrl(lang, path);
   const alt = imageAlt ?? (lang === "he" ? "AOS: משרדים וחדר ישיבות בתל אביב" : "AOS: offices and a meeting room in Tel Aviv");
   return {

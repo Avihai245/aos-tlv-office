@@ -37,8 +37,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/room/[id]"
     description: he
       ? `${desc}. ${money(room.price)} ל־3 שעות, ${money(room.priceHalf)} לחצי יום, ${money(room.priceDay)} ליום מלא. הזמנה אונליין.`
       : `${desc}. ${money(room.price)} for 3 hours, ${money(room.priceHalf)} for a half day, ${money(room.priceDay)} for a full day. Book online.`,
-    image: "/uploads/og-room.jpg",
-    imageAlt: he ? (room.images[0]?.he ?? room.nameHe) : (room.images[0]?.en ?? room.nameEn),
+    image: `/uploads/og-room-${lang}.jpg`,
+    imageAlt: he ? `${room.nameHe}: חדר ישיבות להזמנה אונליין בתל אביב` : `${room.nameEn}: a meeting room you book online in Tel Aviv`,
   });
 }
 

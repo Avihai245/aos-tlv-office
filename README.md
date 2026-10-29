@@ -67,6 +67,9 @@ In Supabase → Authentication → URL Configuration, set the Site URL and add `
 - **SEO:** per-page title, description, canonical and hreflang (he, en, x-default) from `src/lib/seo.ts`; structured data from `src/lib/schema.ts`
   (LocalBusiness, WebSite, Product with offers for the room and each office, FAQPage, BreadcrumbList, ItemList); `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`; account, booking and admin pages are `noindex`.
 - **GEO:** `/llms.txt` is generated from the database (prices, hours, rules, FAQ in both languages); the FAQ answers carry concrete numbers; `robots.txt` explicitly allows search and answer-engine crawlers.
+- **Link previews (WhatsApp, Facebook, LinkedIn, X):** every page carries Open Graph and Twitter tags with a branded 1200x630 card under 100 KB, one per language
+  (`public/uploads/og-home-{he,en}.jpg`, `og-room-{he,en}.jpg`). Regenerate them with `node scripts/make-share-cards.mjs` after changing the wording in that file.
+  WhatsApp and Facebook cache previews, so after a change re-scrape the address in the Facebook Sharing Debugger, or share it with `?v=2` added.
   Set `NEXT_PUBLIC_SITE_URL` in production, because canonical links, the sitemap and structured data are built from it. Optional map coordinates can be entered in the back office settings.
 
 ## Design reference
