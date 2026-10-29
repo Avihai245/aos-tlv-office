@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { absoluteRedirect } from "@/lib/redirect";
 
 const LOCALES = ["he", "en"] as const;
 const DEFAULT_LOCALE = "he";
@@ -10,16 +11,14 @@ function pickLocale(request: NextRequest) {
   return DEFAULT_LOCALE;
 }
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   // /auth is the email-link callback and /admin is the Hebrew-only back office: neither takes a language prefix.
   const isAuthRoute = pathname.startsWith("/auth/") || pathname === "/admin" || pathname.startsWith("/admin/");
   const hasLocale = LOCALES.some((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`));
 
   if (!hasLocale && !isAuthRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = `/${pickLocale(request)}${pathname === "/" ? "" : pathname}`;
-    return NextResponse.redirect(url);
+    return absoluteRedirect(request.url, `/${pickLocale(request)}${pathname === "/" ? "" : pathname}${request.nextUrl.search}`);
   }
 
   // Let Server Components know the requested path (used by the not-found page), and refresh the Supabase session.
