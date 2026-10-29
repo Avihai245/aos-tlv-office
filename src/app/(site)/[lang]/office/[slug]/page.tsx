@@ -56,7 +56,16 @@ export default async function OfficePage({ params }: PageProps<"/[lang]/office/[
   const fee = (o.mgmtFee ?? 0) > 0;
   const images = o.images.map((g) => ({ src: imgSrc(g.src), alt: (he ? g.he : g.en) || v.name }));
   const desc = he ? o.descHe : o.descEn;
-  const rows: { k: string; v: React.ReactNode }[] = [{ k: he ? "שכירות" : "Rent", v: <b style={{ fontWeight: 600 }}>{v.rent}</b> }];
+  const rows: { k: string; v: React.ReactNode }[] = [
+    {
+      k: he ? "שכירות" : "Rent",
+      v: (
+        <>
+          <b style={{ fontWeight: 600 }}>{v.rent}</b> {v.vatL && <span style={{ color: "var(--g2)" }}>{v.vatL}</span>}
+        </>
+      ),
+    },
+  ];
   if (priced && fee) {
     rows.push({ k: he ? "דמי ניהול" : "Management fee", v: `${money(o.mgmtFee)} ${t.monthly}` });
   }
@@ -119,7 +128,7 @@ export default async function OfficePage({ params }: PageProps<"/[lang]/office/[
                 </dd>
               </div>
             </dl>
-            <div className="con-card">
+            <div className="con-card" id="inq" style={{ scrollMarginTop: 88 }}>
               {open ? (
                 <OfficeInquiry lang={lang} t={t} officeId={o.id} />
               ) : (

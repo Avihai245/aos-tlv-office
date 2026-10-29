@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Faq } from "@/components/faq";
+import { JsonLd } from "@/components/json-ld";
 import { LoginCard } from "@/components/login-card";
 import { MembershipJoin } from "@/components/membership-join";
 import { MembershipManage } from "@/components/membership-manage";
 import { getT, isLang, tr } from "@/i18n";
 import { getSite, getViewer } from "@/lib/data";
 import { fmtDate, money } from "@/lib/format";
-import { pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, graph, membershipSchema } from "@/lib/schema";
+import { langUrl, pageMeta } from "@/lib/seo";
 import { roomPath } from "@/lib/urls";
 import { createClient } from "@/lib/supabase/server";
 
@@ -67,9 +70,56 @@ export default async function Membership({ params }: PageProps<"/[lang]/membersh
   const until = viewer?.memberUntil ? fmtDate(viewer.memberUntil, lang, { day: "numeric", month: "long", year: "numeric" }) : "";
   const onSub = tr(lang, `ההנחה של ${pct}% מופעלת אוטומטית בהזמנות שלכם.${until ? ` בתוקף עד ${until}.` : ""}`, `Your ${pct}% discount applies automatically.${until ? ` Valid until ${until}.` : ""}`);
   const steps = [t.mReg, t.mVer, t.mPay];
+  // Bookings a month after which the membership costs less than it saves (real prices, no VAT on either side).
+  const breakEven = save > 0 ? Math.ceil(price / save) : 0;
+  const faqs = [
+    {
+      q: tr(lang, "כמה עולה המנוי?", "How much is the membership?"),
+      a: tr(lang, `${money(price)} לחודש + מע״מ (${money(total)} כולל מע״מ).`, `${money(price)} a month + VAT (${money(total)} including VAT).`),
+    },
+    {
+      q: tr(lang, "מה מקבלים במנוי?", "What does the membership include?"),
+      a: tr(
+        lang,
+        `${pct}% הנחה על כל הזמנה של חדר הישיבות, והאפשרות להזמין גם לאותו היום, לפחות ${settings.samedayLeadHours} שעה מראש ולפי מקום פנוי.`,
+        `${pct}% off every meeting-room booking, and the option to book for the same day, at least ${settings.samedayLeadHours} hour ahead and subject to availability.`,
+      ),
+    },
+    ...(breakEven > 0
+      ? [
+          {
+            q: tr(lang, "מתי המנוי משתלם?", "When does the membership pay off?"),
+            a: tr(
+              lang,
+              `ההנחה על בלוק של 3 שעות היא ${money(save)}, כך שהמנוי משתלם החל מ־${breakEven} הזמנות בחודש.`,
+              `The discount on a 3-hour block is ${money(save)}, so the membership pays off from ${breakEven} bookings a month.`,
+            ),
+          },
+        ]
+      : []),
+    {
+      q: tr(lang, "אפשר לבטל את המנוי?", "Can I cancel the membership?"),
+      a: tr(
+        lang,
+        "כן, מעמוד המנוי. המנוי לא יחודש וההטבות נשארות עד סוף התקופה ששולמה.",
+        "Yes, from the membership page. It won't renew, and the benefits stay until the end of the paid period.",
+      ),
+    },
+  ];
+  const pageUrl = langUrl(lang, "/membership");
 
   return (
     <section aria-labelledby="mem-h" style={{ animation: "aosFade .3s both" }}>
+      <JsonLd
+        data={graph(
+          membershipSchema(lang, site, pageUrl),
+          breadcrumbSchema([
+            { name: t.home, path: "", lang },
+            { name: t.memBadge, path: "/membership", lang },
+          ]),
+          faqSchema(faqs),
+        )}
+      />
       <div className="wrap" style={{ paddingTop: "clamp(16px,2vw,24px)", paddingBottom: "clamp(56px,7vw,96px)" }}>
         <nav aria-label={t.crumbAria} className="crumb" style={{ marginBottom: 16 }}>
           <Link href={`/${lang}`}>{t.home}</Link>
@@ -114,10 +164,23 @@ export default async function Membership({ params }: PageProps<"/[lang]/membersh
                 </div>
               </div>
             )}
+            {breakEven > 0 && (
+              <p style={{ margin: 0, fontSize: 16, color: "#fff" }}>
+                {tr(lang, `המנוי משתלם החל מ־${breakEven} הזמנות בחודש.`, `It pays off from ${breakEven} bookings a month.`)}
+              </p>
+            )}
+            {step <= 3 && (
+              <div>
+                <a href="#join" className="btn btn-gold" style={{ height: 54, padding: "0 24px", fontSize: 16, borderRadius: 12, gap: 10 }}>
+                  {step === 3 ? tr(lang, "המשך להצטרפות", "Continue to join") : tr(lang, "הצטרפות למנוי", "Join the membership")}
+                  <span aria-hidden="true">{arrow}</span>
+                </a>
+              </div>
+            )}
             <p style={{ margin: 0, fontSize: 14, color: "#a9acb1" }}>{t.memFine}</p>
           </div>
 
-          <div className="mem-flow">
+          <div className="mem-flow" id="join" style={{ scrollMarginTop: 88 }}>
             <ol aria-label={t.stepsAria} className="mem-steps">
               {steps.map((label, i) => {
                 const n = i + 1;
@@ -138,25 +201,6 @@ export default async function Membership({ params }: PageProps<"/[lang]/membersh
                   <div>
                     <h2 className="bk-h3">{t.mRegT}</h2>
                     <p className="bk-sub">{t.mRegSub}</p>
-                  </div>
-                  <div>
-                    <button type="button" disabled aria-describedby="g-note" className="g-btn">
-                      <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
-                        <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z" />
-                        <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.7 6c4.5-4.2 6.9-10.3 6.9-17.7z" />
-                        <path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.5 0 20.1 0 24s.9 7.5 2.6 10.8l7.9-6.1z" />
-                        <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.7-6c-2.2 1.5-5 2.3-8.2 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.6 42.6 14.6 48 24 48z" />
-                      </svg>
-                      {t.gBtn}
-                    </button>
-                    <p id="g-note" style={{ margin: "6px 0 0", fontSize: 14, color: "var(--g2)", textAlign: "center" }}>
-                      {t.gSoon}
-                    </p>
-                  </div>
-                  <div className="or">
-                    <i />
-                    {t.orEmail}
-                    <i />
                   </div>
                   <LoginCard lang={lang} t={t} next={`/${lang}/membership`} bare />
                 </>
@@ -236,6 +280,12 @@ export default async function Membership({ params }: PageProps<"/[lang]/membersh
             </div>
           </div>
         </div>
+        <section aria-labelledby="mfaq-h" style={{ marginTop: "clamp(40px,5vw,64px)", maxWidth: 820 }}>
+          <h2 id="mfaq-h" style={{ margin: "0 0 16px", fontSize: 24, fontWeight: 700 }}>
+            {t.faqTitle}
+          </h2>
+          <Faq items={faqs} flat />
+        </section>
       </div>
     </section>
   );

@@ -95,6 +95,18 @@
   "status": {
    "he": "לא ניתן לעדכן את המנוי.",
    "en": "Could not update the membership."
+  },
+  "limit": {
+   "he": "כבר יש לכם שתי בקשות הזמנה שממתינות לתשלום. השלימו או בטלו אחת מהן כדי להזמין עוד.",
+   "en": "You already have two booking requests waiting for payment. Complete or cancel one to book more."
+  },
+  "rate": {
+   "he": "יותר מדי ניסיונות הזמנה בשעה האחרונה. נסו שוב מאוחר יותר.",
+   "en": "Too many booking attempts in the last hour. Please try again later."
+  },
+  "busy": {
+   "he": "המערכת עמוסה כרגע. נסו שוב בעוד דקה.",
+   "en": "We're busy right now. Please try again in a minute."
   }
  },
  "status": {

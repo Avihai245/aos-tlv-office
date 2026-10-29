@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { errText, type Dict, type Lang } from "@/i18n";
+import { errText, tr, type Dict, type Lang } from "@/i18n";
 import { x } from "@/i18n/extra";
 import { addDays, dowOf, fmtLong, fmtMonth, fmtShort, hm, keyOf, money, pad, parseKey, phoneOk, range, todayKey } from "@/lib/format";
 import { fetchQuote, fetchSlots } from "@/lib/slots";
+import { getUtm, track } from "@/lib/track";
 import { bookingPath } from "@/lib/urls";
 import { createClient } from "@/lib/supabase/client";
 import type { Pkg, Quote, Slot } from "@/lib/types";
@@ -157,13 +158,12 @@ export function BookingWidget({
   };
   const pickSlot = (s: Slot) => setStart(chosen && s.start === start ? null : s.start);
 
-  const utm = () => (typeof window === "undefined" ? "" : new URLSearchParams(window.location.search).get("utm_source") ?? "");
 
   async function createHold() {
     if (!selDate || start === null || end === null) return;
     setBusy(true);
     setCoErr("");
-    const { data, error } = await supabase.rpc("create_hold", { p_room: room.id, p_date: selDate, p_start: start, p_end: end, p_source: "web", p_utm: utm() });
+    const { data, error } = await supabase.rpc("create_hold", { p_room: room.id, p_date: selDate, p_start: start, p_end: end, p_source: "web", p_utm: getUtm() });
     setBusy(false);
     const res = (data ?? {}) as { err?: string; booking?: { id: string; expires_at: string } };
     if (error || res.err || !res.booking) {
@@ -183,6 +183,7 @@ export function BookingWidget({
   }
 
   function startCheckout() {
+    track("begin_checkout", { page: "room", value: chosen?.total ?? 0, currency: "ILS" });
     setStep(4);
     setBkErr("");
     if (!viewer) setPhase("auth");
@@ -235,10 +236,15 @@ export function BookingWidget({
       if (code === "expired" || code === "nf") setPhase("dead");
       return;
     }
+    track("booking_request_submit", { page: "room", value: quote?.total ?? chosen?.total ?? 0, currency: "ILS" });
     router.push(bookingPath(lang, res.booking.ref));
   }
 
   // ── derived view data ──
+  const memberPriceOf = (p: Pkg) => {
+    const base = p.id === "half" ? room.priceHalf : p.id === "day" ? room.priceDay : room.price;
+    return money(Math.round(base * (1 - cfg.memberDiscount) * 100) / 100);
+  };
   const priceOf = (p: Pkg) => {
     const base = p.id === "half" ? room.priceHalf : p.id === "day" ? room.priceDay : room.price;
     return money(isMember ? Math.round(base * (1 - cfg.memberDiscount) * 100) / 100 : base);
@@ -440,6 +446,11 @@ export function BookingWidget({
                       <b>{pkName(p)}</b>
                       <span>{hrsOf(p)}</span>
                       <b>{priceOf(p)}</b>
+                      {!isMember && cfg.memberDiscount > 0 && (
+                        <small className="pk-m">
+                          {tr(lang, "במנוי:", "Members:")} {memberPriceOf(p)}
+                        </small>
+                      )}
                     </button>
                   ))}
                 </div>
@@ -604,7 +615,7 @@ export function BookingWidget({
                 {shownPhase === "auth" && (
                   <>
                     <p style={{ margin: 0, color: "var(--g1)", fontSize: 16 }}>{t.authWhy}</p>
-                    <AuthPanel lang={lang} t={t} idp="bk" next={nextUrl} onSuccess={() => void afterAuth()} />
+                    <AuthPanel lang={lang} t={t} idp="bk" next={nextUrl} onSuccess={() => void afterAuth()} start="up" afterEmail={tr(lang, "הקישור יחזיר אתכם לאותו מועד שבחרתם.", "The link brings you back to the slot you chose.")} />
                     <div>
                       <button type="button" className="btn btn-line" onClick={() => goStep(3)}>
                         {prevArrow} {t.backSum}
@@ -618,7 +629,7 @@ export function BookingWidget({
                     <p style={{ margin: 0, color: "var(--g1)", fontSize: 16 }}>{t.phoneWhy}</p>
                     <div className="field">
                       <label htmlFor="b-ph">{t.fPhone}</label>
-                      <input id="b-ph" className="input ltr-in" type="tel" dir="ltr" autoComplete="tel" value={phone} onChange={(e) => { setPhone(e.target.value); setPhoneErr(""); }} />
+                      <input id="b-ph" className="input ltr-in" type="tel" inputMode="tel" dir="ltr" autoComplete="tel" value={phone} onChange={(e) => { setPhone(e.target.value); setPhoneErr(""); }} />
                     </div>
                     {phoneErr && (
                       <div role="alert" className="alert">
@@ -658,9 +669,17 @@ export function BookingWidget({
                         {t.cancelCo}
                       </button>
                       <button type="button" className="btn btn-gold" onClick={() => void sendRequest()} disabled={busy}>
-                        {t.sendReq} · <span style={{ direction: "ltr", display: "inline-block" }}>{money(quote?.total ?? chosen?.total ?? 0)}</span>
+                        {busy ? (
+                          t.busyL
+                        ) : (
+                          <>
+                            {t.sendReq} · <span style={{ direction: "ltr", display: "inline-block" }}>{money(quote?.total ?? chosen?.total ?? 0)}</span>
+                          </>
+                        )}
                       </button>
                     </div>
+                    {/* True while payment is offline: sending the request charges nothing. Remove once online payment goes live. */}
+                    <p style={{ margin: 0, fontSize: 14, color: "var(--g2)" }}>{tr2("לא מתבצע חיוב כעת.", "You won't be charged now.")}</p>
                   </>
                 )}
 

@@ -135,6 +135,9 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
               {av.avail}
             </li>
           </ul>
+          <p style={{ margin: "10px 0 0", fontSize: 15, color: "var(--g1)" }}>
+            {tr(lang, `ביטול ללא עלות עד ${settings.cancelHours} שעות לפני · מחיר סופי לפני ההרשמה`, `Free cancellation up to ${settings.cancelHours} hours before · final price before you sign up`)}
+          </p>
         </div>
         <div className="wrap" style={{ paddingTop: 20 }}>
           <BookingWidget

@@ -76,6 +76,8 @@ export function MobileHeader({
   const open = openAt === pathname;
   const { href: langHref, remember } = useLangSwap(lang);
   const onRoom = stripLang(pathname).startsWith("/room");
+  // On an office page the visitor is shopping for an office, so the phone header's button goes to that office's tour form.
+  const onOffice = stripLang(pathname).startsWith("/office/");
   const arrow = lang === "he" ? "←" : "→";
 
   useEffect(() => {
@@ -90,10 +92,16 @@ export function MobileHeader({
       <div className="hdr-mob">
         <Logo lang={lang} small />
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-          {!onRoom && (
-            <Link href={bookHref} className="hdr-book s">
-              {labels.navBookS}
-            </Link>
+          {onOffice ? (
+            <a href="#inq" className="hdr-book s">
+              {lang === "he" ? "קביעת סיור" : "Book a tour"}
+            </a>
+          ) : (
+            !onRoom && (
+              <Link href={bookHref} className="hdr-book s">
+                {labels.navBookS}
+              </Link>
+            )
           )}
           <button
             type="button"

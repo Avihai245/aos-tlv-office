@@ -92,7 +92,7 @@ export function LpTourForm({ lang, c, offices, initialOffice }: { lang: Lang; c:
       <div className="lp-fld2">
         <div className="lp-fld">
           <label htmlFor="t-p">{c.fPhone}</label>
-          <input id="t-p" className="lp-in ltr" type="tel" dir="ltr" autoComplete="tel" value={f.phone} onChange={set("phone")} />
+          <input id="t-p" className="lp-in ltr" type="tel" inputMode="tel" dir="ltr" autoComplete="tel" value={f.phone} onChange={set("phone")} />
         </div>
         <div className="lp-fld">
           <label htmlFor="t-e">{c.fEmail}</label>

@@ -117,6 +117,37 @@ export function roomSchema(lang: Lang, site: Site, room: Room, pageUrl: string) 
   };
 }
 
+/** The monthly meeting-room membership as a subscription service (price excludes VAT). */
+export function membershipSchema(lang: Lang, site: Site, pageUrl: string) {
+  const { settings } = site;
+  const pct = Math.round(settings.memberDiscount * 100);
+  return {
+    "@type": "Service",
+    "@id": `${pageUrl}#membership`,
+    name: tr(lang, "מנוי חדר ישיבות AOS", "AOS meeting-room membership"),
+    description: tr(
+      lang,
+      `מנוי חודשי שנותן ${pct}% הנחה על כל הזמנה של חדר הישיבות ב־AOS תל אביב, כולל הזמנה לאותו היום.`,
+      `A monthly membership with ${pct}% off every AOS Tel Aviv meeting-room booking, including same-day booking.`,
+    ),
+    serviceType: tr(lang, "מנוי חדר ישיבות", "Meeting-room membership"),
+    provider: { "@id": BUSINESS_ID },
+    areaServed: { "@type": "City", name: tr(lang, "תל אביב", "Tel Aviv") },
+    ...(settings.memberPrice > 0
+      ? {
+          offers: {
+            "@type": "Offer",
+            price: settings.memberPrice,
+            priceCurrency: "ILS",
+            url: pageUrl,
+            seller: { "@id": BUSINESS_ID },
+            priceSpecification: { "@type": "UnitPriceSpecification", price: settings.memberPrice, priceCurrency: "ILS", unitCode: "MON", valueAddedTaxIncluded: false },
+          },
+        }
+      : {}),
+  };
+}
+
 /** A private office with its monthly rent (rent excludes VAT and management fee). */
 export function officeSchema(lang: Lang, office: Office, pageUrl: string) {
   const he = lang === "he";
