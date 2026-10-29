@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LoginCard } from "@/components/login-card";
 import { MembershipJoin } from "@/components/membership-join";
+import { MembershipManage } from "@/components/membership-manage";
 import { getT, isLang, tr } from "@/i18n";
 import { getSite, getViewer } from "@/lib/data";
 import { fmtDate, money } from "@/lib/format";
@@ -40,13 +41,14 @@ export default async function Membership({ params }: PageProps<"/[lang]/membersh
   const bookHref = room ? roomPath(lang, room) : `/${lang}/rooms`;
 
   let status: "none" | "pending" | "active" = "none";
+  let ending = false; // cancelled by the member: not renewed, active until the end of the paid period
   if (viewer) {
-    if (viewer.isMember) status = "active";
-    else {
-      const supabase = await createClient();
-      const { data } = await supabase.from("memberships").select("status").eq("user_id", viewer.id).maybeSingle();
-      if (data?.status === "pending_payment") status = "pending";
-    }
+    const supabase = await createClient();
+    const { data } = await supabase.from("memberships").select("status,cancel_at").eq("user_id", viewer.id).maybeSingle();
+    if (viewer.isMember) {
+      status = "active";
+      ending = !!data?.cancel_at;
+    } else if (data?.status === "pending_payment") status = "pending";
   }
   const step = !viewer ? 1 : status === "active" ? 5 : status === "pending" ? 4 : 3;
 
@@ -205,6 +207,7 @@ export default async function Membership({ params }: PageProps<"/[lang]/membersh
                       {t.myAcc}
                     </Link>
                   </div>
+                  <MembershipManage lang={lang} mode="cancel-request" />
                 </>
               )}
               {step === 5 && (
@@ -216,12 +219,18 @@ export default async function Membership({ params }: PageProps<"/[lang]/membersh
                   </span>
                   <h2 role="status" className="bk-h3" style={{ margin: 0 }}>{t.memOnT}</h2>
                   <p style={{ margin: 0, fontSize: 16, color: "var(--g1)" }}>{onSub}</p>
+                  {ending && (
+                    <p role="status" className="ok-note" style={{ margin: 0, background: "#fbf0da", color: "#74500f" }}>
+                      {tr(lang, `המנוי לא יחודש. ההטבות נשארות${until ? ` עד ${until}` : " עד סוף התקופה ששולמה"}.`, `The membership will not renew. Benefits stay${until ? ` until ${until}` : " until the end of the paid period"}.`)}
+                    </p>
+                  )}
                   <div>
                     <Link href={bookHref} className="btn btn-gold" style={{ height: 54, padding: "0 24px", fontSize: 16, borderRadius: 12, gap: 10 }}>
                       {t.navBook}
                       <span aria-hidden="true">{arrow}</span>
                     </Link>
                   </div>
+                  <MembershipManage lang={lang} mode={ending ? "resume" : "cancel"} />
                 </>
               )}
             </div>
