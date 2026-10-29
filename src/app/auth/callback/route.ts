@@ -8,7 +8,8 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
   const raw = searchParams.get("next") ?? "/";
   // Only follow same-site relative paths.
-  const next = raw.startsWith("/") && !raw.startsWith("//") ? raw : "/";
+  // A backslash after the first slash counts as a second slash in browsers (/\\evil.com), so both are refused.
+  const next = /^\/(?![\/\\])[^\u0000-\u001f]*$/.test(raw) ? raw : "/";
 
   if (code) {
     const supabase = await createClient();
