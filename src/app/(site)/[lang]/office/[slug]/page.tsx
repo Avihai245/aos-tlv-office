@@ -59,17 +59,6 @@ export default async function OfficePage({ params }: PageProps<"/[lang]/office/[
   const rows: { k: string; v: React.ReactNode }[] = [{ k: he ? "שכירות" : "Rent", v: <b style={{ fontWeight: 600 }}>{v.rent}</b> }];
   if (priced && fee) {
     rows.push({ k: he ? "דמי ניהול" : "Management fee", v: `${money(o.mgmtFee)} ${t.monthly}` });
-    rows.push({
-      k: he ? "סה״כ לחודש" : "Total per month",
-      v: (
-        <>
-          <span style={{ fontSize: 20, fontWeight: 700 }}>
-            {money((o.price ?? 0) + (o.mgmtFee ?? 0))} {t.monthly}
-          </span>{" "}
-          <span style={{ fontSize: 15, fontWeight: 500, color: "var(--g2)" }}>{v.vatL}</span>
-        </>
-      ),
-    });
   }
 
   return (
