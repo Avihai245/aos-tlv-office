@@ -10,8 +10,9 @@ export function SiteFooter({ lang, t, c, viewer, bookHref }: { lang: Lang; t: Di
   const s = siteText(c, lang);
   const links = contactLinks(c);
   const nav1 = navItems(lang, t, bookHref);
-  const nav2 = [
-    { label: viewer ? t.myAcc : t.signInL, href: `/${lang}/account` },
+  // Two groups of links: the pages of the site (with the account) and the information pages.
+  const site = [...nav1, { label: viewer ? t.myAcc : t.signInL, href: `/${lang}/account` }];
+  const info = [
     { label: t.nFaq, href: `/${lang}#faq` },
     { label: t.privacy, href: `/${lang}/privacy` },
     { label: t.terms, href: `/${lang}/terms` },
@@ -20,48 +21,49 @@ export function SiteFooter({ lang, t, c, viewer, bookHref }: { lang: Lang; t: Di
   return (
     <footer className="ftr">
       <div className="ftr-in">
-        <div className="ftr-grid">
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <span className="ftr-logo">AOS</span>
-            <address>
-              <span style={{ color: "#fff" }}>{s.address}</span>
-              <span>{s.hoursA}</span>
-              <span>{s.hoursB}</span>
-              {links.map((l) => (
-                <a key={l.href} href={l.href} target={l.target} rel="noopener">
-                  {l.label}
-                </a>
-              ))}
-            </address>
-          </div>
-          <nav aria-label={t.footAria}>
-            <h2>{t.explore}</h2>
-            <div>
-              {nav1.map((n) => (
-                <Link key={n.label} href={n.href}>
-                  {n.label}
-                </Link>
-              ))}
-            </div>
-          </nav>
-          <nav aria-label={t.footAria2}>
-            <h2>{t.infoL}</h2>
-            <div>
-              {nav2.map((n) => (
-                <Link key={n.label} href={n.href}>
-                  {n.label}
-                </Link>
-              ))}
-            </div>
-          </nav>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start" }}>
+        <div className="ftr-top">
+          <span className="ftr-logo">AOS</span>
+          <address>
+            <span className="ad">{s.address}</span>
+            <span>
+              {s.hoursA}
+              <i aria-hidden="true"> · </i>
+              {s.hoursB}
+            </span>
+            {links.length > 0 && (
+              <span className="ct">
+                {links.map((l) => (
+                  <a key={l.href} href={l.href} target={l.target} rel="noopener">
+                    {l.label}
+                  </a>
+                ))}
+              </span>
+            )}
+          </address>
+          <div className="ftr-act">
             <Link href={bookHref} className="ftr-book">
               {t.navBook}
             </Link>
             <LangToggle lang={lang} label={t.langFull} aria={t.langAria} variant="ftr" />
           </div>
         </div>
-        <p className="copy">© AOS</p>
+        <div className="ftr-bot">
+          <nav aria-label={t.footAria}>
+            {site.map((n) => (
+              <Link key={n.label} href={n.href}>
+                {n.label}
+              </Link>
+            ))}
+          </nav>
+          <nav aria-label={t.footAria2} className="legal">
+            {info.map((n) => (
+              <Link key={n.label} href={n.href}>
+                {n.label}
+              </Link>
+            ))}
+          </nav>
+          <p className="copy">© AOS</p>
+        </div>
       </div>
     </footer>
   );

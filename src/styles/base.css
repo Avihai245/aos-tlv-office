@@ -196,19 +196,24 @@ textarea.input { height: auto; padding: 12px 14px; resize: vertical }
 
 /* Footer */
 .ftr { background: var(--ink); color: #d7d8da }
-.ftr-in { padding: 48px clamp(16px, 4vw, 40px) 28px; box-sizing: border-box }
-.ftr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 32px }
+.ftr-in { padding: 28px clamp(16px, 4vw, 40px) 14px; box-sizing: border-box }
+/* Two rows: the brand, address and actions on top, every link underneath */
+.ftr-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px clamp(20px, 3vw, 40px) }
 .ftr-logo { font-family: var(--font-logo); font-size: 24px; letter-spacing: 0.32em; color: #fff; direction: ltr; text-align: start }
-.ftr address { font-style: normal; display: flex; flex-direction: column; gap: 2px; font-size: 15px }
+.ftr address { font-style: normal; display: flex; flex-direction: column; gap: 2px; font-size: 14px; line-height: 1.55; color: #c9cbcf }
+.ftr address .ad { color: #fff; font-size: 15px }
+.ftr address .ct { display: flex; flex-wrap: wrap; gap: 2px 14px }
 .ftr address a { color: #fff; direction: ltr; text-align: start; text-decoration: underline; text-underline-offset: 3px }
-.ftr h2 { margin: 0 0 10px; font-size: 15px; font-weight: 600; color: #fff }
-.ftr nav div { display: flex; flex-direction: column; gap: 4px; font-size: 15px }
-.ftr nav a { color: #d7d8da; min-height: 32px; display: flex; align-items: center }
-.ftr nav a:hover, .ftr address a:hover { color: #fff }
-.ftr .copy { margin: 32px 0 0; padding-top: 18px; border-top: 1px solid var(--ink-2); font-size: 14px; color: #a9acb1 }
-.ftr-book { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px; background: var(--gold); color: var(--ink); font-size: 15px; font-weight: 600; border-radius: 12px }
+.ftr-act { display: flex; align-items: center; gap: 10px }
+.ftr-bot { margin-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.12); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 28px; padding-inline-end: 64px }
+.ftr-bot nav { display: flex; flex-wrap: wrap; gap: 0 8px; margin-inline: -6px; font-size: 14px }
+.ftr-bot nav a { color: #d7d8da; min-height: 40px; min-width: 40px; padding-inline: 6px; display: inline-flex; align-items: center; justify-content: center }
+.ftr-bot nav.legal a { color: #a9acb1; font-size: 13.5px }
+.ftr-bot nav a:hover, .ftr address a:hover { color: #fff }
+.ftr .copy { margin: 0; font-size: 13px; color: #8c9096 }
+.ftr-book { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; background: var(--gold); color: var(--ink); font-size: 15px; font-weight: 600; border-radius: 12px; white-space: nowrap }
 .ftr-book:hover { background: var(--gold-l); color: var(--ink) }
-.ftr-lang { min-height: 40px; background: none; border: 1px solid #4a4d52; border-radius: 10px; padding: 0 14px; color: #fff; cursor: pointer; font-size: 14px }
+.ftr-lang { min-height: 44px; white-space: nowrap; background: none; border: 1px solid #4a4d52; border-radius: 10px; padding: 0 14px; color: #fff; cursor: pointer; font-size: 14px }
 
 /* Accessibility widget */
 .a11y-fab { position: fixed; bottom: 16px; inset-inline-end: 16px; z-index: 60; width: 56px; height: 56px; border-radius: 50%; border: 2px solid #fff; background: #1f4fd1; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 24px -10px rgba(17, 18, 20, 0.6); transition: transform 0.2s }
@@ -253,9 +258,20 @@ textarea.input { height: auto; padding: 12px 14px; resize: vertical }
 }
 
 /* Phones and tablets: comfortable touch targets and a floating button that never covers the booking bar */
+@media (max-width: 720px) {
+  .ftr-in { padding-top: 22px }
+  .ftr-top { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "logo act" "addr addr" }
+  .ftr-logo { grid-area: logo; font-size: 21px }
+  .ftr-top address { grid-area: addr }
+  .ftr-act { grid-area: act; flex-wrap: wrap; justify-content: flex-end; gap: 8px }
+  .ftr-book { padding: 0 14px; font-size: 14px }
+  .ftr-lang { padding: 0 12px }
+  .ftr-bot { flex-direction: column; align-items: flex-start; gap: 0 }
+  .ftr-bot nav { gap: 0 6px }
+}
 @media (pointer: coarse), (max-width: 1023px) {
-  .ftr nav a { min-height: 44px }
-  .ftr-lang { min-height: 44px }
+  .ftr-in { padding-bottom: 66px }
+  .ftr-bot { padding-inline-end: 0 }
   .seg button, .seg a { min-height: 44px }
   .a11y-fab { width: 48px; height: 48px; bottom: 12px; inset-inline-end: 12px }
   .a11y-fab svg { width: 26px; height: 26px }
