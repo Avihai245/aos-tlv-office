@@ -281,7 +281,7 @@ export default async function Membership({ params }: PageProps<"/[lang]/membersh
           </div>
         </div>
         <section aria-labelledby="mfaq-h" style={{ marginTop: "clamp(40px,5vw,64px)", maxWidth: 820 }}>
-          <h2 id="mfaq-h" style={{ margin: "0 0 16px", fontSize: 24, fontWeight: 700 }}>
+          <h2 id="mfaq-h" style={{ margin: "0 0 16px", fontSize: 28 }}>
             {t.faqTitle}
           </h2>
           <Faq items={faqs} flat />

@@ -77,7 +77,7 @@ export function MembershipBanner({
           </div>
           <div className="mem-card">
             <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
-              <b style={{ fontSize: 40, fontWeight: 700, lineHeight: 1, direction: "ltr", color: "#fff" }}>{money(settings.memberPrice)}</b>
+              <b className="num-d" style={{ fontSize: 44, lineHeight: 1, direction: "ltr", color: "#fff" }}>{money(settings.memberPrice)}</b>
               <span style={{ fontSize: 16, color: "#d7d8da" }}>{t.memPer}</span>
             </div>
             {example && <p style={{ margin: 0, fontSize: 15, color: "#d7d8da" }}>{example}</p>}

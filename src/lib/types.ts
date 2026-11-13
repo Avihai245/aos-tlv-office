@@ -36,6 +36,8 @@ export type Office = {
   images: Img[];
   price: number | null;
   mgmtFee: number | null;
+  /** Hours of the meeting room included in the monthly rent. */
+  freeHours: number;
   status: "unset" | "available" | "occupied" | "reserved" | "unavailable";
 };
 

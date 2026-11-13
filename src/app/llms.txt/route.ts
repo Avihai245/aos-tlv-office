@@ -57,7 +57,10 @@ export async function GET() {
   lines.push("## Private offices (משרדים להשכרה)");
   lines.push(`- ${offices.length} furnished private offices with a desk, chair, integrated lighting, a shared kitchenette and central A/C.`);
   if (rents.length) lines.push(`- Monthly rent from ${money(Math.min(...rents))}, plus a management fee and VAT. Contact AOS for a tour and a quote.`);
-  for (const o of offices) lines.push(`- ${o.nameEn}${o.price ? `: ${money(o.price)} per month` : ""}${o.mgmtFee ? ` + ${money(o.mgmtFee)} management fee` : ""}`);
+  for (const o of offices)
+    lines.push(
+      `- ${o.nameEn}${o.price ? `: ${money(o.price)} per month` : ""}${o.mgmtFee ? ` + ${money(o.mgmtFee)} management fee` : ""}${o.freeHours > 0 ? `; includes ${o.freeHours} meeting-room hours a month` : ""}`,
+    );
   lines.push("");
 
   lines.push("## Pages");

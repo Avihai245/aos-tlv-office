@@ -26,6 +26,7 @@ npm run build && npm start      # production
 | `src/components/booking-widget.tsx` | date → time → summary → sign-in → hold → request, all through RPCs |
 | `src/i18n/` | `he.json`/`en.json` (strings from the design), `extra.ts` (production-only strings), `docs.json` (privacy, terms, accessibility) |
 | `src/styles/` | design tokens and page styles taken from the v7 design |
+| `src/styles/luxe.css` | brand layer loaded last on the public site and landing pages: serif headlines, warm paper and ink, champagne-gold buttons, hairline borders |
 
 ## Pages built
 
@@ -61,6 +62,8 @@ In Supabase → Authentication → URL Configuration, set the Site URL and add `
 
 ## Speed, SEO and AI search (GEO)
 
+- **Fonts:** IBM Plex Sans Hebrew (400, 600, 700) for text, Frank Ruhl Libre 500 for headlines and prices (not preloaded, so the hero photo keeps the bandwidth),
+  Frank Ruhl Libre 400 Latin for the logo. A new weight costs a font file on every page, so check Lighthouse before adding one.
 - **Speed:** the hero photo ships as pre-sized AVIF/WebP in `public/uploads/hero-*`; the hero video loads only after the page is idle and never on data-saver or reduced-motion;
   the public catalogue and anonymous availability are shared between requests for 60 s and 15 s (`src/lib/data.ts`, `src/lib/slots-server.ts`; the back office clears them after saving);
   Google Maps loads on click; below-the-fold sections use `content-visibility`; static photos are cached for a month (`next.config.ts`).

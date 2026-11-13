@@ -35,7 +35,7 @@ export default async function BookingPage({ params }: PageProps<"/[lang]/booking
     return (
       <section className="status-page">
         <div style={{ display: "flex", flexDirection: "column", gap: 16, alignItems: "flex-start" }}>
-          <h1 style={{ margin: 0, fontSize: 32, fontWeight: 700 }}>{t.bkNF}</h1>
+          <h1 style={{ margin: 0, fontSize: 36 }}>{t.bkNF}</h1>
           <Link href={`/${lang}/account`} className="btn btn-dark" style={{ height: 52, padding: "0 24px", borderRadius: 12 }}>
             {viewer ? tr(lang, "האזור שלי", "My area") : t.signInL}
           </Link>

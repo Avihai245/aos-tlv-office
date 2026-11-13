@@ -1,0 +1,180 @@
+/*
+ * Brand layer: serif headlines, warm paper and ink, champagne gold, hairline borders and soft depth.
+ * Loaded after the page styles on the public site and the landing pages (not the back office), so it only refines them.
+ */
+
+/* Paper and type */
+body { background: var(--paper) }
+#aos-root { background: var(--paper) }
+#aos-root :is(h1, h2) { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.005em }
+#aos-root .a11y-head h2 { font-family: var(--font-body); font-weight: 700; letter-spacing: 0 }
+.h2 { font-size: clamp(34px, 4.2vw, 60px); line-height: 1.06 }
+.h2-s { font-size: clamp(30px, 3.4vw, 46px); line-height: 1.1 }
+.eyebrow, .hero-kicker, .lp-kicker { font-size: 14px; letter-spacing: 0.06em; font-weight: 600 }
+[dir="ltr"] :is(.eyebrow, .hero-kicker, .lp-kicker) { font-size: 12.5px; letter-spacing: 0.18em; text-transform: uppercase }
+.eyebrow i, .hero-kicker i, .lp-kicker i, .lp-eyebrow i { width: 44px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)) }
+[dir="rtl"] .eyebrow i, [dir="rtl"] .hero-kicker i, [dir="rtl"] .lp-kicker i, [dir="rtl"] .lp-eyebrow i { background: linear-gradient(270deg, transparent, var(--gold)) }
+::selection { background: #ecdcb6 }
+:focus-visible { outline-color: var(--gold-d) }
+
+/* The serif reads smaller than the sans at the same size, so page titles step up */
+.rm-top h1 { font-size: clamp(36px, 4.2vw, 58px); line-height: 1.06 }
+.status-top h1, .login-grid h1, .doc h1 { font-size: clamp(34px, 4vw, 52px); line-height: 1.08 }
+.mem-hero h1 { font-size: clamp(40px, 5.4vw, 78px); line-height: 1.02 }
+.center-page h1 { font-size: 44px }
+.rm-gal h2, .rm-sec h2 { font-size: 28px }
+.bk-h3 { font-size: clamp(26px, 2.6vw, 34px) }
+.bk-head h2 { font-size: 24px }
+.doc h2 { font-size: 22px }
+
+/* Numerals and prices in the display serif */
+.num-d, .hp-price b, .hero-stats dt, .off-row .num, .rail .big b, .sum-box .tot dd, .mem-price b, .mem-sum .tot dd, .lp-facts dt, .acc-date b {
+  font-family: var(--font-display); font-weight: 500; letter-spacing: 0
+}
+
+/* Buttons: champagne gold with a soft sheen */
+.btn-gold, .hdr-book, .ftr-book, .mnav .foot .book, .lp-pill, .lp-btn, .lp-submit, .lp-cta-big, .lp-bar a, .cookie-note button {
+  background: var(--gold-grad); background-size: 140% 100%; background-position: 0 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38), 0 10px 26px -14px rgba(150, 112, 50, 0.75);
+  transition: background-position 0.5s ease, box-shadow 0.3s ease, transform 0.25s ease, gap 0.25s
+}
+.btn-gold:hover, .hdr-book:hover, .ftr-book:hover, .mnav .foot .book:hover, .lp-pill:hover, .lp-btn:hover, .lp-submit:hover, .lp-cta-big:hover, .lp-bar a:hover, .cookie-note button:hover {
+  background: var(--gold-grad); background-size: 140% 100%; background-position: 100% 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 16px 32px -16px rgba(150, 112, 50, 0.85)
+}
+.btn-gold.on-dark:hover { background: var(--gold-grad); background-size: 140% 100%; background-position: 100% 0 }
+.btn-dark { background: var(--ink); box-shadow: inset 0 0 0 1px rgba(196, 162, 101, 0); transition: box-shadow 0.3s, background 0.2s, gap 0.25s }
+.btn-dark:hover { background: var(--ink-2); box-shadow: inset 0 0 0 1px rgba(196, 162, 101, 0.6) }
+.btn-out { border-color: rgba(15, 14, 12, 0.8) }
+.btn-line { border-color: var(--field); background: #fff }
+.input { border-color: var(--field); background: #fff; transition: border-color 0.2s, box-shadow 0.2s }
+.input:focus { border-color: var(--gold-d); outline: 0; box-shadow: 0 0 0 3px rgba(196, 162, 101, 0.28) }
+.seg, .tabs { background: var(--bg-3) }
+
+/* Header: translucent paper with a gold hairline */
+.hdr {
+  background: rgba(252, 250, 246, 0.86); -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid rgba(196, 162, 101, 0.28)
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .hdr { background: var(--paper) } }
+.hdr-nav a { position: relative; border-bottom: 0; color: var(--g1) }
+.hdr-nav a::after { content: ""; position: absolute; inset-inline: 0; bottom: 2px; height: 1px; background: var(--gold); transform: scaleX(0); transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) }
+.hdr-nav a:hover::after, .hdr-nav a[aria-current="page"]::after { transform: scaleX(1) }
+.hdr-ico:hover { background: var(--bg-3) }
+.menu-btn { border-color: var(--line); background: #fff }
+.mnav { background: var(--paper); top: 64px }
+.mnav a.item { font-family: var(--font-display); font-size: 24px; border-bottom-color: var(--line) }
+.logo-sub { color: #6f695f }
+
+/* Hero */
+.hero { background: var(--ink) }
+.hero-shade { background: linear-gradient(270deg, rgba(15, 14, 12, 0.86) 0%, rgba(15, 14, 12, 0.62) 46%, rgba(15, 14, 12, 0.22) 100%) }
+[dir="ltr"] .hero-shade { background: linear-gradient(90deg, rgba(15, 14, 12, 0.86) 0%, rgba(15, 14, 12, 0.62) 46%, rgba(15, 14, 12, 0.22) 100%) }
+.hero-shade::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15, 14, 12, 0.35) 0%, transparent 22%, transparent 70%, rgba(15, 14, 12, 0.55) 100%) }
+@media (max-width: 1023px) {
+  .hero-shade, [dir="ltr"] .hero-shade { background: linear-gradient(180deg, rgba(15, 14, 12, 0.6) 0%, rgba(15, 14, 12, 0.68) 55%, rgba(15, 14, 12, 0.86) 100%) }
+}
+.hero-col { max-width: 760px }
+.hero h1 { font-size: clamp(44px, 5.8vw, 88px); line-height: 1.02; letter-spacing: -0.01em }
+.hero h1 span {
+  color: #dcc28f; background: linear-gradient(100deg, #f0dcae 0%, #d4b475 45%, #b48f50 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent
+}
+.hero-kicker { color: #e5d3a9 }
+.hero-sub { color: #ebe6dc; font-size: clamp(17px, 1.4vw, 21px) }
+.hero-panel {
+  background: rgba(252, 250, 246, 0.97); border: 1px solid rgba(196, 162, 101, 0.4); border-radius: 22px; padding: 20px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 40px 80px -40px rgba(0, 0, 0, 0.75)
+}
+.hp-price b { font-size: 40px }
+.hp-dates a { border-color: var(--line); background: #fff; border-radius: 16px }
+.hp-dates a:hover { border-color: var(--gold); box-shadow: 0 14px 26px -18px rgba(150, 112, 50, 0.7) }
+.hero-stats dt { font-size: clamp(30px, 3vw, 42px); color: #ecd9ae }
+.hero-stats > div { border-inline-end-color: rgba(220, 194, 143, 0.35) }
+.hero-stats dd { color: #d9d4ca }
+.hero-next { background: rgba(252, 250, 246, 0.94); box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.6) }
+
+/* Dark sections: deep ink with a faint champagne glow */
+.room-sec, .dark-sec, .mem-hero {
+  background:
+    radial-gradient(1100px 520px at 88% -10%, rgba(196, 162, 101, 0.13), transparent 62%),
+    radial-gradient(900px 480px at 0% 110%, rgba(196, 162, 101, 0.07), transparent 60%),
+    var(--ink)
+}
+.room-photo, .tile { box-shadow: 0 40px 80px -48px rgba(0, 0, 0, 0.9) }
+.room-photo::after, .tile::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(220, 194, 143, 0.18); pointer-events: none }
+.feat-grid li { border-color: rgba(220, 194, 143, 0.16); background: rgba(255, 255, 255, 0.02) }
+.feat-ic { background: rgba(196, 162, 101, 0.12); color: #dcc28f }
+.next-slots a { border-color: rgba(220, 194, 143, 0.24) }
+.room-cta { border-top-color: rgba(220, 194, 143, 0.18) }
+.tile .cap { background: rgba(15, 14, 12, 0.72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(220, 194, 143, 0.2) }
+
+/* Membership banner */
+.mem { border-color: rgba(196, 162, 101, 0.42); background: linear-gradient(135deg, rgba(196, 162, 101, 0.12), rgba(196, 162, 101, 0.03) 60%) }
+.mem.mem-solid { border: 1px solid rgba(196, 162, 101, 0.3); background: radial-gradient(700px 320px at 90% 0%, rgba(196, 162, 101, 0.16), transparent 65%), var(--ink) }
+.mem-head { font-family: var(--font-display); font-weight: 500; font-size: clamp(30px, 3.4vw, 46px); letter-spacing: 0 }
+.mem-badge { background: var(--gold-grad); letter-spacing: 0.06em }
+.mem-card { background: rgba(255, 255, 255, 0.04); border-color: rgba(220, 194, 143, 0.18) }
+
+/* Offices */
+.off-list { border-top-color: var(--line) }
+.off-list li { border-bottom-color: var(--line) }
+.off-row { border-radius: 16px }
+.off-row:hover, .off-row[aria-pressed="true"] { background: #fff; box-shadow: 0 18px 36px -30px rgba(80, 60, 25, 0.55) }
+.off-row .num { font-size: 32px; color: #9a948a }
+.off-row[aria-pressed="true"] .num { color: var(--gold-d) }
+.off-card, .off-tile { border-color: var(--line); background: #fff; box-shadow: 0 40px 80px -56px rgba(60, 44, 15, 0.55) }
+.off-card { border-radius: 26px }
+.off-tile { border-radius: 20px; transition: border-color 0.3s, box-shadow 0.4s, transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) }
+.off-tile:hover { border-color: rgba(196, 162, 101, 0.55); box-shadow: 0 34px 60px -40px rgba(60, 44, 15, 0.6); transform: translateY(-4px) }
+.off-tile img { transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) }
+.off-tile:hover img { transform: scale(1.05) }
+.chips li { background: var(--bg-2); border: 1px solid var(--line-2) }
+.pill.other { background: var(--bg-3); color: #4a453d }
+.off-foot { border-top-color: var(--line-2) }
+
+/* The complex, location, FAQ and contact */
+.complex, .faq { background: var(--bg-2) }
+.am-grid li { border: 1px solid var(--line-2); border-radius: 18px; position: relative; overflow: hidden }
+.am-grid li::before { content: ""; position: absolute; inset-inline: 18px; top: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.3s }
+.am-grid li:hover { box-shadow: 0 22px 40px -30px rgba(60, 44, 15, 0.5) }
+.am-grid li:hover::before { opacity: 1 }
+.dl-rows, .dl-rows > div { border-color: var(--line) }
+.map-box { background: var(--bg-3); border: 1px solid var(--line) }
+.faq-item { border: 1px solid var(--line-2); border-radius: 16px; transition: border-color 0.25s, box-shadow 0.25s }
+.faq-item:hover { border-color: rgba(196, 162, 101, 0.45) }
+.faq-item .sign { color: var(--gold-d) }
+.faq-flat .faq-item { border-width: 0 0 1px; border-color: var(--line) }
+.con-card { background: #fff; border-color: var(--line); border-radius: 22px; box-shadow: 0 40px 80px -60px rgba(60, 44, 15, 0.55) }
+.chip-btn { border-color: var(--field) }
+
+/* Footer */
+.ftr {
+  position: relative;
+  background: radial-gradient(900px 360px at 50% 0%, rgba(196, 162, 101, 0.1), transparent 70%), var(--ink); color: #d9d4ca
+}
+.ftr::before { content: ""; position: absolute; top: 0; inset-inline: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(220, 194, 143, 0.55), transparent) }
+.ftr-in { padding-top: 40px }
+.ftr-logo { font-size: 30px; color: #ecd9ae }
+.ftr-bot { border-top-color: rgba(220, 194, 143, 0.16) }
+.ftr-lang { border-color: rgba(220, 194, 143, 0.35) }
+
+/* Booking, membership and account pages */
+.bk { border-color: var(--line); border-radius: 24px; box-shadow: 0 40px 80px -56px rgba(60, 44, 15, 0.55) }
+.day.on { box-shadow: 0 10px 22px -14px rgba(15, 14, 12, 0.6) }
+.day.today { border-color: var(--gold-d) }
+.rail { background: radial-gradient(600px 300px at 100% 0%, rgba(196, 162, 101, 0.14), transparent 60%), var(--ink) }
+
+/* Accessibility button in brand colours, still a clearly marked round button */
+.a11y-fab { background: var(--ink); border: 2px solid var(--gold); color: #fff; box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.7) }
+.a11y-panel { background: var(--paper); border-color: var(--line) }
+.a11y-head { background: var(--paper) }
+
+/* Landing pages */
+body.lp, .lp #aos-root { background: var(--ink) }
+.lp h1 { letter-spacing: -0.01em }
+.lp-logo { color: #ecd9ae }
+
+@media (prefers-reduced-motion: reduce) {
+  .off-tile:hover, .off-tile:hover img { transform: none }
+}

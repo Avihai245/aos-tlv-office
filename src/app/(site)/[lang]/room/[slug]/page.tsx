@@ -181,7 +181,7 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
             )}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 14, minWidth: 0 }}>
-            <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700 }}>{t.aboutRoom}</h2>
+            <h2 style={{ margin: 0, fontSize: 28 }}>{t.aboutRoom}</h2>
             <p style={{ margin: 0, fontSize: 17, color: "var(--g1)", textWrap: "pretty" }}>{he ? room.descHe : room.descEn}</p>
           </div>
         </div>
@@ -189,7 +189,7 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
         <div style={{ borderTop: "1px solid var(--line-2)" }}>
           <div className="rm-sec-grid">
             <section aria-labelledby="inc-h" style={{ gridColumn: "1/-1" }}>
-              <h2 id="inc-h" style={{ margin: "0 0 16px", fontSize: "clamp(24px,2.4vw,32px)", fontWeight: 700 }}>
+              <h2 id="inc-h" style={{ margin: "0 0 16px", fontSize: "clamp(28px,2.8vw,38px)" }}>
                 {t.incT}
               </h2>
               <p style={{ margin: "-6px 0 18px", fontSize: 17, color: "var(--g1)", maxWidth: 640 }}>{featIntro(room, lang)}</p>
@@ -210,7 +210,7 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
               </ul>
             </section>
             <section aria-labelledby="rules-h">
-              <h2 id="rules-h" style={{ margin: "0 0 16px", fontSize: 24, fontWeight: 700 }}>
+              <h2 id="rules-h" style={{ margin: "0 0 16px", fontSize: 28 }}>
                 {t.knowT}
               </h2>
               <dl className="kv">
@@ -223,7 +223,7 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
               </dl>
             </section>
             <section aria-labelledby="loc2-h">
-              <h2 id="loc2-h" style={{ margin: "0 0 16px", fontSize: 24, fontWeight: 700 }}>
+              <h2 id="loc2-h" style={{ margin: "0 0 16px", fontSize: 28 }}>
                 {t.whereT}
               </h2>
               <dl className="kv where">
@@ -244,7 +244,7 @@ export default async function RoomPage({ params, searchParams }: PageProps<"/[la
               </div>
             </section>
             <section aria-labelledby="rfaq-h">
-              <h2 id="rfaq-h" style={{ margin: "0 0 16px", fontSize: 24, fontWeight: 700 }}>
+              <h2 id="rfaq-h" style={{ margin: "0 0 16px", fontSize: 28 }}>
                 {t.faqTitle}
               </h2>
               <Faq items={faqs.map((f) => ({ ...f, a: fixRanges(f.a) }))} flat />

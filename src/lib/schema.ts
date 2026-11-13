@@ -161,6 +161,18 @@ export function officeSchema(lang: Lang, office: Office, pageUrl: string) {
     image: office.images.map((g) => absUrl(imgSrc(g.src))),
     category: tr(lang, "משרד פרטי להשכרה", "Private office rental"),
     brand: { "@type": "Brand", name: "AOS" },
+    ...(office.freeHours > 0
+      ? {
+          additionalProperty: [
+            {
+              "@type": "PropertyValue",
+              name: tr(lang, "שעות בחדר הישיבות הכלולות בשכירות בכל חודש", "Meeting-room hours included in the rent each month"),
+              value: office.freeHours,
+              unitText: tr(lang, "שעות", "hours"),
+            },
+          ],
+        }
+      : {}),
     ...(office.price && office.price > 0
       ? {
           offers: {

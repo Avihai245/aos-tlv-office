@@ -13,6 +13,8 @@ export function buildFaqs(lang: Lang, ctx: { room?: Room; offices: Office[]; set
   // Plain text for structured data; the page wraps clock ranges for right-to-left display when it renders them.
   const hours = `${s.hoursA}, ${s.hoursB}`.replace(/[\u2066\u2069]/g, "");
   const rents = offices.map((o) => o.price ?? 0).filter((p) => p > 0);
+  // Meeting-room hours every office includes in its rent (the smallest, so the answer holds for each one).
+  const incHours = offices.length ? Math.min(...offices.map((o) => o.freeHours)) : 0;
   const pct = Math.round(settings.memberDiscount * 100);
   const list: Faq[] = [];
 
@@ -64,8 +66,8 @@ export function buildFaqs(lang: Lang, ctx: { room?: Room; offices: Office[]; set
     a: rents.length
       ? tr(
           lang,
-          `${offices.length} משרדים פרטיים מרוהטים בשכירות חודשית החל מ־${money(Math.min(...rents))}, בתוספת דמי ניהול ומע״מ. משאירים פנייה ונחזור לתאם סיור והצעת מחיר.`,
-          `${offices.length} furnished private offices, rented monthly from ${money(Math.min(...rents))} plus a management fee and VAT. Send an enquiry and we will arrange a tour and a quote.`,
+          `${offices.length} משרדים פרטיים מרוהטים בשכירות חודשית החל מ־${money(Math.min(...rents))}, בתוספת דמי ניהול ומע״מ.${incHours ? ` השכירות כוללת ${incHours} שעות בחדר הישיבות בכל חודש.` : ""} משאירים פנייה ונחזור לתאם סיור והצעת מחיר.`,
+          `${offices.length} furnished private offices, rented monthly from ${money(Math.min(...rents))} plus a management fee and VAT.${incHours ? ` The rent includes ${incHours} hours of the meeting room each month.` : ""} Send an enquiry and we will arrange a tour and a quote.`,
         )
       : tr(lang, "בדף המשרדים מוצג הסטטוס של כל אחד משבעת המשרדים. משאירים פנייה ונחזור לתאם סיור והצעת מחיר.", "The offices page shows the status of each of the seven offices. Send an enquiry and we will arrange a tour and a quote."),
   });
