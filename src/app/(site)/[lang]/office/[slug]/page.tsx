@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/office/[sl
   if (!o) return {};
   const he = lang === "he";
   const name = he ? o.nameHe : o.nameEn;
-  const amen = (he ? o.amenitiesHe : o.amenitiesEn).join(", ");
+  const amen = officeView(o, lang, getT(lang)).amenList.join(", ");
   const address = siteText(settings.content, lang).address;
   return pageMeta({
     lang,
@@ -104,7 +104,7 @@ export default async function OfficePage({ params }: PageProps<"/[lang]/office/[
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
               <span style={{ fontSize: 14, color: "var(--g2)", direction: "ltr", display: "inline-block" }}>{o.code}</span>
-              <h1 id="ofc-h" style={{ margin: "4px 0 0", fontSize: "clamp(30px,3.4vw,44px)", fontWeight: 700, lineHeight: 1.12 }}>
+              <h1 id="ofc-h" style={{ margin: "4px 0 0", fontSize: "clamp(34px,4vw,54px)", lineHeight: 1.12 }}>
                 {v.name}
               </h1>
               <span className={`pill ${v.pill}`} style={{ display: "inline-block", marginTop: 12, fontSize: 14, padding: "5px 12px" }}>

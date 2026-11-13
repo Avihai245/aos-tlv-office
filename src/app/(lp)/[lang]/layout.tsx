@@ -3,12 +3,13 @@ import { notFound } from "next/navigation";
 import { A11yWidget } from "@/components/a11y-widget";
 import { CookieNotice } from "@/components/cookie-notice";
 import { dirOf, getT, isLang } from "@/i18n";
-import { frank, plex } from "@/lib/fonts";
+import { display, frank, plex } from "@/lib/fonts";
 import { SITE_URL } from "@/lib/seo";
 import "@/styles/base.css";
 import "@/styles/lp.css";
+import "@/styles/luxe.css";
 
-export const viewport: Viewport = { themeColor: "#0b0b0c", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#0f0e0c", width: "device-width", initialScale: 1 };
 
 // Campaign pages are reached from ads, not from search, so they stay out of the index and out of the sitemap.
 export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Promise<Metadata> {
@@ -33,7 +34,7 @@ export default async function LpLayout({ children, params }: LayoutProps<"/[lang
   if (!isLang(lang)) notFound();
   const t = getT(lang);
   return (
-    <html lang={lang} dir={dirOf(lang)} className={`${plex.variable} ${frank.variable}`}>
+    <html lang={lang} dir={dirOf(lang)} className={`${plex.variable} ${frank.variable} ${display.variable}`}>
       <body className="lp">
         <div id="aos-root" dir={dirOf(lang)} lang={lang}>
           {children}

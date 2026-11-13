@@ -8,14 +8,15 @@ import { SiteHeader } from "@/components/site-header";
 import { dirOf, getT, isLang, tr } from "@/i18n";
 import { graph, businessSchema, websiteSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/seo";
-import { frank, plex } from "@/lib/fonts";
+import { display, frank, plex } from "@/lib/fonts";
 import { getSite, getViewer } from "@/lib/data";
 import { roomPath } from "@/lib/urls";
 import "@/styles/base.css";
 import "@/styles/home.css";
 import "@/styles/booking.css";
+import "@/styles/luxe.css";
 
-export const viewport: Viewport = { themeColor: "#ffffff", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#fcfaf6", width: "device-width", initialScale: 1 };
 
 export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
@@ -53,7 +54,7 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
   const ld = graph(businessSchema(lang, site), websiteSchema(lang));
 
   return (
-    <html lang={lang} dir={dirOf(lang)} className={`${plex.variable} ${frank.variable}`}>
+    <html lang={lang} dir={dirOf(lang)} className={`${plex.variable} ${frank.variable} ${display.variable}`}>
       <body>
         <div id="aos-root" dir={dirOf(lang)} lang={lang}>
           <a href="#main" className="skip">

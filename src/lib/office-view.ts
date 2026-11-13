@@ -20,7 +20,8 @@ export function officeView(o: Office, lang: Lang, t: Dict): OfficeView {
     idx: String(parseInt(o.code.replace(/\D/g, ""), 10) || 0).padStart(2, "0"),
     name: he ? o.nameHe : o.nameEn,
     amen: amen.slice(0, 3).join(" · "),
-    amenList: free ? [...amen, free] : amen,
+    // Skip the generated line when the same text was also typed into the office's list in the back office.
+    amenList: free && !amen.includes(free) ? [...amen, free] : amen,
     rent: priced ? `${money(o.price)} ${t.monthly}` : t.priceReq,
     feeLine: priced && fee ? (he ? `+ ${money(o.mgmtFee)} דמי ניהול` : `+ ${money(o.mgmtFee)} management fee`) : "",
     vatL: priced ? (he ? "+ מע״מ" : "+ VAT") : "",

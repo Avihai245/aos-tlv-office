@@ -63,7 +63,7 @@ export default async function Account({ params, searchParams }: PageProps<"/[lan
       <div className="wrap" style={{ padding: "14px clamp(16px,4vw,40px) 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 16, flexWrap: "wrap" }}>
           <div>
-            <h1 id="acc-h" style={{ margin: 0, fontSize: "clamp(22px,2.2vw,28px)", fontWeight: 700 }}>
+            <h1 id="acc-h" style={{ margin: 0, fontSize: "clamp(26px,2.6vw,34px)" }}>
               {tr(lang, "האזור שלי", "My area")}
               {first ? ` · ${first}` : ""}
             </h1>

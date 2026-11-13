@@ -72,7 +72,7 @@ export default async function Offices({ params, searchParams }: PageProps<"/[lan
         </nav>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "16px 32px", flexWrap: "wrap", marginBottom: 24 }}>
           <div style={{ maxWidth: 680 }}>
-            <h1 id="offs-h" style={{ margin: 0, fontSize: "clamp(30px,3.4vw,44px)", fontWeight: 700, lineHeight: 1.12, letterSpacing: "-.01em" }}>
+            <h1 id="offs-h" style={{ margin: 0, fontSize: "clamp(34px,4vw,54px)", lineHeight: 1.12 }}>
               {t.offsTitle}
             </h1>
             <p style={{ margin: "12px 0 0", color: "var(--g1)" }}>{t.offsIntro}</p>

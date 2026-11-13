@@ -239,7 +239,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 <div className="room-cta">
                   <div style={{ paddingTop: 16 }}>
                     <span style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                      <b style={{ fontSize: 34, fontWeight: 700, direction: "ltr", color: "#fff" }}>{room.price > 0 ? money(room.price) : t.priceReq}</b>
+                      <b className="num-d" style={{ fontSize: 40, direction: "ltr", color: "#fff" }}>{room.price > 0 ? money(room.price) : t.priceReq}</b>
                       <span style={{ fontSize: 16, color: "#c9cbcf" }}>{room.price > 0 ? t.per3 : ""}</span>
                     </span>
                     <span style={{ display: "block", fontSize: 14, color: "#a9acb1" }}>{taxText}</span>
@@ -386,7 +386,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <section id="contact" aria-labelledby="con-h">
         <div className="con-grid reveal">
           <div>
-            <h2 id="con-h" style={{ margin: 0, fontSize: "clamp(26px,2.6vw,34px)", fontWeight: 700, lineHeight: 1.2 }}>
+            <h2 id="con-h" style={{ margin: 0, fontSize: "clamp(30px,3vw,42px)", lineHeight: 1.2 }}>
               {t.tourT}
             </h2>
             <p style={{ margin: "12px 0 0", color: "var(--g1)", maxWidth: 460 }}>{t.tourSub}</p>
